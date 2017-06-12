@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry  
+        location="E:\DevelopWorkSpace\mybatis-generator-core-1.3.5\lib\mysql-connector-java-5.1.35.jar" />  
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://192.168.0.202/bigfish" driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
+    <javaModelGenerator targetPackage="ext.datasource.entity" targetProject="bigfish/src/main/java" />
+    <sqlMapGenerator targetPackage="ext.datasource.sql" targetProject="bigfish/src/main/java" />
+    <javaClientGenerator targetPackage="ext.datasource.inf" targetProject="bigfish/src/main/java" type="XMLMAPPER" />
+    
+
+    <!-- 用户表 -->
+     <table tableName="S_USER" domainObjectName="SUser">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+     <table tableName="S_ROLE" domainObjectName="SRole">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+    <!-- Modle -->
+     <table tableName="S_MODULE" domainObjectName="SModule">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+  </context>
+</generatorConfiguration>
