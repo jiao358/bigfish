@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/wu.css" />
 <link rel="stylesheet" type="text/css" href="css/icon.css" />
 <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="js/estela-1.0.js"></script>
 <script type="text/javascript" src="easyui/1.3.4/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 </head>
@@ -19,95 +20,52 @@
         </div>
         <div class="wu-header-right">
         	<p><strong class="easyui-tooltip" >admin</strong>，欢迎您！</p>
-            <p><a href="#">网站首页</a>|<a href="#">支持论坛</a>|<a href="#">帮助中心</a>|<a href="#">安全退出</a></p>
+            <p><a id="refl" href="#">刷新</a>|<a href="#">支持论坛</a>|<a href="#">帮助中心</a>|<a href="#">安全退出</a></p>
         </div>
     </div>
     <!-- end of header -->
     <!-- begin of sidebar -->
 	<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'"> 
     	<div class="easyui-accordion" data-options="border:false,fit:true"> 
-        	<div title="快捷菜单" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
+        	<div id="sys" title="系统管理" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
                 	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/layout-2.html" iframe="0">菜单导航</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">用户管理</a></li>
+                    <li iconCls="icon-users"><a id="sys-user" href="javascript:void(0)" data-icon="icon-users" data-link="temp/sys/sysUser.html" iframe="0">管理员列表</a></li>
                     <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">角色管理</a></li>
                     <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">数据字典</a></li>
                     <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">系统参数</a></li>
                     <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">操作日志</a></li>
                 </ul>
             </div>
-            <div title="学生管理" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
+            <div id="cus" title="学生管理" data-options="iconCls:'icon-users'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/customerIndex.html" iframe="0">学生</a></li>
+                	<li iconCls="icon-chart-organisation"><a id="cus-customer" href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/cus/customerIndex.html" iframe="0">学生列表</a></li>
                 </ul>
             </div>
-            <div title="内容管理" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">  	
+            
+            <div id="learn" title="课时管理" data-options="iconCls:'icon-chart-curve'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
+                	<li iconCls="icon-chart-organisation"><a id="learn-manage" href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/cus/customerIndex.html" iframe="0">课时列表</a></li>
                 </ul>
             </div>
-            <div title="商品管理" data-options="iconCls:'icon-creditcards'" style="padding:5px;">  	
+               <div id="finance" title="财务管理" data-options="iconCls:'icon-bricks'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
+                	<li iconCls="icon-chart-organisation"><a id="finance-manage" href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/cus/customerIndex.html" iframe="0">财务列表</a></li>
                 </ul>
             </div>
-            <div title="订单管理" data-options="iconCls:'icon-cart'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                </ul>
-            </div>
-            <div title="广告管理" data-options="iconCls:'icon-bricks'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                </ul>
-            </div>
-            <div title="报表中心" data-options="iconCls:'icon-chart-curve'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                </ul>
-            </div>
-            <div title="系统设置" data-options="iconCls:'icon-wrench'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">导航标题</a></li>
-                </ul>
-            </div>
+			            
+            
         </div>
     </div>	
     <!-- end of sidebar -->    
     <!-- begin of main -->
     <div class="wu-main" data-options="region:'center'">
         <div id="wu-tabs" class="easyui-tabs" data-options="border:false,fit:true">  
-          <!--   <div title="首页" data-options="href:'temp/layout-1.html',closable:false,iconCls:'icon-tip',cls:'pd3'"></div> -->
+          <div title="首页" data-options="href:'temp/fontPage.html',closable:false,iconCls:'icon-tip',cls:'pd3'"></div>
+        </div>
+        <div style="display:none">
+        	<form id='sform' method="post" action="/bigfish/loginsuccess.do">
+</form>
         </div>
     </div>
     <!-- end of main --> 
@@ -115,11 +73,12 @@
 	<div class="wu-footer" data-options="region:'south',border:true,split:true">
     	&copy; 2017 Estelasu All Rights Reserved
     </div>
+    
     <!-- end of footer -->  
     <script type="text/javascript">
-    	var basesys;
+    
     	 $(window).load(function() {
-    		 initbasesys();
+    		
     	 });
     	function initbasesys(){
     		 	 var options = {
@@ -134,14 +93,80 @@
             success: function (data) {
             	basesys=data;
                	$('strong').html(data.userName);
+               	$('a.layout-button-left').unbind("click");
+               	parseTree(data);
             }
         };
 	 	$.ajax(options);
     		
     	}
     	
+
+    	function parseTree(data){
+    			//JSON.stringify(data);
+    			//alert('lenght+'+data.modules.length);
+    			$.each(data,function(idx,objroot){
+    				if(idx =='modules'){
+    					//alert( jQuery.type(idx) );
+    					//alert(objroot.idx);
+    					//alert(JSON.stringify(objroot.idx));
+    				//	alert(idx);
+    					//alert($.type(objroot[0]));
+    					$.each(objroot,function(idx2,obj){
+    						var rootframe= obj.parent.iframe==true?1:0;
+    						var rootIcon = obj.parent.icon;
+    						var rootTitle=obj.parent.desName;
+    						var rootId= obj.parent.moduleName;
+    						var right = obj.parent.mRight;
+    						if(right==0){
+    							$('div#'+rootId).parent().hide();
+    							//alert($('div#'+rootId).html());
+    						}
+    						
+    						
+    						
+    						//var h1=$('#'+'cus').attr('title',rootTitle);
+							  						
+    						
+    						/* var theNode=$('#cus');
+    						$.each($('div.panel-title'),function(idex,obj){
+    							
+    							//	alert(obj.innerHTML)
+    							
+    						});
+    						var real=$('div.panel-title')[0].html(); */
+    						//alert(real.innerHTML);
+    						//alert(theNode.html());
+    						
+							//rootNode.attr({"title":rootTitle,"style":"padding:5px;","data-options":"iconCls:\'"+rootIcon+"\'"});
+							//alert(rootNode.attr('data-options'));
+							//alert(cc);
+    						//alert( JSON.stringify(obj.parent));
+							//  <div  title="学生管理" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
+							//alert(rootframe+"."+rootIcon+"."+rootTitle);  
+							
+							
+							
+						/* 	$.each(obj[idx2],function(idx3,obj3){
+								alert($.type(idx3));
+								alert(JSON.stringify(obj3));
+								alert($('#cus').html());
+								//node.attr('title',obj3.parent.desName).attr('style','padding:5px').attr('data-options',"iconCls:"+"\""+obj3.parent.icon + "\"" );			
+								
+								
+							}) */	;		
+    						
+    					})	;
+    				}
+    				
+    			});
+    		//	alert('data'+ JSON.stringify(data.modules[0]));
+    			//alert(data.modules[0].parent.moduleName);
+    	}	
+    	
     	$(function(){
 			$('.wu-side-tree a').bind("click",function(){
+			
 		
 				var title = $(this).text();
 				var url = $(this).attr('data-link');
@@ -149,7 +174,16 @@
 				var iframe = $(this).attr('iframe')==1?true:false;
 				addTab(title,url,iconCls,iframe);
 			});	
+			 initbasesys();
 		})
+		
+		$(function(){
+			$('#refl').bind('click',function(){
+			$("#sform").submit();
+				 
+
+			});
+		});
 		
 		/**
 		* Name 载入树形菜单 
@@ -158,6 +192,7 @@
 			url:'temp/menu.php',
 			cache:false,
 			onClick:function(node){
+				alert('i second');
 				var url = node.attributes['url'];
 				if(url==null || url == ""){
 					return false;
@@ -190,7 +225,11 @@
 		*/	
 		function addTab(title, href, iconCls, iframe){
 			var tabPanel = $('#wu-tabs');
+			var nodestring='a[data-link="'+href+'"]';
+			var id=$(nodestring).attr('id');
+			currentModuleId=id;
 			if(!tabPanel.tabs('exists',title)){
+				//alert("id="+id+",iframe="+iframe);
 				var content = '<iframe scrolling="auto" frameborder="0"  src="'+ href +'" style="width:100%;height:100%;"></iframe>';
 				if(iframe){
 					tabPanel.tabs('add',{

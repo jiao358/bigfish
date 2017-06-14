@@ -1,0 +1,1624 @@
+<html class="panel-fit">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="copyright"
+	content="All Rights Reserved, Copyright (C) 2017, Estelasu Ltd.">
+<title>骆驼教育</title>
+<link rel="stylesheet" type="text/css"
+	href="easyui/1.3.4/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/wu.css">
+<link rel="stylesheet" type="text/css" href="css/icon.css">
+<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="easyui/1.3.4/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body class="easyui-layout layout panel-noscroll">
+	<!-- begin of header -->
+	<div class="panel layout-panel layout-panel-north layout-split-north"
+		style="left: 0px; top: 0px; width: 861px;">
+		<div
+			class="wu-header panel-body panel-body-noheader panel-body-noborder layout-body"
+			data-options="region:'north',border:false,split:true" title=""
+			style="width: 861px; height: 50px;">
+			<div class="wu-header-left">
+				<h1>骆驼教育</h1>
+			</div>
+			<div class="wu-header-right">
+				<p>
+					<strong class="easyui-tooltip tooltip-f" title="">estela</strong>，欢迎您！
+				</p>
+				<p>
+					<a id="refl" href="#">刷新</a>|<a href="#">支持论坛</a>|<a href="#">帮助中心</a>|<a
+						href="#">安全退出</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<!-- end of header -->
+	<!-- begin of sidebar -->
+	<div class="panel layout-panel layout-panel-west layout-split-west"
+		style="left: 0px; top: 56px; width: 155px; display: block;">
+		<div class="panel-header" style="width: 143px;">
+			<div class="panel-title">导航菜单</div>
+			<div class="panel-tool">
+				<a class="panel-tool-collapse" href="javascript:void(0)"
+					style="display: none;"></a><a href="javascript:void(0)"
+					class="layout-button-left"></a>
+			</div>
+		</div>
+		<div class="wu-sidebar panel-body layout-body panel-noscroll"
+			data-options="region:'west',split:true,border:true,title:'导航菜单'"
+			title="" style="width: 153px; height: 645px; display: block;">
+			<div class="easyui-accordion accordion accordion-noborder"
+				data-options="border:false,fit:true"
+				style="width: 153px; height: 645px;">
+				<div class="panel" style="width: 154px;">
+					<div
+						class="panel-header accordion-header accordion-header-selected"
+						style="width: 144px; height: 16px;">
+						<div class="panel-title panel-with-icon">系统管理</div>
+						<div class="panel-icon icon-application-cascade"></div>
+						<div class="panel-tool">
+							<a class="accordion-collapse" href="javascript:void(0)"></a>
+						</div>
+					</div>
+					<div id="sys" title=""
+						data-options="iconCls:'icon-application-cascade'"
+						style="padding: 5px; display: block; width: 144px; height: 526px;"
+						class="panel-body accordion-body">
+						<ul class="easyui-tree wu-side-tree tree">
+							<li><div class="tree-node tree-node-selected"
+									style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-chart-organisation"></span><span
+										class="tree-title"><a href="javascript:void(0)"
+										data-icon="icon-chart-organisation"
+										data-link="temp/layout-2.html" iframe="0">菜单导航</a></span>
+								</div></li>
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-users"></span><span
+										class="tree-title"><a id="sys-user"
+										href="javascript:void(0)" data-icon="icon-users"
+										data-link="temp/layout-3.html" iframe="0">管理员列表</a></span>
+								</div></li>
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-user-group"></span><span
+										class="tree-title"><a href="javascript:void(0)"
+										data-icon="icon-user-group" data-link="temp/layout-3.html"
+										iframe="0">角色管理</a></span>
+								</div></li>
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-book"></span><span
+										class="tree-title"><a href="javascript:void(0)"
+										data-icon="icon-book" data-link="temp/layout-3.html"
+										iframe="0">数据字典</a></span>
+								</div></li>
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-cog"></span><span
+										class="tree-title"><a href="javascript:void(0)"
+										data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">系统参数</a></span>
+								</div></li>
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-application-osx-error"></span><span
+										class="tree-title"><a href="javascript:void(0)"
+										data-icon="icon-application-osx-error"
+										data-link="temp/layout-3.html" iframe="0">操作日志</a></span>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+				<div class="panel" style="width: 154px;">
+					<div class="panel-header accordion-header"
+						style="height: 16px; width: 144px;">
+						<div class="panel-title panel-with-icon">学生管理</div>
+						<div class="panel-icon icon-users"></div>
+						<div class="panel-tool">
+							<a class="accordion-collapse accordion-expand"
+								href="javascript:void(0)"></a>
+						</div>
+					</div>
+					<div id="cus" title="" data-options="iconCls:'icon-users'"
+						style="padding: 5px; display: none; width: 144px; height: 526px;"
+						class="panel-body accordion-body">
+						<ul class="easyui-tree wu-side-tree tree">
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-chart-organisation"></span><span
+										class="tree-title"><a id="cus-customer"
+										href="javascript:void(0)" data-icon="icon-chart-organisation"
+										data-link="temp/cus/customerIndex.html" iframe="0">学生列表</a></span>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="panel" style="width: 154px;">
+					<div class="panel-header accordion-header"
+						style="height: 16px; width: 144px;">
+						<div class="panel-title panel-with-icon">课时管理</div>
+						<div class="panel-icon icon-chart-curve"></div>
+						<div class="panel-tool">
+							<a class="accordion-collapse accordion-expand"
+								href="javascript:void(0)"></a>
+						</div>
+					</div>
+					<div id="learn" title="" data-options="iconCls:'icon-chart-curve'"
+						style="padding: 5px; display: none; width: 144px; height: 526px;"
+						class="panel-body accordion-body">
+						<ul class="easyui-tree wu-side-tree tree">
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-chart-organisation"></span><span
+										class="tree-title"><a id="learn-manage"
+										href="javascript:void(0)" data-icon="icon-chart-organisation"
+										data-link="temp/cus/customerIndex.html" iframe="0">课时列表</a></span>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+				<div class="panel" style="width: 154px;">
+					<div class="panel-header accordion-header"
+						style="height: 16px; width: 144px;">
+						<div class="panel-title panel-with-icon">财务管理</div>
+						<div class="panel-icon icon-bricks"></div>
+						<div class="panel-tool">
+							<a class="accordion-collapse accordion-expand"
+								href="javascript:void(0)"></a>
+						</div>
+					</div>
+					<div id="finance" title="" data-options="iconCls:'icon-bricks'"
+						style="padding: 5px; display: none; width: 144px; height: 526px;"
+						class="panel-body accordion-body">
+						<ul class="easyui-tree wu-side-tree tree">
+							<li><div class="tree-node" style="cursor: pointer;">
+									<span class="tree-indent"></span><span
+										class="tree-icon tree-file icon-chart-organisation"></span><span
+										class="tree-title"><a id="finance-manage"
+										href="javascript:void(0)" data-icon="icon-chart-organisation"
+										data-link="temp/cus/customerIndex.html" iframe="0">财务列表</a></span>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+	<!-- end of sidebar -->
+	<!-- begin of main -->
+	<div class="panel layout-panel layout-panel-center"
+		style="left: 160px; top: 56px; width: 701px;">
+		<div
+			class="wu-main panel-noscroll panel-body panel-body-noheader layout-body"
+			data-options="region:'center'" title=""
+			style="width: 699px; height: 672px;">
+			<div id="wu-tabs" class="easyui-tabs tabs-container"
+				data-options="border:false,fit:true"
+				style="width: 700px; height: 672px;">
+
+				<div class="tabs-header tabs-header-noborder" style="width: 700px;">
+					<div class="tabs-scroller-left" style="display: none;"></div>
+					<div class="tabs-scroller-right" style="display: none;"></div>
+					<div class="tabs-wrap"
+						style="margin-left: 0px; margin-right: 32px; width: 668px;">
+						<ul class="tabs" style="height: 26px;">
+							<li class=""><a href="javascript:void(0)" class="tabs-inner"
+								style="height: 25px; line-height: 25px;"><span
+									class="tabs-title tabs-with-icon">首页</span><span
+									class="tabs-icon icon-tip"></span></a></li>
+							<li class="tabs-selected"><a href="javascript:void(0)"
+								class="tabs-inner" style="height: 25px; line-height: 25px;"><span
+									class="tabs-title tabs-closable tabs-with-icon">菜单导航</span><span
+									class="tabs-icon icon-chart-organisation"></span></a><a
+								href="javascript:void(0)" class="tabs-close"></a></li>
+							<li class=""><a href="javascript:void(0)" class="tabs-inner"
+								style="height: 25px; line-height: 25px;"><span
+									class="tabs-title tabs-closable tabs-with-icon">管理员列表</span><span
+									class="tabs-icon icon-users"></span></a><a
+								href="javascript:void(0)" class="tabs-close"></a></li>
+						</ul>
+					</div>
+					<div class="tabs-tool" style="height: 26px; right: 0px;">
+						<table cellspacing="0" cellpadding="0" style="height: 100%">
+							<tbody>
+								<tr>
+									<td><a href="javascript:void(0);"
+										class="l-btn l-btn-plain" group="" id=""><span
+											class="l-btn-left"><span class="l-btn-text"><span
+													class="l-btn-empty icon-reload">&nbsp;</span></span></span></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="tabs-panels tabs-panels-noborder panel-noscroll"
+					style="height: 643px; width: 700px;">
+					<div class="panel pd3" style="display: none; width: 1500px;">
+						<div title=""
+							data-options="href:'temp/fontPage.html',closable:false,iconCls:'icon-tip',cls:'pd3'"
+							class="panel-body panel-body-noheader panel-body-noborder panel-noscroll"
+							style="width: 1500px; height: 637px;">
+							<div class="easyui-layout layout panel-noscroll"
+								data-options="fit:true" style="width: 1500px; height: 637px;">
+								<div class="panel" style="display: block; width: 1500px;">
+									<div class="easyui-panel pd5 panel-body panel-body-noheader"
+										data-options="fit:true,border:true" title=""
+										style="width: 1488px; height: 625px;">
+
+
+										<img style="width: 100%; height: 100%;"
+											src="/bigfish/images/timg.jpg">
+									</div>
+								</div>
+								<div class="layout-split-proxy-h"></div>
+								<div class="layout-split-proxy-v"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel pd3" style="display: block; width: 694px;">
+						<div title=""
+							class="panel-body panel-body-noheader panel-body-noborder panel-noscroll"
+							style="width: 694px; height: 637px;">
+							<div class="easyui-layout panel-noscroll layout"
+								data-options="fit:true" style="width: 694px; height: 637px;">
+								<!-- Begin of toolbar -->
+
+								<!-- End of toolbar -->
+								<div class="panel datagrid" style="width: 1368px;">
+									<div class="datagrid-wrap panel-body panel-body-noheader"
+										title="" style="width: 1366px; height: 635px;">
+										<div id="wu-toolbar-2" class="datagrid-toolbar">
+											<div class="wu-toolbar-button">
+												<a href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-add" onclick="openAdd()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-add l-btn-icon-left">添加</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-edit" onclick="openEdit()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-edit l-btn-icon-left">修改</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-remove" onclick="remove()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-remove l-btn-icon-left">删除</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-cancel" onclick="cancel()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-cancel l-btn-icon-left">取消</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-reload" onclick="reload()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-reload l-btn-icon-left">刷新</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-print" onclick="openAdd()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-print l-btn-icon-left">打印</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-help" onclick="openEdit()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-help l-btn-icon-left">帮助</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-undo" onclick="remove()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-undo l-btn-icon-left">撤销</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-redo" onclick="cancel()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-redo l-btn-icon-left">重做</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-sum" onclick="reload()" plain="true" group=""
+													id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-sum l-btn-icon-left">总计</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-back" onclick="reload()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-back l-btn-icon-left">返回</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-tip" onclick="reload()" plain="true" group=""
+													id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-tip l-btn-icon-left">提示</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-save" onclick="reload()" plain="true"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-save l-btn-icon-left">保存</span></span></a> <a
+													href="#" class="easyui-linkbutton l-btn l-btn-plain"
+													iconcls="icon-cut" onclick="reload()" plain="true" group=""
+													id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-cut l-btn-icon-left">剪切</span></span></a>
+											</div>
+											<div class="wu-toolbar-search">
+												<label>起始时间：</label><input
+													class="easyui-datebox datebox-f combo-f"
+													style="width: 100px; display: none;"><span
+													class="combo datebox" style="width: 98px; height: 20px;"><input
+													type="text" class="combo-text validatebox-text"
+													autocomplete="off"
+													style="width: 76px; height: 20px; line-height: 20px;"><span><span
+														class="combo-arrow" style="height: 20px;"></span></span><input
+													type="hidden" class="combo-value" value=""></span> <label>结束时间：</label><input
+													class="easyui-datebox datebox-f combo-f"
+													style="width: 100px; display: none;"><span
+													class="combo datebox" style="width: 98px; height: 20px;"><input
+													type="text" class="combo-text validatebox-text"
+													autocomplete="off"
+													style="width: 76px; height: 20px; line-height: 20px;"><span><span
+														class="combo-arrow" style="height: 20px;"></span></span><input
+													type="hidden" class="combo-value" value=""></span> <label>用户组：</label>
+												<select class="easyui-combobox combobox-f combo-f"
+													panelheight="auto" style="width: 100px; display: none;">
+													<option value="0">选择用户组</option>
+													<option value="1">黄钻</option>
+													<option value="2">红钻</option>
+													<option value="3">蓝钻</option>
+												</select><span class="combo" style="width: 98px; height: 20px;"><input
+													type="text" class="combo-text validatebox-text"
+													autocomplete="off"
+													style="width: 76px; height: 20px; line-height: 20px;"><span><span
+														class="combo-arrow" style="height: 20px;"></span></span><input
+													type="hidden" class="combo-value" value="0"></span> <label>关键词：</label><input
+													class="wu-text" style="width: 100px"> <a href="#"
+													class="easyui-linkbutton l-btn" iconcls="icon-search"
+													group="" id=""><span class="l-btn-left"><span
+														class="l-btn-text icon-search l-btn-icon-left">开始检索</span></span></a>
+											</div>
+										</div>
+										<div class="datagrid-view"
+											style="width: 1366px; height: 539px;">
+											<div class="datagrid-view1" style="width: 26px;">
+												<div class="datagrid-header"
+													style="width: 26px; height: 24px;">
+													<div class="datagrid-header-inner" style="display: block;">
+														<table class="datagrid-htable" border="0" cellspacing="0"
+															cellpadding="0" style="height: 25px;">
+															<tbody>
+																<tr class="datagrid-header-row">
+																	<td rowspan="0"><div
+																			class="datagrid-header-rownumber"></div></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="datagrid-body"
+													style="width: 26px; margin-top: 0px; height: 514px;">
+													<div class="datagrid-body-inner">
+														<table class="datagrid-btable" cellspacing="0"
+															cellpadding="0" border="0" style="table-layout: auto;">
+															<tbody>
+																<tr id="datagrid-row-r2-1-0" datagrid-row-index="0"
+																	class="datagrid-row datagrid-row-selected"
+																	style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">1</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-1" datagrid-row-index="1"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">2</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-2" datagrid-row-index="2"
+																	class="datagrid-row datagrid-row-selected"
+																	style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">3</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-3" datagrid-row-index="3"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">4</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-4" datagrid-row-index="4"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">5</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-5" datagrid-row-index="5"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">6</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-6" datagrid-row-index="6"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">7</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-7" datagrid-row-index="7"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">8</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-8" datagrid-row-index="8"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">9</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-9" datagrid-row-index="9"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">10</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-10" datagrid-row-index="10"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">11</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-11" datagrid-row-index="11"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">12</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-12" datagrid-row-index="12"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">13</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-13" datagrid-row-index="13"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">14</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-14" datagrid-row-index="14"
+																	class="datagrid-row  " style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">15</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-15" datagrid-row-index="15"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">16</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-16" datagrid-row-index="16"
+																	class="datagrid-row  " style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">17</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-17" datagrid-row-index="17"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">18</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-18" datagrid-row-index="18"
+																	class="datagrid-row" style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">19</div></td>
+																</tr>
+																<tr id="datagrid-row-r2-1-19" datagrid-row-index="19"
+																	class="datagrid-row  " style="height: 25px;">
+																	<td class="datagrid-td-rownumber"><div
+																			class="datagrid-cell-rownumber">20</div></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="datagrid-footer" style="width: 26px;">
+													<div class="datagrid-footer-inner" style="display: none;"></div>
+												</div>
+											</div>
+											<div class="datagrid-view2" style="width: 1340px;">
+												<div class="datagrid-header"
+													style="width: 1340px; height: 24px;">
+													<div class="datagrid-header-inner" style="display: block;">
+														<table class="datagrid-htable" border="0" cellspacing="0"
+															cellpadding="0" style="height: 25px;">
+															<tbody>
+																<tr class="datagrid-header-row">
+																	<td><div class="datagrid-header-check">
+																			<input type="checkbox">
+																		</div></td>
+																	<td field="productid" class=""><div
+																			class="datagrid-cell" style="width: 152px;">
+																			<span>productid</span><span
+																				class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																	<td field="productname" class=""><div
+																			class="datagrid-cell" style="width: 284px;">
+																			<span>productname</span><span
+																				class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																	<td field="unitcost" class=""><div
+																			class="datagrid-cell" style="width: 152px;">
+																			<span>unitcost</span><span class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																	<td field="listprice" class=""><div
+																			class="datagrid-cell" style="width: 152px;">
+																			<span>listprice</span><span
+																				class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																	<td field="attr1" class=""><div
+																			class="datagrid-cell" style="width: 152px;">
+																			<span>attr1</span><span class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																	<td field="itemid"><div class="datagrid-cell"
+																			style="width: 152px;">
+																			<span>itemid</span><span class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																	<td field="status"><div class="datagrid-cell"
+																			style="width: 185px;">
+																			<span>status</span><span class="datagrid-sort-icon">&nbsp;</span>
+																		</div></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="datagrid-body"
+													style="width: 1340px; margin-top: 0px; height: 514px; overflow-x: hidden;">
+													<table class="datagrid-btable" cellspacing="0"
+														cellpadding="0" border="0" style="table-layout: auto;">
+														<tbody>
+															<tr id="datagrid-row-r2-2-0" datagrid-row-index="0"
+																class="datagrid-row datagrid-row-selected"
+																style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">FI-SW-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Koi</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">10</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">36.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Large</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-1</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-1" datagrid-row-index="1"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">K9-DL-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Dalmation</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">18.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Spotted
+																		Adult Female</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-10</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-2" datagrid-row-index="2"
+																class="datagrid-row datagrid-row-selected"
+																style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">38.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Venomless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-11</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-3" datagrid-row-index="3"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">26.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Rattleless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-12</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-4" datagrid-row-index="4"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-LI-02</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Iguana</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">35.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Green
+																		Adult</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-13</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-5" datagrid-row-index="5"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">FI-SW-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Koi</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">10</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">36.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Large</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-1</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-6" datagrid-row-index="6"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">K9-DL-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Dalmation</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">18.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Spotted
+																		Adult Female</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-10</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-7" datagrid-row-index="7"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">38.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Venomless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-11</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-8" datagrid-row-index="8"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">26.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Rattleless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-12</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-9" datagrid-row-index="9"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-LI-02</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Iguana</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">35.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Green
+																		Adult</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-13</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-10" datagrid-row-index="10"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">FI-SW-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Koi</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">10</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">36.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Large</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-1</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-11" datagrid-row-index="11"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">K9-DL-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Dalmation</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">18.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Spotted
+																		Adult Female</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-10</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-12" datagrid-row-index="12"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">38.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Venomless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-11</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-13" datagrid-row-index="13"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">26.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Rattleless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-12</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-14" datagrid-row-index="14"
+																class="datagrid-row  " style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-LI-02</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Iguana</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">35.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Green
+																		Adult</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-13</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-15" datagrid-row-index="15"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">FI-SW-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Koi</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">10</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">36.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Large</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-1</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-16" datagrid-row-index="16"
+																class="datagrid-row  " style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">K9-DL-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Dalmation</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">18.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Spotted
+																		Adult Female</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-10</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-17" datagrid-row-index="17"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">38.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Venomless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-11</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-18" datagrid-row-index="18"
+																class="datagrid-row" style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-SN-01</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Rattlesnake</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">26.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Rattleless</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-12</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+															<tr id="datagrid-row-r2-2-19" datagrid-row-index="19"
+																class="datagrid-row  " style="height: 25px;">
+																<td field="undefined"><div style=""
+																		class="datagrid-cell-check">
+																		<input type="checkbox" name="undefined" value="">
+																	</div></td>
+																<td field="productid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productid">RP-LI-02</div></td>
+																<td field="productname"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-productname">Iguana</div></td>
+																<td field="unitcost"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-unitcost">12</div></td>
+																<td field="listprice"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-listprice">35.5</div></td>
+																<td field="attr1"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-attr1">Green
+																		Adult</div></td>
+																<td field="itemid"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-itemid">EST-13</div></td>
+																<td field="status"><div style="height: auto;"
+																		class="datagrid-cell datagrid-cell-c2-status">P</div></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												<div class="datagrid-footer" style="width: 1340px;">
+													<div class="datagrid-footer-inner" style="display: none;"></div>
+												</div>
+											</div>
+											<table id="wu-datagrid-2" class="easyui-datagrid"
+												toolbar="#wu-toolbar-2" style="display: none;"></table>
+											<style type="text/css">
+.datagrid-cell-c2-productid {
+	width: 156px
+}
+
+.datagrid-cell-c2-productname {
+	width: 288px
+}
+
+.datagrid-cell-c2-unitcost {
+	width: 156px
+}
+
+.datagrid-cell-c2-listprice {
+	width: 156px
+}
+
+.datagrid-cell-c2-attr1 {
+	width: 156px
+}
+
+.datagrid-cell-c2-itemid {
+	width: 156px
+}
+
+.datagrid-cell-c2-status {
+	width: 160px
+}
+</style>
+										</div>
+										<div class="datagrid-pager pagination">
+											<table cellspacing="0" cellpadding="0" border="0">
+												<tbody>
+													<tr>
+														<td><select class="pagination-page-list"><option>10</option>
+																<option>20</option>
+																<option>30</option>
+																<option>40</option>
+																<option>50</option></select></td>
+														<td><div class="pagination-btn-separator"></div></td>
+														<td><a href="javascript:void(0)"
+															class="l-btn l-btn-plain l-btn-disabled l-btn-plain-disabled"
+															group="" id=""><span class="l-btn-left"><span
+																	class="l-btn-text"><span
+																		class="l-btn-empty pagination-first">&nbsp;</span></span></span></a></td>
+														<td><a href="javascript:void(0)"
+															class="l-btn l-btn-plain l-btn-disabled l-btn-plain-disabled"
+															group="" id=""><span class="l-btn-left"><span
+																	class="l-btn-text"><span
+																		class="l-btn-empty pagination-prev">&nbsp;</span></span></span></a></td>
+														<td><div class="pagination-btn-separator"></div></td>
+														<td><span style="padding-left: 6px;">第</span></td>
+														<td><input class="pagination-num" type="text"
+															value="1" size="2"></td>
+														<td><span style="padding-right: 6px;">共3页</span></td>
+														<td><div class="pagination-btn-separator"></div></td>
+														<td><a href="javascript:void(0)"
+															class="l-btn l-btn-plain" group="" id=""><span
+																class="l-btn-left"><span class="l-btn-text"><span
+																		class="l-btn-empty pagination-next">&nbsp;</span></span></span></a></td>
+														<td><a href="javascript:void(0)"
+															class="l-btn l-btn-plain" group="" id=""><span
+																class="l-btn-left"><span class="l-btn-text"><span
+																		class="l-btn-empty pagination-last">&nbsp;</span></span></span></a></td>
+														<td><div class="pagination-btn-separator"></div></td>
+														<td><a href="javascript:void(0)"
+															class="l-btn l-btn-plain" group="" id=""><span
+																class="l-btn-left"><span class="l-btn-text"><span
+																		class="l-btn-empty pagination-load">&nbsp;</span></span></span></a></td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="pagination-info">显示1到20,共50记录</div>
+											<div style="clear: both;"></div>
+										</div>
+									</div>
+								</div>
+								<div class="layout-split-proxy-h"></div>
+								<div class="layout-split-proxy-v"></div>
+							</div>
+							<!-- Begin of easyui-dialog -->
+
+							<!-- End of easyui-dialog -->
+						</div>
+					</div>
+					<div class="panel pd3" style="display: none; width: 1368px;">
+						<div title=""
+							class="panel-body panel-body-noheader panel-body-noborder panel-noscroll"
+							style="width: 1368px; height: 637px;">
+							<div class="easyui-layout layout panel-noscroll"
+								data-options="fit:true" style="width: 1368px; height: 637px;">
+								<div class="panel" style="display: block; width: 1500px;">
+									<div class="easyui-panel pd5 panel-body panel-body-noheader"
+										data-options="fit:true,border:true" title=""
+										style="width: 1488px; height: 625px;">
+										<p style="font-size: 14px">Here is the content loaded via
+											AJAX.</p>
+										<ul>
+											<li>easyui is a collection of user-interface plugin
+												based on jQuery.</li>
+											<li>easyui provides essential functionality for building
+												modern, interactive, javascript applications.</li>
+											<li>using easyui you don't need to write many javascript
+												code, writing some HTML markup.</li>
+											<li>complete framework for HTML5 web page.</li>
+											<li>easyui save your time and scales while developing
+												your products.</li>
+											<li>easyui is very easy but powerful.</li>
+										</ul>
+									</div>
+								</div>
+								<div class="layout-split-proxy-h"></div>
+								<div class="layout-split-proxy-v"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="display: none">
+				<form id="sform" method="post" action="/bigfish/loginsuccess.do">
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- end of main -->
+	<!-- begin of footer -->
+	<div class="panel layout-panel layout-panel-south layout-split-south"
+		style="left: 0px; top: 730px; width: 861px;">
+		<div class="wu-footer panel-body panel-body-noheader layout-body"
+			data-options="region:'south',border:true,split:true" title=""
+			style="width: 849px; height: 13px;">© 2017 Estelasu All Rights
+			Reserved</div>
+	</div>
+
+	<!-- end of footer -->
+	<script type="text/javascript">
+    	var basesys;
+    	 $(window).load(function() {
+    		
+    	 });
+    	function initbasesys(){
+    		 	 var options = {
+            url: '/bigfish/getBaseSys.do',
+            type: 'get',
+            dataType: 'json',
+            data: {
+			　　　　user: 123,
+			　　　　key: 22
+			　　},
+			async:false,
+            success: function (data) {
+            	basesys=data;
+               	$('strong').html(data.userName);
+               	parseTree(data);
+            }
+        };
+	 	$.ajax(options);
+    		
+    	}
+    	
+
+    	function parseTree(data){
+    			//JSON.stringify(data);
+    			//alert('lenght+'+data.modules.length);
+    			$.each(data,function(idx,objroot){
+    				if(idx =='modules'){
+    					//alert( jQuery.type(idx) );
+    					//alert(objroot.idx);
+    					//alert(JSON.stringify(objroot.idx));
+    				//	alert(idx);
+    					//alert($.type(objroot[0]));
+    					$.each(objroot,function(idx2,obj){
+    						var rootframe= obj.parent.iframe==true?1:0;
+    						var rootIcon = obj.parent.icon;
+    						var rootTitle=obj.parent.desName;
+    						var rootId= obj.parent.moduleName;
+    						var right = obj.parent.mRight;
+    						if(right==0){
+    							$('div#'+rootId).parent().hide();
+    							//alert($('div#'+rootId).html());
+    							
+    						}
+    						
+    						
+    						
+    						//var h1=$('#'+'cus').attr('title',rootTitle);
+							  						
+    						
+    						/* var theNode=$('#cus');
+    						$.each($('div.panel-title'),function(idex,obj){
+    							
+    							//	alert(obj.innerHTML)
+    							
+    						});
+    						var real=$('div.panel-title')[0].html(); */
+    						//alert(real.innerHTML);
+    						//alert(theNode.html());
+    						
+							//rootNode.attr({"title":rootTitle,"style":"padding:5px;","data-options":"iconCls:\'"+rootIcon+"\'"});
+							//alert(rootNode.attr('data-options'));
+							//alert(cc);
+    						//alert( JSON.stringify(obj.parent));
+							//  <div  title="学生管理" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
+							//alert(rootframe+"."+rootIcon+"."+rootTitle);  
+							
+							
+							
+						/* 	$.each(obj[idx2],function(idx3,obj3){
+								alert($.type(idx3));
+								alert(JSON.stringify(obj3));
+								alert($('#cus').html());
+								//node.attr('title',obj3.parent.desName).attr('style','padding:5px').attr('data-options',"iconCls:"+"\""+obj3.parent.icon + "\"" );			
+								
+								
+							}) */	;		
+    						
+    					})	;
+    				}
+    				
+    			});
+    		//	alert('data'+ JSON.stringify(data.modules[0]));
+    			//alert(data.modules[0].parent.moduleName);
+    	}	
+    	
+    	$(function(){
+			$('.wu-side-tree a').bind("click",function(){
+			
+		
+				var title = $(this).text();
+				var url = $(this).attr('data-link');
+				var iconCls = $(this).attr('data-icon');
+				var iframe = $(this).attr('iframe')==1?true:false;
+				addTab(title,url,iconCls,iframe);
+			});	
+			 initbasesys();
+		})
+		
+		$(function(){
+			$('#refl').bind('click',function(){
+			$("#sform").submit();
+				 
+
+			});
+		});
+		
+		/**
+		* Name 载入树形菜单 
+		*/
+		$('#wu-side-tree').tree({
+			url:'temp/menu.php',
+			cache:false,
+			onClick:function(node){
+				alert('i second');
+				var url = node.attributes['url'];
+				if(url==null || url == ""){
+					return false;
+				}
+				else{
+					addTab(node.text, url, '', node.attributes['iframe']);
+				}
+			}
+		});
+		
+		/**
+		* Name 选项卡初始化
+		*/
+		$('#wu-tabs').tabs({
+			tools:[{
+				iconCls:'icon-reload',
+				border:false,
+				handler:function(){
+					$('#wu-datagrid').datagrid('reload');
+				}
+			}]
+		});
+			
+		/**
+		* Name 添加菜单选项
+		* Param title 名称
+		* Param href 链接
+		* Param iconCls 图标样式
+		* Param iframe 链接跳转方式（true为iframe，false为href）
+		*/	
+		function addTab(title, href, iconCls, iframe){
+			var tabPanel = $('#wu-tabs');
+			if(!tabPanel.tabs('exists',title)){
+				var content = '<iframe scrolling="auto" frameborder="0"  src="'+ href +'" style="width:100%;height:100%;"></iframe>';
+				if(iframe){
+					tabPanel.tabs('add',{
+						title:title,
+						content:content,
+						iconCls:iconCls,
+						fit:true,
+						cls:'pd3',
+						closable:true
+					});
+				}
+				else{
+					tabPanel.tabs('add',{
+						title:title,
+						href:href,
+						iconCls:iconCls,
+						fit:true,
+						cls:'pd3',
+						closable:true
+					});
+				}
+			}
+			else
+			{
+				tabPanel.tabs('select',title);
+			}
+		}
+		/**
+		* Name 移除菜单选项
+		*/
+		function removeTab(){
+			var tabPanel = $('#wu-tabs');
+			var tab = tabPanel.tabs('getSelected');
+			if (tab){
+				var index = tabPanel.tabs('getTabIndex', tab);
+				tabPanel.tabs('close', index);
+			}
+		}
+		/**
+			ajax request
+		*/
+		
+		
+		
+	</script>
+
+
+	<div class="layout-split-proxy-h"></div>
+	<div class="layout-split-proxy-v"></div>
+	<div class="panel combo-p"
+		style="position: absolute; z-index: 10; display: none; width: 100px;">
+		<div class="combo-panel panel-body panel-body-noheader" title=""
+			style="width: 98px; height: auto;">
+			<div class="combobox-item combobox-item-selected" value="0">选择用户组</div>
+			<div class="combobox-item" value="1">黄钻</div>
+			<div class="combobox-item" value="2">红钻</div>
+			<div class="combobox-item" value="3">蓝钻</div>
+		</div>
+	</div>
+	<div class="panel combo-p"
+		style="position: absolute; z-index: 10; display: none; width: 180px;">
+		<div class="combo-panel panel-body panel-body-noheader" title="" id=""
+			style="width: 178px; height: auto;">
+			<div class="datebox-calendar-inner panel-noscroll">
+				<div class="calendar calendar-noborder"
+					style="width: 0px; height: 178px;">
+					<div class="calendar-header">
+						<div class="calendar-prevmonth"></div>
+						<div class="calendar-nextmonth"></div>
+						<div class="calendar-prevyear"></div>
+						<div class="calendar-nextyear"></div>
+						<div class="calendar-title">
+							<span>六月 2017</span>
+						</div>
+					</div>
+					<div class="calendar-body" style="height: 156px;">
+						<table cellspacing="0" cellpadding="0" border="0">
+							<thead>
+								<tr>
+									<th>日</th>
+									<th>一</th>
+									<th>二</th>
+									<th>三</th>
+									<th>四</th>
+									<th>五</th>
+									<th>六</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="calendar-day calendar-other-month calendar-sunday"
+										abbr="2017,5,28">28</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,5,29">29</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,5,30">30</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,5,31">31</td>
+									<td class="calendar-day" abbr="2017,6,1">1</td>
+									<td class="calendar-day" abbr="2017,6,2">2</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,3">3</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,4">4</td>
+									<td class="calendar-day" abbr="2017,6,5">5</td>
+									<td class="calendar-day" abbr="2017,6,6">6</td>
+									<td class="calendar-day" abbr="2017,6,7">7</td>
+									<td class="calendar-day" abbr="2017,6,8">8</td>
+									<td class="calendar-day" abbr="2017,6,9">9</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,10">10</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,11">11</td>
+									<td class="calendar-day" abbr="2017,6,12">12</td>
+									<td class="calendar-day" abbr="2017,6,13">13</td>
+									<td class="calendar-day calendar-today calendar-selected"
+										abbr="2017,6,14">14</td>
+									<td class="calendar-day" abbr="2017,6,15">15</td>
+									<td class="calendar-day" abbr="2017,6,16">16</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,17">17</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,18">18</td>
+									<td class="calendar-day" abbr="2017,6,19">19</td>
+									<td class="calendar-day" abbr="2017,6,20">20</td>
+									<td class="calendar-day" abbr="2017,6,21">21</td>
+									<td class="calendar-day" abbr="2017,6,22">22</td>
+									<td class="calendar-day" abbr="2017,6,23">23</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,24">24</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,25">25</td>
+									<td class="calendar-day" abbr="2017,6,26">26</td>
+									<td class="calendar-day" abbr="2017,6,27">27</td>
+									<td class="calendar-day" abbr="2017,6,28">28</td>
+									<td class="calendar-day" abbr="2017,6,29">29</td>
+									<td class="calendar-day" abbr="2017,6,30">30</td>
+									<td class="calendar-day calendar-other-month calendar-saturday"
+										abbr="2017,7,1">1</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-other-month calendar-sunday"
+										abbr="2017,7,2">2</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,3">3</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,4">4</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,5">5</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,6">6</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,7">7</td>
+									<td class="calendar-day calendar-other-month calendar-saturday"
+										abbr="2017,7,8">8</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="calendar-menu" style="display: none;">
+							<div class="calendar-menu-year-inner">
+								<span class="calendar-menu-prev"></span><span><input
+									class="calendar-menu-year" type="text"></span><span
+									class="calendar-menu-next"></span>
+							</div>
+							<div class="calendar-menu-month-inner"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="datebox-button">
+				<a href="javascript:void(0)" class="datebox-current">今天</a><a
+					href="javascript:void(0)" class="datebox-close">关闭</a>
+			</div>
+		</div>
+	</div>
+	<div class="panel combo-p"
+		style="position: absolute; z-index: 10; display: none; width: 180px;">
+		<div class="combo-panel panel-body panel-body-noheader" title="" id=""
+			style="width: 178px; height: auto;">
+			<div class="datebox-calendar-inner panel-noscroll">
+				<div class="calendar calendar-noborder"
+					style="width: 0px; height: 178px;">
+					<div class="calendar-header">
+						<div class="calendar-prevmonth"></div>
+						<div class="calendar-nextmonth"></div>
+						<div class="calendar-prevyear"></div>
+						<div class="calendar-nextyear"></div>
+						<div class="calendar-title">
+							<span>六月 2017</span>
+						</div>
+					</div>
+					<div class="calendar-body" style="height: 156px;">
+						<table cellspacing="0" cellpadding="0" border="0">
+							<thead>
+								<tr>
+									<th>日</th>
+									<th>一</th>
+									<th>二</th>
+									<th>三</th>
+									<th>四</th>
+									<th>五</th>
+									<th>六</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="calendar-day calendar-other-month calendar-sunday"
+										abbr="2017,5,28">28</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,5,29">29</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,5,30">30</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,5,31">31</td>
+									<td class="calendar-day" abbr="2017,6,1">1</td>
+									<td class="calendar-day" abbr="2017,6,2">2</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,3">3</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,4">4</td>
+									<td class="calendar-day" abbr="2017,6,5">5</td>
+									<td class="calendar-day" abbr="2017,6,6">6</td>
+									<td class="calendar-day" abbr="2017,6,7">7</td>
+									<td class="calendar-day" abbr="2017,6,8">8</td>
+									<td class="calendar-day" abbr="2017,6,9">9</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,10">10</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,11">11</td>
+									<td class="calendar-day" abbr="2017,6,12">12</td>
+									<td class="calendar-day" abbr="2017,6,13">13</td>
+									<td class="calendar-day calendar-today calendar-selected"
+										abbr="2017,6,14">14</td>
+									<td class="calendar-day" abbr="2017,6,15">15</td>
+									<td class="calendar-day" abbr="2017,6,16">16</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,17">17</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,18">18</td>
+									<td class="calendar-day" abbr="2017,6,19">19</td>
+									<td class="calendar-day" abbr="2017,6,20">20</td>
+									<td class="calendar-day" abbr="2017,6,21">21</td>
+									<td class="calendar-day" abbr="2017,6,22">22</td>
+									<td class="calendar-day" abbr="2017,6,23">23</td>
+									<td class="calendar-day calendar-saturday" abbr="2017,6,24">24</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-sunday" abbr="2017,6,25">25</td>
+									<td class="calendar-day" abbr="2017,6,26">26</td>
+									<td class="calendar-day" abbr="2017,6,27">27</td>
+									<td class="calendar-day" abbr="2017,6,28">28</td>
+									<td class="calendar-day" abbr="2017,6,29">29</td>
+									<td class="calendar-day" abbr="2017,6,30">30</td>
+									<td class="calendar-day calendar-other-month calendar-saturday"
+										abbr="2017,7,1">1</td>
+								</tr>
+								<tr>
+									<td class="calendar-day calendar-other-month calendar-sunday"
+										abbr="2017,7,2">2</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,3">3</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,4">4</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,5">5</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,6">6</td>
+									<td class="calendar-day calendar-other-month" abbr="2017,7,7">7</td>
+									<td class="calendar-day calendar-other-month calendar-saturday"
+										abbr="2017,7,8">8</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="calendar-menu" style="display: none;">
+							<div class="calendar-menu-year-inner">
+								<span class="calendar-menu-prev"></span><span><input
+									class="calendar-menu-year" type="text"></span><span
+									class="calendar-menu-next"></span>
+							</div>
+							<div class="calendar-menu-month-inner"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="datebox-button">
+				<a href="javascript:void(0)" class="datebox-current">今天</a><a
+					href="javascript:void(0)" class="datebox-close">关闭</a>
+			</div>
+		</div>
+	</div>
+	<div class="panel window"
+		style="display: none; width: 388px; left: 230.5px; top: 246.5px; z-index: 9008;">
+		<div class="panel-header panel-header-noborder window-header"
+			style="width: 388px;">
+			<div class="panel-title panel-with-icon">修改信息</div>
+			<div class="panel-icon icon-save"></div>
+			<div class="panel-tool">
+				<a class="panel-tool-close" href="javascript:void(0)"></a>
+			</div>
+		</div>
+		<div id="wu-dialog-2"
+			class="easyui-dialog panel-body panel-body-noborder window-body"
+			data-options="closed:true,iconCls:'icon-save'" title=""
+			style="overflow: hidden; width: 386px; height: auto;">
+			<div class="panel" style="display: block; width: 386px;">
+				<div style="width: 366px; padding: 10px; height: auto;" title=""
+					class="panel-body panel-body-noheader panel-body-noborder dialog-content">
+					<form id="wu-form-2" method="post">
+						<table>
+							<tbody>
+								<tr>
+									<td width="60" align="right">姓 名:</td>
+									<td><input type="text" name="name" class="wu-text"></td>
+								</tr>
+								<tr>
+									<td align="right">邮 箱:</td>
+									<td><input type="text" name="email" class="wu-text"></td>
+								</tr>
+								<tr>
+									<td align="right">主 题:</td>
+									<td><input type="text" name="subject" class="wu-text"></td>
+								</tr>
+								<tr>
+									<td valign="top" align="right">内 容:</td>
+									<td><textarea name="content" rows="6" class="wu-textarea"
+											style="width: 260px"></textarea></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+			<div class="dialog-button">
+				<a href="javascript:void(0)" class="l-btn" group="" id=""><span
+					class="l-btn-left"><span
+						class="l-btn-text icon-ok l-btn-icon-left">确定</span></span></a><a
+					href="javascript:void(0)" class="l-btn" group="" id=""><span
+					class="l-btn-left"><span
+						class="l-btn-text icon-cancel l-btn-icon-left">取消</span></span></a>
+			</div>
+		</div>
+	</div>
+	<div class="window-shadow"
+		style="display: none; left: 230.5px; top: 246.5px; z-index: 9007; width: 400px; height: 267px;"></div>
+	<div class="window-mask"
+		style="width: 861px; height: 760px; display: none; z-index: 9006;"></div>
+	<div class="panel layout-expand"
+		style="display: none; left: 0px; top: 56px; width: 28px;">
+		<div class="panel-header" style="width: 16px;">
+			<div class="panel-title">&nbsp;</div>
+			<div class="panel-tool">
+				<a href="javascript:void(0)" class="layout-button-right"></a>
+			</div>
+		</div>
+		<div title="" class="panel-body" style="width: 26px; height: 646px;"></div>
+	</div>
+</body>
+</html>
