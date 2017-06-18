@@ -63,11 +63,30 @@ public class LoginCore {
 			SRoleExample sexample = new SRoleExample();
 			sexample.createCriteria().andUserIdEqualTo(su.getId());
 			List<SRole> listRole = sRole.selectByExample(sexample);
+			
 			sys.setUserName(user);
-			sys.setRoleList(listRole);
+			Map roleMap = new HashMap();
+			for(SRole role:listRole){
+				int right=0;
+				String roleModule=  role.getsModule();
+				if(role.getsModuleC())
+					right+=1;
+				if(role.getsModuleR())
+					right+=2;
+				if(role.getsModuleU())
+					right+=4;
+				if(role.getsModuleD())
+					right+=8;
+				roleMap.put(roleModule, right);
+			}
+			sys.setRole(roleMap);
+			
+			sys.setUserId(su.getId());
+			sys.setUserType(su.getUserType());
 			
 			//get all module
 			SModuleExample moduleExp = new SModuleExample();
+			moduleExp.setOrderByClause("MODULE_NAME DESC");
 			Map<SModule,List<SModule>> modulemap = new HashMap<SModule,List<SModule>>();
 			moduleExp.createCriteria().andParentEqualTo("root");
 			List<SModule> allRootModules =sModuleDao.selectByExample(moduleExp);
@@ -81,7 +100,7 @@ public class LoginCore {
 			
 			if(listRole.size()==1 && listRole.get(0).getsModule().equals("all")){
 				//admin
-//				sys.setModules(parseModuleMap(modulemap));
+				sys.setModules(parseModuleMap(modulemap));
 			}else{
 				Map<String,SRole> subSRole = new HashMap();
 				for(SRole subRole:listRole){

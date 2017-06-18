@@ -1,7 +1,11 @@
 package ext.util.helper;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -15,8 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import ext.core.controller.LoginCore;
 
 public class Helper {
 	private static final String ENCODING="UTF-8";
@@ -49,7 +51,35 @@ public class Helper {
 		
 	}
 	
-	
+	public static Map<String, Object> transBean2Map(Object obj) {  
+		  
+        if(obj == null){  
+            return null;  
+        }          
+        Map<String, Object> map = new HashMap<String, Object>();  
+        try {  
+            BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());  
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();  
+            for (PropertyDescriptor property : propertyDescriptors) {  
+                String key = property.getName();  
+  
+                // 过滤class属性  
+                if (!key.equals("class")) {  
+                    // 得到property对应的getter方法  
+                    Method getter = property.getReadMethod();  
+                    Object value = getter.invoke(obj);  
+  
+                    map.put(key, value);  
+                }  
+  
+            }  
+        } catch (Exception e) {  
+            logger.error("transBean2Map Error " + e);  
+        }  
+  
+        return map;  
+  
+    }  
 	
 	public static void restful(HttpServletResponse  response , Object bean) throws IOException{
 		ObjectMapper mapper = new ObjectMapper();
@@ -72,6 +102,11 @@ public class Helper {
 		map.put("ip", IP);
 		return map;
 	}
+	
+	public static void errorResonse(Map map){
+		map.put("state", 0);
+		map.put("message", "内容非法");
+	}
 	public static void processError(HttpServletResponse  response){
 		if(IP==null)
 			ipinit();
@@ -81,4 +116,6 @@ public class Helper {
 		map.put("message", "sometings error");
 		map.put("ip", IP);
 	}
+	
+	
 }

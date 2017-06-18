@@ -8,9 +8,9 @@
 <link rel="stylesheet" type="text/css" href="css/wu.css" />
 <link rel="stylesheet" type="text/css" href="css/icon.css" />
 <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="js/estela-1.0.js"></script>
 <script type="text/javascript" src="easyui/1.3.4/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/estela-1.0.js"></script>
 </head>
 <body class="easyui-layout">
 	<!-- begin of header -->
@@ -20,40 +20,14 @@
         </div>
         <div class="wu-header-right">
         	<p><strong class="easyui-tooltip" >admin</strong>，欢迎您！</p>
-            <p><a id="refl" href="#">刷新</a>|<a href="#">支持论坛</a>|<a href="#">帮助中心</a>|<a href="#">安全退出</a></p>
+            <p><a id="refl" href="#">刷新</a>|<a href="#" onclick="haha()">支持论坛</a>|<a href="#">帮助中心</a>|<a href="#">安全退出</a></p>
         </div>
     </div>
     <!-- end of header -->
     <!-- begin of sidebar -->
 	<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'"> 
-    	<div class="easyui-accordion" data-options="border:false,fit:true"> 
-        	<div id="sys" title="系统管理" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/layout-2.html" iframe="0">菜单导航</a></li>
-                    <li iconCls="icon-users"><a id="sys-user" href="javascript:void(0)" data-icon="icon-users" data-link="temp/sys/sysUser.html" iframe="0">管理员列表</a></li>
-                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/layout-3.html" iframe="0">角色管理</a></li>
-                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/layout-3.html" iframe="0">数据字典</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">系统参数</a></li>
-                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/layout-3.html" iframe="0">操作日志</a></li>
-                </ul>
-            </div>
-            <div id="cus" title="学生管理" data-options="iconCls:'icon-users'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a id="cus-customer" href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/cus/customerIndex.html" iframe="0">学生列表</a></li>
-                </ul>
-            </div>
-            
-            <div id="learn" title="课时管理" data-options="iconCls:'icon-chart-curve'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a id="learn-manage" href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/cus/customerIndex.html" iframe="0">课时列表</a></li>
-                </ul>
-            </div>
-               <div id="finance" title="财务管理" data-options="iconCls:'icon-bricks'" style="padding:5px;">  	
-    			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-chart-organisation"><a id="finance-manage" href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/cus/customerIndex.html" iframe="0">财务列表</a></li>
-                </ul>
-            </div>
-			            
+    	<div id='estetreefather' class="easyui-accordion" data-options="border:false,fit:true" > 
+        
             
         </div>
     </div>	
@@ -76,10 +50,16 @@
     
     <!-- end of footer -->  
     <script type="text/javascript">
+    var basesys;
+    var currentModuleId;
+    var basehref;
+
     
+
     	 $(window).load(function() {
-    		
+    		 initbasesys();
     	 });
+    	 
     	function initbasesys(){
     		 	 var options = {
             url: '/bigfish/getBaseSys.do',
@@ -93,14 +73,94 @@
             success: function (data) {
             	basesys=data;
                	$('strong').html(data.userName);
-               	$('a.layout-button-left').unbind("click");
-               	parseTree(data);
+              // 	$('a.layout-button-left').unbind("click");
+               //	parseTree(data);
+               	esteParse(data);
             }
         };
 	 	$.ajax(options);
     		
     	}
     	
+    	function esteParse(data){
+    		 $.each(data, function(i, n) {//加载父类节点即一级菜单 
+    			
+    			 if(i=='modules'){
+    				 $.each(n,function(j,obj){
+    					 //"parent":{"moduleName":"cus","moduleLink":"a","iframe":false,"parent":"root","icon":"icon-application-cascade",
+    						 //"desName":"学生管理","mRight":2},"childrens":[{"moduleName":"cus-customer","moduleLink":"customerIndex.html","
+    							 //iframe":false,"parent":"cus","icon":"icon-users","desName":"学生列表","mRight":15}]
+    					var name=obj.parent.desName;
+    					var con = obj.parent.icon;
+    					var id=obj.parent.moduleName;
+    					var isSelected= false;
+    					if(obj.parent.moduleName=='sys'){
+    						isSelected=true;
+    					}
+    					
+    				//	<li iconCls="icon-users"><a id="sys-user" href="javascript:void(0)" data-icon="icon-users" data-link="temp/sys/sysUser.html" iframe="0">管理员列表</a></li>
+    					var childNodeLi = '';
+    					$.each(obj.childrens,function(ci,cobj){
+    						var cid=cobj.moduleName;
+    						var cicon = cobj.icon;
+    						var cdesc = cobj.desName;
+    						var cparent= cobj.parent;
+    						var clink = 'temp/'+cparent+'/'+cobj.moduleLink
+    						var cli= '<li iconCls="'+cicon+'"><a id="'+cid+'"  data-icon="'+cicon+'" onclick="pinosu(this)" data-link="'+clink+'" iframe="0">'+cdesc+'</a></li>';
+    						childNodeLi= childNodeLi+cli;
+    					});
+   						//alert(childNodeLi);
+    					  $('#estetreefather').accordion('add', {  
+    	                      title : name,  
+    	                      iconCls : con,  
+    	                      selected : isSelected,  
+    	                      content : '<div style="padding:10px"><ul class="easyui-tree   wu-side-tree tree" id="esteTree'+id+'" name="'+'esteLiClick'+'" >'+childNodeLi+'</ul></div>',  
+    	                  });  
+            	     $.parser.parse();  
+					                   	
+    					 
+    				 });
+    				 
+    			 }
+    			
+             });  
+    		 
+    		/*   $('#estetreefather').accordion({
+    			 onSelect:function(title,index){
+    				$('ul[name=esteLiClick] a').each(function(liidex,liobj){
+    					$(liobj).bind('click',function(){
+    						var url =$(liobj).attr('data-link');
+        					var title = $(liobj).html();
+        					var iconCls = $(liobj).attr('data-icon');
+        					addTab(title,url,iconCls,0);
+    					});
+    					//alert($(liobj).attr('data-link'));
+    				});
+    			 }
+    				 
+    		 })  */
+    			
+    		// alert($('ul[name=esteLiClick]').length);
+    		 
+    	 
+    		/* 	$(function(){
+    				$('.wu-side-tree a').bind("click",function(){
+    					var title = $(this).text();
+    					var url = $(this).attr('data-link');
+    					var iconCls = $(this).attr('data-icon');
+    					var iframe = $(this).attr('iframe')==1?true:false;
+    					addTab(title,url,iconCls,iframe);
+    				});	
+    				
+    			})  */
+    		 
+    	}
+    	function pinosu(obj){
+    		var url =$(obj).attr('data-link');
+			var title = $(obj).html();
+			var iconCls = $(obj).attr('data-icon');
+			addTab(title,url,iconCls,0);
+    	}
 
     	function parseTree(data){
     			//JSON.stringify(data);
@@ -164,19 +224,12 @@
     			//alert(data.modules[0].parent.moduleName);
     	}	
     	
-    	$(function(){
-			$('.wu-side-tree a').bind("click",function(){
-			
+    
 		
-				var title = $(this).text();
-				var url = $(this).attr('data-link');
-				var iconCls = $(this).attr('data-icon');
-				var iframe = $(this).attr('iframe')==1?true:false;
-				addTab(title,url,iconCls,iframe);
-			});	
-			 initbasesys();
-		})
-		
+	/* 	$.parser.onComplete = function(){
+    		
+    	} */
+    	
 		$(function(){
 			$('#refl').bind('click',function(){
 			$("#sform").submit();
@@ -206,7 +259,7 @@
 		/**
 		* Name 选项卡初始化
 		*/
-		$('#wu-tabs').tabs({
+	/* 	$('#wu-tabs').tabs({
 			tools:[{
 				iconCls:'icon-reload',
 				border:false,
@@ -214,7 +267,7 @@
 					$('#wu-datagrid').datagrid('reload');
 				}
 			}]
-		});
+		}); */
 			
 		/**
 		* Name 添加菜单选项
@@ -228,9 +281,12 @@
 			var nodestring='a[data-link="'+href+'"]';
 			var id=$(nodestring).attr('id');
 			currentModuleId=id;
+			var current_tab = $('#wu-tabs').tabs('getSelected');  
+			basehref=href;
+		//	alert(current_tab);
 			if(!tabPanel.tabs('exists',title)){
-				//alert("id="+id+",iframe="+iframe);
-				var content = '<iframe scrolling="auto" frameborder="0"  src="'+ href +'" style="width:100%;height:100%;"></iframe>';
+			//	alert("id="+id+",iframe="+iframe);
+				var content = '<iframe scrolling="auto" frameborder="0" id="'+id+'" src="'+ href +'" style="width:100%;height:100%;"></iframe>';
 				if(iframe){
 					tabPanel.tabs('add',{
 						title:title,
@@ -271,8 +327,14 @@
 		/**
 			ajax request
 		*/
-		
-		
+		$('#wu-tabs').tabs({   
+		    border:false,   
+		    onSelect:function(title,index){ 
+		    	 var tabPanel = parent.$('#wu-tabs');
+					var tab = tabPanel.tabs('getSelected');
+		    }
+		    
+		});  
 		
 	</script>
 </body>

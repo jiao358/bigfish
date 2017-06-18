@@ -21,5 +21,11 @@
      <table tableName="S_MODULE" domainObjectName="SModule">
       <columnOverride column="FILMID" property="FILMID" />
     </table>
+     <table tableName="S_DIC" domainObjectName="SDic">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+     <table tableName="TRX_CUSTOMER" domainObjectName="Customer">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
   </context>
 </generatorConfiguration>
