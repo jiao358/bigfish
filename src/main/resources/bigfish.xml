@@ -14,10 +14,6 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-<import resource="databaseconfig.xml" />
-<mvc:annotation-driven/>
-<context:component-scan base-package="ext.core.controller"></context:component-scan>  
-
 	<bean id="cmbProperty" class="ext.util.helper.CmbProperty">
 		<property name="locations">
 			<list>
@@ -25,11 +21,16 @@
 			</list>
 		</property>
 	</bean>
-	
-	
-	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>  
-    <mvc:resources location="/easyui/" mapping="/easyui/**"></mvc:resources>  
-    <mvc:resources location="/images/" mapping="/images/**"></mvc:resources>  
-    <mvc:resources location="/js/" mapping="/js/**"></mvc:resources> 
-    <mvc:resources location="/temp/" mapping="/temp/**"></mvc:resources> 
+
+	<import resource="databaseconfig.xml" />
+	<mvc:annotation-driven />
+	<context:component-scan base-package="ext.core.controller"></context:component-scan>
+
+
+
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/easyui/" mapping="/easyui/**"></mvc:resources>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/temp/" mapping="/temp/**"></mvc:resources>
 </beans>

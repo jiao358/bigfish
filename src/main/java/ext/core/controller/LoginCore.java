@@ -86,7 +86,7 @@ public class LoginCore {
 			
 			//get all module
 			SModuleExample moduleExp = new SModuleExample();
-			moduleExp.setOrderByClause("MODULE_NAME DESC");
+			moduleExp.setOrderByClause("M_ORDER ASC");
 			Map<SModule,List<SModule>> modulemap = new HashMap<SModule,List<SModule>>();
 			moduleExp.createCriteria().andParentEqualTo("root");
 			List<SModule> allRootModules =sModuleDao.selectByExample(moduleExp);

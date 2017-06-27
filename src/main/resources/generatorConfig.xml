@@ -27,5 +27,17 @@
      <table tableName="TRX_CUSTOMER" domainObjectName="Customer">
       <columnOverride column="FILMID" property="FILMID" />
     </table>
+    <table tableName="TRX_CLASS" domainObjectName="TrxClass">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+    <table tableName="TRX_CONTRACT" domainObjectName="Contract">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+    <table tableName="TRX_CLASS_REL" domainObjectName="ClassRel">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
+    <table tableName="TRX_DUTY" domainObjectName="TrxDuty">
+      <columnOverride column="FILMID" property="FILMID" />
+    </table>
   </context>
 </generatorConfiguration>

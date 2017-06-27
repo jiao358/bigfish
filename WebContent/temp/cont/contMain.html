@@ -1,0 +1,485 @@
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false">
+  
+	<div id="cont-main-toolbar" >
+	   <a href="#"  id="add"  class="easyui-linkbutton" iconCls="icon-add" onclick="openAddContMain()" plain="true">添加</a>
+                <a href="#"  id="update"  class="easyui-linkbutton" iconCls=icon-tip onclick="signContMain()" plain="true">签订</a>
+                  <a href="#"  id="del"  class="easyui-linkbutton" iconCls="icon-help" onclick="timeOverContMain()" plain="true">结清合同</a>
+                <a href="#"  id="refresh" class="easyui-linkbutton" iconCls="icon-reload" onclick="reloadContMain('temp/sys/contMain.html')" plain="true">刷新</a>
+                    <div class="wu-toolbar-search">
+                <label>生效时间：</label><input id= 'dateBoxContPop' class="easyui-datebox" style="width:100px" >
+                 <label>合同编号：</label><input id="userIdContPop" class="wu-text" style="width:100px">
+                <label>客户姓名：</label><input id="userNameContPop" class="wu-text" style="width:100px">
+                <a id="searchcontmain"  onclick="searchcontmain()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+            </div>
+	</div>
+
+ 	 <table id="cont-main-datagrid"	iconCls="icon-save"	toolbar="#cont-main-toolbar">
+	</table>
+
+    </div>
+<!-- dialog  -->
+    
+    <div id="cont-main-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
+	<form id="cont-main-form" method="post" accept-charset="UTF-8">
+        <table >
+            <tr>
+                <td width="60" align="right">用户名称:</td>
+                <td><input type="text" id='customerName' name="customerName" class="wu-text require"  style="width:120px" dataCheck='true'  readonly="readonly"  /><a onclick="addContCustomer()">添加学生</a></td>
+                <td width="60" align="right">签订金额:</td>
+          	 	 <td><input id="contractAmt" class="wu-text require"   panelHeight="auto" style="width:100px" name="contractAmt"  dataCheck='true'   ></td>
+            </tr>
+       
+             <tr>
+                <td valign="top" align="right">备注内容:</td>
+                <td><textarea name="note" rows="6" class="wu-textarea" style="width:260px"></textarea></td>
+            </tr>
+        </table>
+        <input type="text" id="customerId" name="customerId" class="wu-text"  hidden="true"/>
+    </form>
+</div>
+     <div id="cont-main-customer-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;"></div>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+//初始化 select 标签，和dialog
+	$(function(){
+		//关闭多余的 dialog
+		deleteDialogContMain();
+		datagridLoadContMain();
+		
+	})
+	
+	function timeOverContMain(){
+		var item = $('#cont-main-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+          $.messager.alert('提示', '请选择一条记录！', 'warning');  
+          return ;
+      }  
+		var sysId = item[0].id;
+		var state= item[0].contractState;
+		var contAmt = item[0].contractAmt;
+		var currentAmt = item[0].contractBalance;
+		if(state!=0){
+			  $.messager.alert('提示', '该合同不具备结清条件', 'warning');  
+			  return;
+		}
+		
+		$.messager.confirm('信息提示','确定要签订该合同？', function(result){
+			if(result){
+				  var options = {
+				            url: '/bigfish/editContMain.do',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {
+							　　　　"id": sysId,
+							　　},
+							async:false,
+				            success: function (data) {
+				            	var json =jQuery.parseJSON(data);
+								if(json.state==1){
+									$.messager.alert('信息提示','签订合同成功','');
+								}else{
+									$.messager.alert('信息提示','签订合同失败','');
+								}
+								reloadContMain('');
+								
+				            }
+				        };
+					 	$.ajax(options); 
+					 	
+			}	
+		});
+	
+	}
+	
+	
+	function addContCustomer(){
+		$('#cont-main-customer-dialog').dialog({
+			closed: false,
+			modal:true,
+	        title: "选择学生",
+	        fit:true,
+	        href:'temp/cont/contMain-Pop.html',
+	        buttons: [{
+	            text: '确定',
+	            iconCls: 'icon-ok',
+	            handler:contmaincustomer
+	        }, {
+	            text: '取消',
+	            iconCls: 'icon-cancel',
+	            handler: function () {
+	                $('#cont-main-customer-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+		
+	
+	}
+	function contmaincustomer(){
+		var item = $('#cus-main-cont-pop-datagrid').datagrid('getSelections');
+		if (item.length >1 ||item.length ==0) {  
+			alert('请选择一条记录!');
+			return;
+		}
+		var id= item[0].id;
+		var name=item[0].name;
+		$('#cont-main-customer-dialog').dialog('close');      
+		var dd=$('#customerName');
+		$('input#customerName').val(name);
+		$('input#customerId').val(id);
+	}
+	
+	
+	
+	
+	function signContMain(){
+		var item = $('#cont-main-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+           $.messager.alert('提示', '请选择一条记录！', 'warning');  
+           return ;
+       }  
+		var sysId = item[0].id;
+		var state= item[0].contractState;
+		if(state!=0){
+			  $.messager.alert('提示', '该合同不具备签订条件', 'warning');  
+			  return;
+		}
+		
+		$.messager.confirm('信息提示','确定要签订该合同？', function(result){
+			if(result){
+				  var options = {
+				            url: '/bigfish/editContMain.do',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {
+							　　　　"id": sysId,
+							　　},
+							async:false,
+				            success: function (data) {
+				            	var json =jQuery.parseJSON(data);
+								if(json.state==1){
+									$.messager.alert('信息提示','签订合同成功','');
+								}else{
+									$.messager.alert('信息提示','签订合同失败','');
+								}
+								reloadContMain('');
+								
+				            }
+				        };
+					 	$.ajax(options); 
+					 	
+			}	
+		});
+		
+		
+	}
+	
+	
+	function jsonReturn(data){
+		var json =jQuery.parseJSON(data);
+		if(json.state=='1'){
+			$.messager.alert('信息提示','提交成功！','info');
+			$('#cont-main-dialog').dialog('close');
+		}
+		else
+		{
+			$.messager.alert('信息提示','提交失败！',json.message);
+		}
+	}
+	function searchcontmain(){
+		datagridLoadContMain();
+	}
+	function reloadContMain(url){
+		 var tabPanel = parent.$('#wu-tabs');
+		 var tab = tabPanel.tabs('getSelected');
+		
+			if (tab){
+				var index = tabPanel.tabs('getTabIndex', tab);
+				    tab.panel('refresh');
+			}
+			deleteDialogContMain();
+	}
+	
+	function deleteDialogContMain(){
+		//alert($('div#sys-dialog').length);
+		var length =$('div#cont-main-dialog').length;
+		$('div#cont-main-dialog').each(function(index,obj){
+			if(index==length-1) return false;
+			$(obj).remove();
+		});
+	}
+	function openViewContMain(){
+		var item = $('#cont-main-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+           $.messager.alert('提示', '请选择一条记录！', 'warning');  
+           return ;
+       }  
+		var sysId = item[0].id;
+		$.ajax({
+			url:'/bigfish/rcusmainedit.do',
+			   dataType: 'json',
+	            data: {
+				　　　　id: sysId,
+				　　},
+				async:false,
+			success:function(data){
+				var json =jQuery.parseJSON(data);
+				if(data==null){
+					$('#cont-main-dialog').dialog('close');	
+				}
+				else{
+					//绑定值
+					$('#cont-main-form').form('load', data)
+				}
+			}	
+		});
+		
+		//esteDialogBindCusMain('#cont-main-dialog','用户修改','800','auto',viewCus);
+		
+		$('#cont-main-dialog').dialog({
+			closed: false,
+			modal:true,
+	        title: '查询详情',
+	        width: 800, 
+	       
+	        height: 'auto',
+	        buttons: [{
+	            text: '关闭',
+	            iconCls: 'icon-ok',
+	            handler:  function () {
+	                $('#cont-main-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+		
+	/* 	$('#cont-main-dialog input').each(function(index,inputobj){
+			$(obj).attr('readonly', "readonly"); 
+		}); */
+
+
+	}
+	
+	/* function viewCus(){
+		  $('#cont-main-dialog').dialog('close');        
+	}
+	 */
+	
+	
+	
+	
+	function openEditContMain(){
+		
+		var item = $('#cont-main-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+            $.messager.alert('提示', '请选择一条记录！', 'warning');  
+            return ;
+        }  
+		var sysId = item[0].id;
+		var state= item[0].contractState;
+		if(state!=0){
+			  $.messager.alert('提示', '该合同不具备签订条件', 'warning');  
+			  return;
+		}
+		$.ajax({
+			url:'/bigfish/editContMain.do',
+			   dataType: 'json',
+	            data: {
+				　　　　id: sysId,
+				　　},
+				async:false,
+			success:function(data){
+				var json =jQuery.parseJSON(data);
+				if(json.state==1){
+					$.messager.alert('信息提示','签订合同成功','');
+				}else{
+					$.messager.alert('信息提示','签订合同失败','');
+				}
+			}	
+		});
+		datagridLoadContMain();
+		
+	}
+	
+	function editCusMain(){
+		var flag=false;
+		$('input[dataCheck]').each(function(name,obj){
+			var tmp =$(obj).val();
+			if(tmp==null || tmp==''){
+				$.messager.alert('信息提示','请检查提交信息格式'+':'+$(obj).attr('name'),'');
+				flag =true;
+				return false;
+			}
+		});
+		
+		if(flag)
+			return;
+		$('#cont-main-form').form('submit', {
+			url:'/bigfish/editContMain.do',
+			async:false,
+			success:function(data){
+					jsonReturn(data);
+			}
+		});
+	}
+	
+	
+	/**
+	*  载入数据
+	*/
+	function datagridLoadContMain(){
+	
+		var name= $('input#userNameContPop').val();
+		var date='';
+		try{
+			date= $('input#dateBoxContPop').datebox("getValue");    
+		}catch(e){
+		}
+		var userId= $('input#userIdContPop').val();
+		
+	
+	var require={userName:name,createDate:date,id:userId};
+		
+		$('#cont-main-datagrid').datagrid({
+			url:'/bigfish/rContMain.do',
+		//	url:'temp/datagrid.php',
+			method: 'GET',
+			pageList: [5,20],
+			//loadFilter:pagerFilter,	
+			queryParams:require ,
+			rownumbers:true,
+			singleSelect:false,
+			pageSize:5,           
+			pagination:true,
+			multiSort:true,
+			fitColumns:true,
+			fit:true,
+			columns:[[
+				{ checkbox:true},
+				{ field:'id',title:'合同编号',width:100,sortable:true},
+				{ field:'customerId',title:'客户编号',width:100,sortable:true},
+				{ field:'customerName',title:'客户姓名',width:180,sortable:true},
+				{ field:'executeDate',title:'生效日期',width:100,sortable:true},
+				{ field:'contractAmt',title:'合同金额',width:100,sortable:true},
+				{ field:'contractBalance',title:'合同使用',width:100,sortable:true},
+				{ field:'contractStateStr',title:'合同状态',width:100,sortable:true},
+				{ field:'contractState',title:'合同状态',width:100,sortable:true,hidden:true}
+				
+			]]
+		});
+	
+	
+	}
+	
+	function openAddContMain(){
+		$('#cont-main-form').form('clear');
+
+        esteDialogBindCusMain('#cont-main-dialog','添加合同','600','auto',addContMain);
+        
+	}
+	
+	function esteDialogBindCusMain(diaNode,title,width,height,successbind){
+		$(diaNode).dialog({
+			closed: false,
+			modal:true,
+	        title: title,
+	        width: width, 
+	       
+	        height: height,
+	        buttons: [{
+	            text: '确定',
+	            iconCls: 'icon-ok',
+	            handler: successbind
+	        }, {
+	            text: '取消',
+	            iconCls: 'icon-cancel',
+	            handler: function () {
+	                $('#cont-main-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+	}
+	var contMainDoubbleCheck=0;
+	function addContMain(){
+		contMainDoubbleCheck++;
+		if(contMainDoubbleCheck>1){
+			$.messager.alert('信息提示','小哥，你点的太快了','');
+			contMainDoubbleCheck=0;
+			return;
+		}
+		var name=$('input#customerName').val();
+		var id=$('input#customerId').val();
+		if(name==null||name==''){
+			$.messager.alert('信息提示','信息验证失败','');	
+			contMainDoubbleCheck=0;
+			return;
+		}
+		if(id==null||id==''){
+			$.messager.alert('信息提示','信息验证失败','');	
+			contMainDoubbleCheck=0;
+			return;
+		}
+		
+ 		$('#cont-main-form').form('submit', {
+			url:'/bigfish/addContMain.do',
+			async:false,
+			success:function(data){
+				jsonReturn(data);
+				datagridLoadContMain();
+			    $('#cont-main-dialog').dialog('close');     
+			    contMainDoubbleCheck=0;
+			}
+		}); 
+ 		contMainDoubbleCheck=0;
+	}
+
+	
+	function loadSelectContMain(array){
+		
+		//alert($('#wu-form select').attr('dicType'));
+		$(array).each(function(idx,obj){
+			//alert(idx);
+			var dic=$(obj).attr('dicType');
+			
+			$(obj).combobox({
+				onSelect: function(param){
+				}
+			});
+
+			
+			  var options = {
+			            url: '/bigfish/rdic.do',
+			            type: 'get',
+			            dataType: 'json',
+			            data: {
+						　　　　"dicName": dic,
+						　　},
+						async:false,
+			            success: function (data) {
+			            //	alert(data);
+			            	var dataList=[];
+			            	//append("<option value='"+value+"'>"+text+"</option>");
+			            	$(data).each(function(dataidx,jsondata){
+			            		var dicValue=jsondata.dicValue;
+			            		var dicDes =jsondata.dicDesc;
+			            		dataList.push({"value":dicValue,"text":dicDes});
+			            		//$(obj).append("<option value='"+dicValue+"' >"+dicDes+"</option>");
+			            	});
+			            	 $(obj).combobox("loadData",dataList);
+			            	//alert(JSON.stringify(data));
+			            }
+			        };
+			  	
+			  
+			  	
+				 	$.ajax(options); 
+		});
+		
+	}
+
+</script>

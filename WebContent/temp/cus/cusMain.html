@@ -1,214 +1,89 @@
 <div class="easyui-layout" data-options="fit:true">
 
     <div data-options="region:'center',border:false">
-    	<!-- Begin of toolbar -->
-        <div id="wu-toolbar">
-            <div class="wu-toolbar-button">
-                <a href="#"  id="add"  class="easyui-linkbutton" iconCls="icon-add" onclick="openAddSys()" plain="true">添加</a>
-                <a href="#"  id="update"  class="easyui-linkbutton" iconCls="icon-edit" onclick="openEditSys()" plain="true">修改</a>
-                <a href="#"  id="del"  class="easyui-linkbutton" iconCls="icon-remove" onclick="removeSysUser()" plain="true">删除</a>
-                <a href="#"  id="refresh" class="easyui-linkbutton" iconCls="icon-reload" onclick="reloadSys('temp/sys/sysUser.html')" plain="true">刷新</a>
-            </div>
-            <div class="wu-toolbar-search">
+  
+	<div id="cus-main-toolbar" >
+	   <a href="#"  id="add"  class="easyui-linkbutton" iconCls="icon-add" onclick="openAddCusMain()" plain="true">添加</a>
+                <a href="#"  id="update"  class="easyui-linkbutton" iconCls="icon-edit" onclick="openEditCusMain()" plain="true">修改</a>
+                <a href="#"  id="del"  class="easyui-linkbutton" iconCls="icon-undo" onclick="removeCusMain()" plain="true">删除</a>
+                <a href="#"  id="view"  class="easyui-linkbutton" iconCls="icon-remove" onclick="openViewCusMain()" plain="true">查看</a>
+                <a href="#"  id="refresh" class="easyui-linkbutton" iconCls="icon-reload" onclick="reloadCusMain('temp/sys/cusMain.html')" plain="true">刷新</a>
+                    <div class="wu-toolbar-search">
                 <label>创建时间：</label><input id= 'dateBox' class="easyui-datebox" style="width:100px" >
+                 <label>用户编号：</label><input id="userId" class="wu-text" style="width:100px">
                 <label>用户名：</label><input id="userName" class="wu-text" style="width:100px">
-                <a id="search" href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+                <a id="searchcusmain"  onclick="searchcusmain()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
             </div>
-        </div>
-        <!-- End of toolbar -->
-        <table id="sys-user-datagrid" toolbar="#wu-toolbar"></table>
+	</div>
+
+ 	 <table id="cus-main-datagrid"	iconCls="icon-save"	toolbar="#cus-main-toolbar">
+	</table>
+
     </div>
-</div>
-<!-- Begin of easyui-dialog -->
-<div id="sys-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
-	<form id="wu-form" method="post" accept-charset="UTF-8">
+<!-- dialog  -->
+    
+    <div id="cus-main-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
+	<form id="cus-main-form" method="post" accept-charset="UTF-8">
         <table >
             <tr>
                 <td width="60" align="right">用户名称:</td>
-                <td><input type="text" name="userName" class="wu-text require"  dataCheck='true'/></td>
+                <td><input type="text" name="name" class="wu-text require"  style="width:120px"dataCheck='true'  /></td>
+                <td width="60" align="right">用户性别:</td>
+          	 	 <td><select id="cusgender" class="easyui-combobox" panelHeight="auto" style="width:100px" name="sex" dicType="SEX_CUSTOMER"  ></select></td>
+            </tr>
+              <tr>
+                
+                 <td width="60" align="right">年龄:</td>
+                <td><input type="text" name="age" class="wu-text require"  style="width:120px"dataCheck='true'  /></td>
+                 <td width="60" align="right">证件类型:</td>
+          	 	 <td><select id="cuscardtype" class="easyui-combobox" panelHeight="auto" style="width:100px" name="cardType" dicType="CARD_TYPE"  ></select></td>
+               
+            </tr>
+              <tr>
+              
+               
+          	 	   <td width="60" align="right">证件号:</td>
+                <td><input type="text" name="cardId" class="wu-text require"  style="width:120px"dataCheck='true'  /></td>
+                <td width="60" align="right">电子邮件:</td>
+                <td><input type="text" name="email" class="wu-text require"   dataCheck='true'  /></td>
             </tr>
              <tr>
-                <td align="right">用户密码:</td>
-                <td><input  type="password" name="userPwd" class="wu-text"  dataCheck='true' /></td>
+                <td width="60" align="right">联系电话:</td>
+                <td><input type="text" name="phone" class="wu-text require"   dataCheck='true'  /></td>
+                <td width="60" align="right">联系地址:</td>
+          	 	 <td><input type="text" name="address" class="wu-text require"   dataCheck='true'  /></td>
             </tr>
-            <tr>
-                <td align="right">用户类型:</td>
-                <td><select id="sysselect" class="easyui-combobox" panelHeight="auto" style="width:100px" name="userType" dicType="SYS_ROLE"  onchange="al()">
-                </select>
-                		
-                	
-                </td>
+           
+       
+             <tr>
+                <td valign="top" align="right">备注内容:</td>
+                <td><textarea name="note" rows="6" class="wu-textarea" style="width:260px"></textarea></td>
             </tr>
         </table>
-        <input type="text" name="id" class="wu-text"  hidden="false"/>
+        <input type="text" name="id" class="wu-text"  hidden="true"/>
     </form>
 </div>
-<!-- End of easyui-dialog -->
-<script type="text/javascript">
-	$("#sysselect").combobox({
-		onSelect: function(param){
-		}
-	});
-	
+    
+</div>
 
-	/**
-	* Name 载入数据
-	*/
-	function datagridLoad(){
-	
-		var name= $('input#userName').val();
-		var date='';
-		try{
-			date= $('input#dateBox').datebox("getValue");    
-		}catch(e){
-		}
-		
-	
-	var require={userName:name,createDate:date};
-	
-	$('#sys-user-datagrid').datagrid({
-		url:'/bigfish/rsysuser.do',
-	//	url:'temp/datagrid.php',
-		method: 'GET',
-		pageList: [5,20],
-		//loadFilter:pagerFilter,	
-		queryParams:require ,
-		rownumbers:true,
-		singleSelect:false,
-		pageSize:5,           
-		pagination:true,
-		multiSort:true,
-		fitColumns:true,
-		fit:true,
-		columns:[[
-			{ checkbox:true},
-			{ field:'id',title:'用户编号',width:100,sortable:true},
-			{ field:'userPwd',title:'密码',width:100,sortable:true,hidden:true},
-			{ field:'userName',title:'用户名称',width:180,sortable:true},
-			{ field:'createDate',title:'创建时间',width:100},
-			{ field:'userTypeStr',title:'角色类别',width:100}
-			
-		]]
-	});
-	
-	}
-	
-	
-	function reloadSys(url){
-		 var tabPanel = parent.$('#wu-tabs');
-		 
-		 var tab = tabPanel.tabs('getSelected');
-		
-			if (tab){
-				var index = tabPanel.tabs('getTabIndex', tab);
-				/* tabPanel.tabs('update',{
-				        tab: tab,
-				        options:{
-				            href: url
-				        }
-				    }); */
-				    tab.panel('refresh');
-				
-				//tabPanel.tabs('update', index);
-			}
-			deleteDialog();
-	}
+
+
+<script type="text/javascript">
+
+
 //初始化 select 标签，和dialog
 	$(function(){
 		//关闭多余的 dialog
-		deleteDialog();
-		loadSelect();
-		datagridLoad();
+		deleteDialogCusMain();
+		var array = ['#cusgender','#cuscardtype'];
+		
+		loadSelectCusMain(array);
+		datagridLoadCusMain();
 		
 	})
 	
-	function deleteDialog(){
-		//alert($('div#sys-dialog').length);
-		var length =$('div#sys-dialog').length;
-		$('div#sys-dialog').each(function(index,obj){
-			if(index==length-1) return false;
-			$(obj).remove();
-		});
-	}
-	
-	/**
-	* Name 载入菜单树
-	*/
-	$('#wu-category-tree').tree({
-		url:'temp/menu.php',
-		onClick:function(node){
-			alert(node.text);
-		}
-	});
-	/**
-	* Name 添加记录
-	*/
-	function addsys(){
-		//alert($("#sysselect").val());
-		var flag =false;
-	 	$('input[dataCheck]').each(function(name,obj){
-			var tmp =$(obj).val();
-			if(tmp==null || tmp==''){
-				$.messager.alert('信息提示','请检查提交信息格式','');
-				flag=true;
-				return false;
-			}
-		});
-		if(flag){
-			return;
-		}
- 		$('#wu-form').form('submit', {
-			url:'/bigfish/addsys.do',
-			async:false,
-			success:function(data){
-				jsonReturn(data);
-				datagridLoad();
-			}
-		});
-	}
-	
-	function jsonReturn(data){
-		var json =jQuery.parseJSON(data);
-		if(json.state=='1'){
-			$.messager.alert('信息提示','提交成功！','info');
-			$('#sys-dialog').dialog('close');
-		}
-		else
-		{
-			$.messager.alert('信息提示','提交失败！',json.message);
-		}
-	}
-	
-	/**
-	* Name 修改记录
-	*/
-	function editSys(){
-		var flag=false;
-		$('input[dataCheck]').each(function(name,obj){
-			var tmp =$(obj).val();
-			if(tmp==null || tmp==''){
-				$.messager.alert('信息提示','请检查提交信息格式','');
-				flag =true;
-				return false;
-			}
-		});
-		
-		if(flag)
-			return;
-		$('#wu-form').form('submit', {
-			url:'/bigfish/editSys.do',
-			async:false,
-			success:function(data){
-					jsonReturn(data);
-			}
-		});
-	}
-	
-	/**
-	* Name 删除记录
-	*/
-	function removeSysUser(){
-		var item = $('#sys-user-datagrid').datagrid('getSelections');
+	function removeCusMain(){
+		var item = $('#cus-main-datagrid').datagrid('getSelections');
 		 if (item.length >1 ||item.length ==0) {  
             $.messager.alert('提示', '请选择一条记录！', 'warning');  
             return ;
@@ -225,7 +100,7 @@
 				//alert(ids);return;
 				
 				$.ajax({
-					url:'/bigfish/delSysUser.do',
+					url:'/bigfish/delCusMain.do',
 					data:{
 						id:ids,
 					},
@@ -239,13 +114,205 @@
 			}	
 		});
 	}
+	
+	
+	function jsonReturn(data){
+		var json =jQuery.parseJSON(data);
+		if(json.state=='1'){
+			$.messager.alert('信息提示','提交成功！','info');
+			$('#cus-main-dialog').dialog('close');
+		}
+		else
+		{
+			$.messager.alert('信息提示','提交失败！',json.message);
+		}
+	}
+	function searchcusmain(){
+		datagridLoadCusMain();
+	}
+	function reloadCusMain(url){
+		 var tabPanel = parent.$('#wu-tabs');
+		 var tab = tabPanel.tabs('getSelected');
+		
+			if (tab){
+				var index = tabPanel.tabs('getTabIndex', tab);
+				    tab.panel('refresh');
+			}
+			deleteDialogCusMain();
+	}
+	
+	function deleteDialogCusMain(){
+		//alert($('div#sys-dialog').length);
+		var length =$('div#cus-main-dialog').length;
+		$('div#cus-main-dialog').each(function(index,obj){
+			if(index==length-1) return false;
+			$(obj).remove();
+		});
+	}
+	function openViewCusMain(){
+		var item = $('#cus-main-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+           $.messager.alert('提示', '请选择一条记录！', 'warning');  
+           return ;
+       }  
+		var sysId = item[0].id;
+		$('#cus-main-form').form('clear');
+		//alert(item.productid);return;
+		$.ajax({
+			url:'/bigfish/rcusmainedit.do',
+			   dataType: 'json',
+	            data: {
+				　　　　id: sysId,
+				　　},
+				async:false,
+			success:function(data){
+				var json =jQuery.parseJSON(data);
+				if(data==null){
+					$('#cus-main-dialog').dialog('close');	
+				}
+				else{
+					//绑定值
+					$('#cus-main-form').form('load', data)
+				}
+			}	
+		});
+		
+		//esteDialogBindCusMain('#cus-main-dialog','用户修改','800','auto',viewCus);
+		
+		$('#cus-main-dialog').dialog({
+			closed: false,
+			modal:true,
+	        title: '查询详情',
+	        width: 800, 
+	       
+	        height: 'auto',
+	        buttons: [{
+	            text: '关闭',
+	            iconCls: 'icon-ok',
+	            handler:  function () {
+	                $('#cus-main-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+		
+	/* 	$('#cus-main-dialog input').each(function(index,inputobj){
+			$(obj).attr('readonly', "readonly"); 
+		}); */
 
+
+	}
+	
+	/* function viewCus(){
+		  $('#cus-main-dialog').dialog('close');        
+	}
+	 */
+	
+	
+	
+	
+	function openEditCusMain(){
+		
+		var item = $('#cus-main-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+            $.messager.alert('提示', '请选择一条记录！', 'warning');  
+            return ;
+        }  
+		var sysId = item[0].id;
+		$('#cus-main-form').form('clear');
+		//alert(item.productid);return;
+		$.ajax({
+			url:'/bigfish/rcusmainedit.do',
+			   dataType: 'json',
+	            data: {
+				　　　　id: sysId,
+				　　},
+				async:false,
+			success:function(data){
+				var json =jQuery.parseJSON(data);
+				if(data==null){
+					$('#cus-main-dialog').dialog('close');	
+				}
+				else{
+					//绑定值
+					$('#cus-main-form').form('load', data)
+				}
+			}	
+		});
+		esteDialogBindCusMain('#cus-main-dialog','用户修改','800','auto',editCusMain);
+		
+		
+	}
+	
+	function editCusMain(){
+		var flag=false;
+		$('input[dataCheck]').each(function(name,obj){
+			var tmp =$(obj).val();
+			if(tmp==null || tmp==''){
+				$.messager.alert('信息提示','请检查提交信息格式'+':'+$(obj).attr('name'),'');
+				flag =true;
+				return false;
+			}
+		});
+		
+		if(flag)
+			return;
+		$('#cus-main-form').form('submit', {
+			url:'/bigfish/editCusMain.do',
+			async:false,
+			success:function(data){
+					jsonReturn(data);
+			}
+		});
+	}
+	
 	
 	/**
-	* Name 打开添加窗口
+	*  载入数据
 	*/
-	function openAddSys(){
-		$('#wu-form').form('clear');
+	function datagridLoadCusMain(){
+	
+		var name= $('input#userName').val();
+		var date='';
+		try{
+			date= $('input#dateBox').datebox("getValue");    
+		}catch(e){
+		}
+		var userId= $('input#userId').val();
+		
+	
+	var require={userName:name,createDate:date,id:userId};
+		
+		$('#cus-main-datagrid').datagrid({
+			url:'/bigfish/rcusmain.do',
+		//	url:'temp/datagrid.php',
+			method: 'GET',
+			pageList: [5,20],
+			//loadFilter:pagerFilter,	
+			queryParams:require ,
+			rownumbers:true,
+			singleSelect:false,
+			pageSize:5,           
+			pagination:true,
+			multiSort:true,
+			fitColumns:true,
+			fit:true,
+			columns:[[
+				{ checkbox:true},
+				{ field:'id',title:'客户编号',width:100,sortable:true},
+				{ field:'name',title:'客户名称',width:100,sortable:true},
+				{ field:'sexStr',title:'性别',width:180,sortable:true},
+				{ field:'age',title:'年龄',width:100,sortable:true},
+				{ field:'phone',title:'联系电话',width:100,sortable:true},
+				{ field:'createDate',title:'创建时间',width:100,sortable:true},
+				
+			]]
+		});
+	
+	
+	}
+	
+	function openAddCusMain(){
+		$('#cus-main-form').form('clear');
 	/* 	$('#sys-dialog').dialog({
 			closed: false,
 			modal:true,
@@ -264,18 +331,19 @@
                 }
             }]
         }); */
-        esteDialogBind('#sys-dialog','添加用户','450','auto',addsys);
+        esteDialogBindCusMain('#cus-main-dialog','添加学生','800','auto',addCusMain);
         
 		var row = $('#sys-user-datagrid').datagrid('getSelected');
 	//	alert(row.userName);
 	}
 	
-	function esteDialogBind(diaNode,title,width,height,successbind){
+	function esteDialogBindCusMain(diaNode,title,width,height,successbind){
 		$(diaNode).dialog({
 			closed: false,
 			modal:true,
 	        title: title,
-	        width: width,      
+	        width: width, 
+	       
 	        height: height,
 	        buttons: [{
 	            text: '确定',
@@ -285,18 +353,50 @@
 	            text: '取消',
 	            iconCls: 'icon-cancel',
 	            handler: function () {
-	                $('#sys-dialog').dialog('close');                    
+	                $('#cus-main-dialog').dialog('close');                    
 	            }
 	        }]
 	    });
 	}
 	
+	function addCusMain(){
+		//alert($("#sysselect").val());
+		var flag =false;
+	 	$('input[dataCheck]').each(function(name,obj){
+			var tmp =$(obj).val();
+			if(tmp==null || tmp==''){
+				$.messager.alert('信息提示','请检查提交信息格式','');
+				flag=true;
+				return false;
+			}
+		});
+		if(flag){
+			return;
+		}
+ 		$('#cus-main-form').form('submit', {
+			url:'/bigfish/addCusMain.do',
+			async:false,
+			success:function(data){
+				jsonReturn(data);
+				datagridLoadCusMain();
+			}
+		});
+	}
+
 	
-	function loadSelect(){
+	function loadSelectCusMain(array){
 		
 		//alert($('#wu-form select').attr('dicType'));
-		$('#sysselect').each(function(idx,obj){
+		$(array).each(function(idx,obj){
+			//alert(idx);
 			var dic=$(obj).attr('dicType');
+			
+			$(obj).combobox({
+				onSelect: function(param){
+				}
+			});
+
+			
 			  var options = {
 			            url: '/bigfish/rdic.do',
 			            type: 'get',
@@ -306,8 +406,8 @@
 						　　},
 						async:false,
 			            success: function (data) {
+			            //	alert(data);
 			            	var dataList=[];
-			            	
 			            	//append("<option value='"+value+"'>"+text+"</option>");
 			            	$(data).each(function(dataidx,jsondata){
 			            		var dicValue=jsondata.dicValue;
@@ -319,81 +419,12 @@
 			            	//alert(JSON.stringify(data));
 			            }
 			        };
+			  	
+			  
+			  	
 				 	$.ajax(options); 
 		});
 		
 	}
-	
-	/**
-	* Name 打开修改窗口
-	*/
-	function openEditSys(){
-		var item = $('#sys-user-datagrid').datagrid('getSelections');
-		 if (item.length >1 ||item.length ==0) {  
-             $.messager.alert('提示', '请选择一条记录！', 'warning');  
-             return ;
-         }  
-		var sysId = item[0].id;
-		$('#wu-form').form('clear');
-		//alert(item.productid);return;
-		$.ajax({
-			url:'/bigfish/rsysuseredit.do',
-			   dataType: 'json',
-	            data: {
-				　　　　id: sysId,
-				　　},
-				async:false,
-			success:function(data){
-				var json =jQuery.parseJSON(data);
-				if(data==null){
-					$('#sys-dialog').dialog('close');	
-				}
-				else{
-					//绑定值
-					$('#wu-form').form('load', data)
-				}
-			}	
-		});
-		
-		esteDialogBind('#sys-dialog','用户修改','450','auto',editSys);
-	}	
-	
-	/**
-	* Name 分页过滤器
-	*/
-	function pagerFilter(data){         
-		if (typeof data.length == 'number' && typeof data.splice == 'function'){// is array                
-			data = {                   
-				total: data.length,                   
-				rows: data               
-			}            
-		}        
-		var dg = $(this);         
-		var opts = dg.datagrid('options');          
-		var pager = dg.datagrid('getPager');          
-		pager.pagination({                
-			onSelectPage:function(pageNum, pageSize){                 
-				opts.pageNumber = pageNum;                   
-				opts.pageSize = pageSize;             
-				datagridLoad(pageSize,pageNum);
-				pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});                  
-				dg.datagrid('loadData',data);                
-			}          
-		});           
-		if (!data.originalRows){               
-			data.originalRows = (data.rows);       
-		}         
-		var start = (opts.pageNumber-1)*parseInt(opts.pageSize);          
-		var end = start + parseInt(opts.pageSize);        
-		data.rows = (data.originalRows.slice(start, end));         
-		return data;       
-	}
-	
-	
-	
-	
-	 $("#search").click(function(){
-		 datagridLoad();
-		  });
-	
+
 </script>

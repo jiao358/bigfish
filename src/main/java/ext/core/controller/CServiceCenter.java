@@ -1,5 +1,7 @@
 package ext.core.controller;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -7,18 +9,29 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ext.core.domain.BaseSys;
+import ext.datasource.entity.ClassRel;
+import ext.datasource.entity.Contract;
+import ext.datasource.entity.Customer;
 import ext.datasource.entity.SUser;
 import ext.datasource.entity.SUserExample;
+import ext.datasource.entity.TrxClass;
+import ext.datasource.entity.TrxClassExample;
+import ext.datasource.inf.ClassRelMapper;
+import ext.datasource.inf.ContractMapper;
+import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
 import ext.datasource.inf.SUserMapper;
+import ext.datasource.inf.TrxClassMapper;
 import ext.util.helper.BigCont;
 import ext.util.helper.Helper;
 
@@ -30,7 +43,17 @@ public class CServiceCenter {
 	private SUserMapper sUser;
 	@Autowired
 	private SDicMapper sDicDao;
+	@Autowired
+	private CustomerMapper customerDao;
+	@Autowired
+	private TrxClassMapper casDao;
 	
+	@Autowired
+	private ContractMapper contDao;
+	
+	@Autowired
+	private ClassRelMapper classRelDao;
+
 	
 	@RequestMapping(value = "/addsys.do", method = RequestMethod.POST)
 	public void addSys(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -62,4 +85,188 @@ public class CServiceCenter {
 		}
 		Helper.restful(response, result);
 	}	
+	
+	@RequestMapping(value = "/addCusMain.do", method = RequestMethod.POST)
+	public void addCusMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map result=  Helper.initResponse();
+		BaseSys basesys= (BaseSys) request.getSession().getAttribute(BigCont.BASESYS);
+		try{
+			String operatorName = basesys.getUserName();
+			int operatorId= basesys.getUserId();
+			Customer customer = new Customer();
+			BeanUtils.copyProperties(customer, request.getParameterMap());
+			
+			customer.setCreateDate(new Date());;
+			customer.setCreateOperator(operatorId);
+			customer.setId(null);
+			int xc=customerDao.insert(customer);
+			if(xc!=1){
+				result.put("state", "0");
+				result.put("message", "添加失败，请检查班级信息填写");
+			}
+		}catch (Exception e) {
+			logger.error("Insert User error->"+e);
+			Helper.errorResonse(result);
+		}
+		Helper.restful(response, result);
+	}	
+	
+	@RequestMapping(value = "/addCasNormal.do", method = RequestMethod.POST)
+	@Transactional
+	public void addCasNormal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map result=  Helper.initResponse();
+		BaseSys basesys= (BaseSys) request.getSession().getAttribute(BigCont.BASESYS);
+		try{
+			String operatorName = basesys.getUserName();
+			int operatorId= basesys.getUserId();
+			int userId= Integer.parseInt(request.getParameter("id"));
+			int classId=  Integer.parseInt(request.getParameter("cid"));
+			
+			
+			
+			TrxClass trxClass=casDao.selectByPrimaryKey(classId);
+			int currentNum=trxClass.getCurrentMember();
+			int totalNum = trxClass.getClassMember();
+			if(currentNum==totalNum){
+				result.put("state", "0");
+				result.put("message", "添加失败，班级满员!");
+				Helper.restful(response, result);
+				return;
+			}
+			
+			ClassRel classRel = new ClassRel();
+			classRel.setClassId(classId);;
+			classRel.setCustomerId(userId);
+			classRel.setCreateOperator(operatorId);
+			classRel.setCreateDate(new Date());
+			int xc=classRelDao.insert(classRel);
+			if(xc!=1){
+				result.put("state", "0");
+				result.put("message", "添加失败，请检查信息填写");
+				Helper.restful(response, result);
+				return;
+			}
+			trxClass.setCurrentMember(currentNum+1);
+			if(casDao.updateByPrimaryKey(trxClass)!=1){
+				result.put("state", "0");
+				result.put("message", "添加失败，请检查信息填写");
+				Helper.restful(response, result);
+				return;
+			}
+			
+			
+		}catch (Exception e) {
+			logger.error("Insert User error->"+e);
+			Helper.errorResonse(result);
+		}
+		Helper.restful(response, result);
+	}	
+	
+	
+	@RequestMapping(value = "/addContMain.do", method = RequestMethod.POST)
+	public void addContMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map result=  Helper.initResponse();
+		BaseSys basesys= (BaseSys) request.getSession().getAttribute(BigCont.BASESYS);
+		try{
+			String operatorName = basesys.getUserName();
+			int operatorId= basesys.getUserId();
+			Contract contract = new Contract();
+			BeanUtils.copyProperties(contract, request.getParameterMap());
+			
+			contract.setCreateDate(new Date());;
+			contract.setCreateOperator(operatorId);
+			contract.setId(null);
+			contract.setContractBalance(new BigDecimal(0));
+			contract.setContractState(0);
+			int xc=contDao.insert(contract);
+			if(xc!=1){
+				result.put("state", "0");
+				result.put("message", "添加失败，请检查班级信息填写");
+			}
+		}catch (Exception e) {
+			logger.error("Insert contract error->"+e);
+			Helper.errorResonse(result);
+		}
+		Helper.restful(response, result);
+	}	
+	
+	
+	
+	@RequestMapping(value = "/addCasMain.do", method = RequestMethod.POST)
+	public void addCasMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map result=  Helper.initResponse();
+		BaseSys basesys= (BaseSys) request.getSession().getAttribute(BigCont.BASESYS);
+		try{
+			int operatorId= basesys.getUserId();
+			boolean noEmpty = true;
+			TrxClass casMain = new TrxClass();
+			String acadmeicYear = request.getParameter("academicYear");
+			String className = request.getParameter("className");
+			String acadmeicQuarter = request.getParameter("academicQuarter");
+			String startTime  = request.getParameter("startTime");
+			String teacherName = request.getParameter("teacherName");
+			String teacherId= request.getParameter("teacherId");
+			String assTeacherName = request.getParameter("assTeacherName");
+			String assTeacherId=  request.getParameter("assTeacherId");
+			String school = request.getParameter("school");
+			String schoolArea = request.getParameter("schoolArea");
+			String classMember = request.getParameter("classMember");
+			String classRate = request.getParameter("classRate");
+			String startHour = request.getParameter("startHour");
+			String startMin = request.getParameter("startMin");
+	//		String schedual  = request.getParameter("startSchedule");
+			String schedual  = request.getParameter("startScheduleBox");
+			
+			emptyCheck(noEmpty,acadmeicYear,className,acadmeicQuarter,startTime,teacherId,school,classMember,classRate,startHour,startMin,schedual);
+			
+			if(!noEmpty){
+				result.put("state", "0");
+				result.put("message", "添加失败，请检查填写内容是否正确");
+				Helper.restful(response, result);
+				return ;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			casMain.setCreateDate(new Date());;
+			casMain.setCreateOperator(operatorId);
+			casMain.setId(null);
+			casMain.setAcademicYear(Integer.valueOf(acadmeicYear));
+			casMain.setClassName(className);
+			casMain.setAcademicQuarter(Integer.valueOf(acadmeicQuarter));
+			casMain.setStartTime(sdf.parse(startTime));
+			casMain.setTeacherId(Integer.valueOf(teacherId));
+			if(assTeacherId!=null&&!"".equals(assTeacherId))
+				casMain.setAssTeacherId(Integer.valueOf(assTeacherId));
+			casMain.setSchool(Integer.valueOf(school));
+			casMain.setSchoolArea(Integer.valueOf(schoolArea));
+			casMain.setClassMember(Integer.valueOf(classMember));
+			casMain.setClassRate(new BigDecimal(classRate));
+			casMain.setStartHour(Integer.valueOf(startHour));
+			casMain.setStartMin(Integer.valueOf(startMin));
+			casMain.setStartSchedule(schedual.substring(0,schedual.length()-1));
+			casMain.setCurrentMember(0);
+			casMain.setClassState(0);
+			
+			int xc=casDao.insert(casMain);
+			if(xc!=1){
+				result.put("state", "0");
+				result.put("message", "添加失败，请检查班级信息填写");
+			}
+			
+			
+		}catch (Exception e) {
+			logger.error("Insert User error->"+e);
+			Helper.errorResonse(result);
+		}
+		Helper.restful(response, result);
+	}	
+	
+	private void emptyCheck(boolean flag,String... obj){
+		for(String str:obj){
+			if(str==null||"".equals(str)){
+				flag =flag && false;
+			}
+		}
+		
+	}
+	
 }

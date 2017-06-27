@@ -167,17 +167,6 @@
 		});
 	}
 	
-	function jsonReturn(data){
-		var json =jQuery.parseJSON(data);
-		if(json.state=='1'){
-			$.messager.alert('信息提示','提交成功！','info');
-			$('#sys-dialog').dialog('close');
-		}
-		else
-		{
-			$.messager.alert('信息提示','提交失败！',json.message);
-		}
-	}
 	
 	/**
 	* Name 修改记录
@@ -240,6 +229,18 @@
 		});
 	}
 
+	
+	function jsonReturn(data){
+		var json =jQuery.parseJSON(data);
+		if(json.state=='1'){
+			$.messager.alert('信息提示','提交成功！','info');
+			$('#sys-dialog').dialog('close');
+		}
+		else
+		{
+			$.messager.alert('信息提示','提交失败！',json.message);
+		}
+	}
 	
 	/**
 	* Name 打开添加窗口

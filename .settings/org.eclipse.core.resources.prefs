@@ -1,6 +1,15 @@
 eclipse.preferences.version=1
 encoding//WebContent/format.js=UTF-8
 encoding//WebContent/temp=UTF-8
+encoding//WebContent/temp/cas/casMain.html=UTF-8
+encoding//WebContent/temp/cas/casMainEdit.html=UTF-8
+encoding//WebContent/temp/cas/casNormal-cus-pop.html=UTF-8
+encoding//WebContent/temp/cas/casNormal.html=UTF-8
+encoding//WebContent/temp/cas/casNormalEdit.html=UTF-8
+encoding//WebContent/temp/cas/casSpecial.html=UTF-8
+encoding//WebContent/temp/cas/cusMain-pop.html=UTF-8
+encoding//WebContent/temp/cont/contMain-Pop.html=UTF-8
+encoding//WebContent/temp/cont/contMain.html=UTF-8
 encoding//WebContent/temp/cus/cusMain.html=UTF-8
 encoding//WebContent/temp/layout-1.html=UTF-8
 encoding//WebContent/temp/layout-2.html=UTF-8

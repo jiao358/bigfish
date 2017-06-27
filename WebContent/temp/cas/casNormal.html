@@ -1,0 +1,414 @@
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false">
+  
+	<div id="cas-main-normal-toolbar" >
+	   <a href="#"  id="add"  class="easyui-linkbutton" iconCls="icon-add" onclick="openAddCasMainNormal()" plain="true">添加学生</a>
+                <a href="#"  id="update"  class="easyui-linkbutton" iconCls="icon-edit" onclick="openEditCasMainNormal()" plain="true">管理学生</a>
+                <a href="#"  id="refresh" class="easyui-linkbutton" iconCls="icon-reload" onclick="reloadCasMainNormal('temp/sys/CasMainNormal.html')" plain="true">刷新</a>
+                    <div class="wu-toolbar-search">
+                 <label>班级编号：</label><input id="classIdSearchCasNormal" class="wu-text" style="width:100px">
+                <label>班级名称：</label><input id="classNameSearchCasNormal" class="wu-text" style="width:100px">
+                <a id="searchCasMainNormal"  onclick="searchCasMainNormal()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+            </div>
+	</div>
+
+ 	 <table id="cas-main-normal-datagrid"	iconCls="icon-save"	toolbar="#cas-main-normal-toolbar">
+	</table>
+
+    </div>
+<!-- dialog  -->
+    
+    <div id="cas-main-normal-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
+	<form id="cas-main-normal-form" method="post" accept-charset="UTF-8">
+    </form>
+	</div>
+    
+    
+     <div id="cas-normal-cus-pop-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;"></div>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+	
+//初始化 select 标签，和dialog
+	$(function(){
+		//关闭多余的 dialog
+		deleteDialogCasNormal();
+		var array = ['#academicYear','#academicQuarter','#schoolArea'];
+		
+		loadSelectCasMain(array);
+		datagridLoadCasMain();
+		
+	})
+	
+
+	function jsonReturn(data){
+		var json =jQuery.parseJSON(data);
+		if(json.state=='1'){
+			$.messager.alert('信息提示','提交成功！','info');
+			$('#cas-main-normal-dialog').dialog('close');
+		}
+		else
+		{
+			var message= json.message;
+			if(message=='' || message==null){
+			$.messager.alert('信息提示','提交失败！',json.message);
+			}else{
+				$.messager.alert('信息提示',json.message,json.message);
+			}
+		}
+	}
+	function searchCasMainNormal(){
+		datagridLoadCasMain();
+	}
+	function reloadCasMainNormal(url){
+		 var tabPanel = parent.$('#wu-tabs');
+		 var tab = tabPanel.tabs('getSelected');
+		
+			if (tab){
+				var index = tabPanel.tabs('getTabIndex', tab);
+				    tab.panel('refresh');
+			}
+			deleteDialogCasNormal();
+	}
+	
+	function deleteDialogCasNormal(){
+		//alert($('div#sys-dialog').length);
+		var length =$('div#cas-main-normal-dialog').length;
+		$('div#cas-main-normal-dialog').each(function(index,obj){
+			if(index==length-1) return false;
+			$(obj).remove();
+		});
+	}
+
+	
+
+	
+	function openEditCasMainNormal(){
+		
+		var item = $('#cas-main-normal-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+            $.messager.alert('提示', '请选择一条记录！', 'warning');  
+            return ;
+        }  
+		 currentClassId= item[0].id;
+	
+		
+		//esteDialogBindCasMain('#cas-main-normal-dialog','用户修改','800','auto',editCasMain);
+		$('#cas-main-normal-dialog').dialog({
+			closed: false,
+			modal:true,
+	        title: "学生管理",
+	        fit:true,
+	        href:'temp/cas/casNormalEdit.html',
+	        buttons: [{
+	            text: '确定',
+	            iconCls: 'icon-ok',
+	            handler:editCasMain
+	        }, {
+	            text: '取消',
+	            iconCls: 'icon-cancel',
+	            handler: function () {
+	                $('#cas-main-normal-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+		
+	}
+	
+	function editCasMain(){
+		var flag=false;
+		$('input[dataCheck]').each(function(name,obj){
+			var tmp =$(obj).val();
+			if(tmp==null || tmp==''){
+				$.messager.alert('信息提示','请检查提交信息格式'+':'+$(obj).attr('name'),'');
+				flag =true;
+				return false;
+			}
+		});
+		
+		if(flag)
+			return;
+		
+		
+		var leng=$('input[name="startSchedule"]:checked').length;
+		if(leng==null||leng==0){
+			$.messager.alert('信息提示','请选择开课周次','');
+			return  ;
+		}
+		var schedule ='';
+		$('input[name="startSchedule"]:checked').each(function(idx,obj){
+			schedule  = $(obj).val()+","+schedule;
+			
+		});
+	
+		$('input#startScheduleBox').val(schedule);
+		$('#cas-main-normal-form').form('submit', {
+			url:'/bigfish/editCasMain.do',
+			async:false,
+			success:function(data){
+					jsonReturn(data);
+					  $('#cas-main-normal-dialog').dialog('close');   
+					  datagridLoadCasMain();
+			}
+		});
+	}
+	
+	/**
+	*  载入数据
+	*/
+	function datagridLoadCasMain(){
+	
+		var nameSearch= $('input#classNameSearchCasNormal').val();
+		var idSearch= $('input#classIdSearchCasNormal').val();
+		
+		//0 未开课
+		var require={"casId":idSearch,"casName":nameSearch,"casState":0};
+		
+		$('#cas-main-normal-datagrid').datagrid({
+			url:'/bigfish/rCasMain.do',
+		//	url:'temp/datagrid.php',
+			method: 'GET',
+			pageList: [5,20],
+			//loadFilter:pagerFilter,	
+			queryParams:require ,
+			rownumbers:true,
+			singleSelect:false,
+			pageSize:5,           
+			pagination:true,
+			multiSort:true,
+			fitColumns:true,
+			fit:true,
+			columns:[[
+				{ checkbox:true},
+				{ field:'id',title:'班级编号',width:100,sortable:true},
+				{ field:'className',title:'班级名称',width:100,sortable:true},
+				{ field:'academicYearStr',title:'学年',width:180,sortable:true},
+				{ field:'academicQuarterStr',title:'季度',width:100,sortable:true},
+				{ field:'teacherName',title:'班主任',width:100,sortable:true},
+				{ field:'currentMember',title:'当前人数',width:100,sortable:true},
+				{ field:'isFull',title:'是否满员',width:100,sortable:true},
+				{ field:'classStateStr',title:'班级状态',width:100,sortable:true},
+				
+			]]
+		});
+	
+	
+	}
+	
+	
+	
+	var currentClassId;
+	function openAddCasMainNormal(){
+		
+		var item = $('#cas-main-normal-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+            $.messager.alert('提示', '请选择一条记录！', 'warning');  
+            return ;
+        }  
+		 currentClassId = item[0].id;
+		
+			$('#cas-normal-cus-pop-dialog').dialog({
+				closed: false,
+				modal:true,
+		        title: "选择学生",
+		        fit:true,
+		        href:'temp/cas/casNormal-cus-pop.html',
+		        buttons: [{
+		            text: '确定',
+		            iconCls: 'icon-ok',
+		            handler:confirmCasNormalCasPop
+		        }, {
+		            text: '取消',
+		            iconCls: 'icon-cancel',
+		            handler: function () {
+		                $('#cas-normal-cus-pop-dialog').dialog('close');                    
+		            }
+		        }]
+		    });
+	}
+	
+	function confirmCasNormalCasPop(){
+		var item = $('#cas-normal-cus-pop-datagrid').datagrid('getSelections');
+		if (item.length >1 ||item.length ==0) {  
+			alert('请选择一条记录!');
+			return;
+		}
+		var id= item[0].id;
+		var name=item[0].name;
+		
+		 var options = {
+		            url: '/bigfish/addCasNormal.do',
+		            type: 'post',
+		            dataType: 'json',
+		            data: {
+					　　　　"id": id,
+					    	"cid":currentClassId
+					　　},
+					async:false,
+		            success: function (data) {
+		            	var json =jQuery.parseJSON(data);
+						if(json.state==1){
+							$.messager.alert('信息提示','签订合同成功','');
+						}else{
+							$.messager.alert('信息提示','签订合同失败','');
+						}
+						reloadContMain('');
+						
+		            }
+		        };
+			 	$.ajax(options); 
+		
+		
+		
+//		$('#cas-normal-cus-pop-dialog').dialog('close');      
+	}
+	
+	
+	function addCasMain(){
+		
+		
+	}
+	
+	function esteDialogBindCasMain(diaNode,title,width,height,successbind){
+		$(diaNode).dialog({
+			closed: false,
+			modal:true,
+	        title: title,
+	        width: width, 
+	       
+	        height: height,
+	        buttons: [{
+	            text: '确定',
+	            iconCls: 'icon-ok',
+	            handler: successbind
+	        }, {
+	            text: '取消',
+	            iconCls: 'icon-cancel',
+	            handler: function () {
+	                $('#cas-main-normal-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+	}
+	var doubleCheckButton = 0;
+	function addCasMain(){
+		//alert($("#sysselect").val());
+		doubleCheckButton++;
+		if(doubleCheckButton>1){
+			$.messager.alert('信息提示','小哥，你点的太快了','');	
+			return;
+		}
+		var leng=$('input[name="startSchedule"]:checked').length;
+		if(leng==null||leng==0){
+			$.messager.alert('信息提示','请选择开课周次','');
+			doubleCheckButton=0
+			return  ;
+		}
+		var schedule ='';
+		$('input[name="startSchedule"]:checked').each(function(idx,obj){
+			schedule  = $(obj).val()+","+schedule;
+			
+		});
+		
+		var flag =false;
+	 	$('input[dataCheck]').each(function(name,obj){
+			var tmp =$(obj).val();
+			if(tmp==null || tmp==''){
+				var xa = '#'+$(obj).attr('name')+'Req';
+				$(xa).show();
+				$.messager.alert('信息提示','请检查提交信息格式','');
+				flag=true;
+			
+				return false;
+			}
+		});
+	 	
+	 	
+		if(flag){
+			doubleCheckButton=0;
+			return;
+		}
+		$('input#startScheduleBox').val(schedule);
+ 		$('#cas-main-normal-form').form('submit', {
+			url:'/bigfish/addCasMain.do',
+			async:false,
+			success:function(data){
+				jsonReturn(data);
+				datagridLoadCasMain();
+				doubleCheckButton=0;
+				$('#cas-main-normal-dialog').dialog('close');
+			}
+		});
+	}
+	
+	
+	function ableAll(array,flag){
+		$(array).each(function(idx,obj){
+			if(flag==true){
+				$(obj).combobox('enable');  
+			}else{
+				$(obj).combobox('disable');  
+			}
+		});
+	}
+
+	function ableAllJs(array,flag){
+		$(array).each(function(idx,obj){
+			if(flag==true){
+				$(obj).removeAttr("readonly");
+			}else{
+				$(obj).attr("readonly","readonly");
+			}
+		});
+	}
+
+	
+	function loadSelectCasMain(array){
+		
+		//alert($('#wu-form select').attr('dicType'));
+		$(array).each(function(idx,obj){
+			//alert(idx);
+			var dic=$(obj).attr('dicType');
+			
+			$(obj).combobox({
+				onSelect: function(param){
+				}
+			});
+
+			
+			  var options = {
+			            url: '/bigfish/rdic.do',
+			            type: 'get',
+			            dataType: 'json',
+			            data: {
+						　　　　"dicName": dic,
+						　　},
+						async:false,
+			            success: function (data) {
+			            //	alert(data);
+			            	var dataList=[];
+			            	//append("<option value='"+value+"'>"+text+"</option>");
+			            	$(data).each(function(dataidx,jsondata){
+			            		var dicValue=jsondata.dicValue;
+			            		var dicDes =jsondata.dicDesc;
+			            		dataList.push({"value":dicValue,"text":dicDes});
+			            		//$(obj).append("<option value='"+dicValue+"' >"+dicDes+"</option>");
+			            	});
+			            	 $(obj).combobox("loadData",dataList);
+			            	//alert(JSON.stringify(data));
+			            }
+			        };
+			  	
+			  
+			  	
+				 	$.ajax(options); 
+		});
+		
+	}
+
+</script>
