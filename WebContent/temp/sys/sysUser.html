@@ -146,7 +146,7 @@
 	function addsys(){
 		//alert($("#sysselect").val());
 		var flag =false;
-	 	$('input[dataCheck]').each(function(name,obj){
+	 	$('#sys-dialog input[dataCheck]').each(function(name,obj){
 			var tmp =$(obj).val();
 			if(tmp==null || tmp==''){
 				$.messager.alert('信息提示','请检查提交信息格式','');
@@ -247,24 +247,7 @@
 	*/
 	function openAddSys(){
 		$('#wu-form').form('clear');
-	/* 	$('#sys-dialog').dialog({
-			closed: false,
-			modal:true,
-            title: "添加用户",
-            width: '450',      
-            height: 'auto',
-            buttons: [{
-                text: '确定',
-                iconCls: 'icon-ok',
-                handler: addsys
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#sys-dialog').dialog('close');                    
-                }
-            }]
-        }); */
+
         esteDialogBind('#sys-dialog','添加用户','450','auto',addsys);
         
 		var row = $('#sys-user-datagrid').datagrid('getSelected');

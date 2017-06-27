@@ -47,7 +47,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<!-- <param-value>WEB-INF/crawler.xml</param-value> -->
-			<param-value>classpath:bigfish.xml</param-value>
+			<param-value>classpath:bigfish-mvc.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

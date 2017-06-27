@@ -2,28 +2,21 @@
 
     <div data-options="region:'center',border:false">
   
-	<div id="cas-normal-cus-pop" >
+	<div id="cas-special-cus-pop" >
 	
                     <div class="wu-toolbar-search">
-                 <label>用户编号：</label><input id="userIdPop-casNormal" class="wu-text" style="width:100px">
-                <label>用户名：</label><input id="userNamePop-casNormal" class="wu-text" style="width:100px">
-                <a id="searchcasnormalcuspop"  onclick="searchcasnormalcuspop()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+                 <label>用户编号：</label><input id="userIdPop-casSpecial" class="wu-text" style="width:100px">
+                <label>用户名：</label><input id="userNamePop-casSpecial" class="wu-text" style="width:100px">
+                <a id="searchcasSpecialcuspop"  onclick="searchcasSpecialcuspop()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
             </div>
 	</div>
 
- 	 <table id="cas-normal-cus-pop-datagrid"	iconCls="icon-save"	toolbar="#cas-normal-cus-pop">
+ 	 <table id="cas-special-cus-pop-datagrid"	iconCls="icon-save"	toolbar="#cas-special-cus-pop">
 	</table>
 
     </div>
 <!-- dialog  -->
-    
-    <div id="cas-main-edit-pop-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
-	<form id="cas-main-edit-pop-form" method="post" accept-charset="UTF-8">
-        <table >
-        </table>
-        <input type="text" name="id" class="wu-text"  hidden="true"/>
-    </form>
-</div>
+
     
 </div>
 
@@ -35,8 +28,7 @@
 //初始化 select 标签，和dialog
 	$(function(){
 		//关闭多余的 dialog
-		deleteDialogCasNormalCusPop();
-		datagridLoadCasNormalCusPop();
+		datagridLoadCasSpecialCusPop();
 		
 	})
 	
@@ -58,8 +50,8 @@
 			$.messager.alert('信息提示','提交失败！',json.message);
 		}
 	}
-	function searchcasnormalcuspop(){
-		datagridLoadCasNormalCusPop();
+	function searchcasSpecialcuspop(){
+		datagridLoadCasSpecialCusPop();
 	}
 	function reloadCusMain(url){
 		 var tabPanel = parent.$('#wu-tabs');
@@ -72,78 +64,12 @@
 			deleteDialogCasNormalCusPop();
 	}
 	
-	function deleteDialogCasNormalCusPop(){
-		//alert($('div#sys-dialog').length);
-		var length =$('div#cas-main-edit-pop-dialog').length;
-		$('div#cas-main-edit-pop-dialog').each(function(index,obj){
-			if(index==length-1) return false;
-			$(obj).remove();
-		});
-	}
-	function openViewCusMain(){
-		var item = $('#cas-normal-cus-pop-datagrid').datagrid('getSelections');
-		 if (item.length >1 ||item.length ==0) {  
-           $.messager.alert('提示', '请选择一条记录！', 'warning');  
-           return ;
-       }  
-		var sysId = item[0].id;
-		$('#cas-main-edit-pop-form').form('clear');
-		//alert(item.productid);return;
-		$.ajax({
-			url:'/bigfish/rcusmainedit.do',
-			   dataType: 'json',
-	            data: {
-				　　　　id: sysId,
-				　　},
-				async:false,
-			success:function(data){
-				var json =jQuery.parseJSON(data);
-				if(data==null){
-					$('#cas-main-edit-pop-dialog').dialog('close');	
-				}
-				else{
-					//绑定值
-					$('#cas-main-edit-pop-form').form('load', data)
-				}
-			}	
-		});
-		
-		//esteDialogBindCusMain('#cas-main-edit-pop-dialog','用户修改','800','auto',viewCus);
-		
-		$('#cas-main-edit-pop-dialog').dialog({
-			closed: false,
-			modal:true,
-	        title: '查询详情',
-	        width: 800, 
-	       
-	        height: 'auto',
-	        buttons: [{
-	            text: '关闭',
-	            iconCls: 'icon-ok',
-	            handler:  function () {
-	                $('#cas-main-edit-pop-dialog').dialog('close');                    
-	            }
-	        }]
-	    });
-		
-	/* 	$('#cas-main-edit-pop-dialog input').each(function(index,inputobj){
-			$(obj).attr('readonly', "readonly"); 
-		}); */
-
-
-	}
-	
-	/* function viewCus(){
-		  $('#cas-main-edit-pop-dialog').dialog('close');        
-	}
-	 */
-	
 	
 	
 	
 	function openEditCusMain(){
 		
-		var item = $('#cas-normal-cus-pop-datagrid').datagrid('getSelections');
+		var item = $('#cas-special-cus-pop-datagrid').datagrid('getSelections');
 		 if (item.length >1 ||item.length ==0) {  
             $.messager.alert('提示', '请选择一条记录！', 'warning');  
             return ;
@@ -200,14 +126,14 @@
 	/**
 	*  载入数据
 	*/
-	function datagridLoadCasNormalCusPop(){
+	function datagridLoadCasSpecialCusPop(){
 	
-		var name= $('input#userNamePop-casNormal').val();
-		var id= $('input#userIdPop-casNormal').val();
+		var name= $('input#userNamePop-casSpecial').val();
+		var id= $('input#userIdPop-casSpecial').val();
 		
 	var require={userName:name,"id":id,teacherPop: '1'};
 	
-	$('#cas-normal-cus-pop-datagrid').datagrid({
+	$('#cas-special-cus-pop-datagrid').datagrid({
 		url:'/bigfish/rCasNormalCasPop.do',
 	//	url:'temp/datagrid.php',
 		method: 'GET',

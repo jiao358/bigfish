@@ -38,10 +38,7 @@
 	$(function(){
 		//关闭多余的 dialog
 		deleteDialogCasNormal();
-		var array = ['#academicYear','#academicQuarter','#schoolArea'];
-		
-		loadSelectCasMain(array);
-		datagridLoadCasMain();
+		datagridLoadCasNormal();
 		
 	})
 	
@@ -63,7 +60,7 @@
 		}
 	}
 	function searchCasMainNormal(){
-		datagridLoadCasMain();
+		datagridLoadCasNormal();
 	}
 	function reloadCasMainNormal(url){
 		 var tabPanel = parent.$('#wu-tabs');
@@ -108,60 +105,18 @@
 	        buttons: [{
 	            text: '确定',
 	            iconCls: 'icon-ok',
-	            handler:editCasMain
-	        }, {
-	            text: '取消',
-	            iconCls: 'icon-cancel',
-	            handler: function () {
+	            handler:function () {
 	                $('#cas-main-normal-dialog').dialog('close');                    
 	            }
 	        }]
 	    });
 		
 	}
-	
-	function editCasMain(){
-		var flag=false;
-		$('input[dataCheck]').each(function(name,obj){
-			var tmp =$(obj).val();
-			if(tmp==null || tmp==''){
-				$.messager.alert('信息提示','请检查提交信息格式'+':'+$(obj).attr('name'),'');
-				flag =true;
-				return false;
-			}
-		});
-		
-		if(flag)
-			return;
-		
-		
-		var leng=$('input[name="startSchedule"]:checked').length;
-		if(leng==null||leng==0){
-			$.messager.alert('信息提示','请选择开课周次','');
-			return  ;
-		}
-		var schedule ='';
-		$('input[name="startSchedule"]:checked').each(function(idx,obj){
-			schedule  = $(obj).val()+","+schedule;
-			
-		});
-	
-		$('input#startScheduleBox').val(schedule);
-		$('#cas-main-normal-form').form('submit', {
-			url:'/bigfish/editCasMain.do',
-			async:false,
-			success:function(data){
-					jsonReturn(data);
-					  $('#cas-main-normal-dialog').dialog('close');   
-					  datagridLoadCasMain();
-			}
-		});
-	}
-	
+
 	/**
 	*  载入数据
 	*/
-	function datagridLoadCasMain(){
+	function datagridLoadCasNormal(){
 	
 		var nameSearch= $('input#classNameSearchCasNormal').val();
 		var idSearch= $('input#classIdSearchCasNormal').val();
@@ -238,27 +193,27 @@
 			alert('请选择一条记录!');
 			return;
 		}
-		var id= item[0].id;
-		var name=item[0].name;
-		
+		var id= item[0].customerId;
+		var contId= item[0].contractId;
+		//alert('custID:'+id+",and contId:"+contId+',classId:'+currentClassId);
 		 var options = {
 		            url: '/bigfish/addCasNormal.do',
 		            type: 'post',
 		            dataType: 'json',
 		            data: {
 					　　　　"id": id,
-					    	"cid":currentClassId
+					    	"cid":currentClassId,
+					    	"contractId":contId
 					　　},
 					async:false,
 		            success: function (data) {
 		            	var json =jQuery.parseJSON(data);
-						if(json.state==1){
-							$.messager.alert('信息提示','签订合同成功','');
+						if(data.state==1){
+							$.messager.alert('信息提示','学生报班成功','');
 						}else{
-							$.messager.alert('信息提示','签订合同失败','');
+							$.messager.alert('信息提示','学生报班失败'+data.message,'');
 						}
-						reloadContMain('');
-						
+						 $('#cas-normal-cus-pop-dialog').dialog('close');         
 		            }
 		        };
 			 	$.ajax(options); 
@@ -339,7 +294,7 @@
 			async:false,
 			success:function(data){
 				jsonReturn(data);
-				datagridLoadCasMain();
+				datagridLoadCasNormal();
 				doubleCheckButton=0;
 				$('#cas-main-normal-dialog').dialog('close');
 			}

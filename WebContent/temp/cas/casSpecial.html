@@ -2,216 +2,52 @@
 
     <div data-options="region:'center',border:false">
   
-	<div id="cas-main-toolbar" >
-	   <a href="#"  id="add"  class="easyui-linkbutton" iconCls="icon-add" onclick="openAddCasMain()" plain="true">添加</a>
-                <a href="#"  id="update"  class="easyui-linkbutton" iconCls="icon-edit" onclick="openEditCasMain()" plain="true">修改</a>
-                <a href="#"  id="del"  class="easyui-linkbutton" iconCls="icon-undo" onclick="removeCasMain()" plain="true">删除</a>
-                <a href="#"  id="view"  class="easyui-linkbutton" iconCls="icon-remove" onclick="openViewCasMain()" plain="true">查看</a>
-                <a href="#"  id="refresh" class="easyui-linkbutton" iconCls="icon-reload" onclick="reloadCasMain('temp/sys/CasMain.html')" plain="true">刷新</a>
+	<div id="cas-main-special-toolbar" >
+	   <a href="#"  id="add"  class="easyui-linkbutton" iconCls="icon-add" onclick="openAddCasMainSpecial()" plain="true">添加学生</a>
+                <a href="#"  id="update"  class="easyui-linkbutton" iconCls="icon-edit" onclick="openEditCasMainSpecial()" plain="true">管理学生</a>
+                <a href="#"  id="refresh" class="easyui-linkbutton" iconCls="icon-reload" onclick="reloadCasSpecial('temp/sys/CasSpecial.html')" plain="true">刷新</a>
                     <div class="wu-toolbar-search">
-                 <label>班级编号：</label><input id="classIdSearch" class="wu-text" style="width:100px">
-                <label>班级名称：</label><input id="classNameSearch" class="wu-text" style="width:100px">
-                 <label>班级状态：</label><select id="classStateSearch" class="easyui-combobox" panelHeight="auto" style="width:100px" name="sex" dicType="CLASS_STATE"  ></select>
-                <a id="searchCasMain"  onclick="searchCasMain()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+                 <label>班级编号：</label><input id="classIdSearchCasSpecial" class="wu-text" style="width:100px">
+                <label>班级名称：</label><input id="classNameSearchCasSpecial" class="wu-text" style="width:100px">
+                <a id="searchCasMainSpecial"  onclick="searchCasMainSpecial()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
             </div>
 	</div>
 
- 	 <table id="cas-main-datagrid"	iconCls="icon-save"	toolbar="#cas-main-toolbar">
+ 	 <table id="cas-main-special-datagrid"	iconCls="icon-save"	toolbar="#cas-main-special-toolbar">
 	</table>
 
     </div>
 <!-- dialog  -->
     
-    <div id="cas-main-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
-	<form id="cas-main-form" method="post" accept-charset="UTF-8">
-        <table >
-            <tr>
-                <td width="60" align="right">年度:</td>
-                <td><select id="academicYear" class="easyui-combobox" name='academicYear' panelHeight="auto" style="width:100px" name="sex" dicType="ACADMEIC_YEAR"   dataCheck='true'  ></select><span style="color:red" hidden="true">*</span></td>
-                <td width="60" align="right">班级名称:</td>
-          	 	 <td><input type="text" name="className" class="wu-text require"   dataCheck='true' /><span id='classNameReq'style="color:red" hidden="true">*</span></td>
-            </tr>
-              <tr>
-                
-                 <td width="60" align="right">季度:</td>
-                <td><select id="academicQuarter" class="easyui-combobox" name='academicQuarter' panelHeight="auto" style="width:100px" name="sex" dicType="ACADMEIC_QUARTER"   dataCheck='true'  ></select></td>
-                 <td width="60" align="right">开课日期:</td>
-          	 	 <td><input id= 'startTime' name="startTime" class="easyui-datebox" style="width:100px" ><span id='startTimeReq'style="color:red" hidden="true">*</span></td>
-            </tr>
-              <tr>
-          	 	 <td width="60" align="right">班主任:</td>
-                <td><input type="text" name="teacherName" id='teacherName' class="wu-text require"  style="width:120px" dataCheck='true' readonly="readonly" /><span id='teacherNameReq'style="color:red" hidden="true">*</span><a onclick="addTeacher()">添加教师</a>
-   </td>
-                <td width="60" align="right">助教:</td>
-                <td><input type="text" class="wu-text require" id="assTeacherName" name="assTeacherName" style="width:120px"  readonly="readonly" /><span id='assTeacherNameReq'style="color:red" hidden="true">*</span><a onclick="addAssTeacher()">添加教师</a></td>
-            </tr>
-             <tr>
-                <td width="60" align="right">课时数:</td>
-                <td><input type="text"  id='school' name="school" class="wu-text require"   dataCheck='true'  /><span id='schoolReq'style="color:red" hidden="true">*</span></td>
-                <td width="60" align="right">学校区域:</td>
-          	 	 <td><select id="schoolArea"  name="schoolArea" class="easyui-combobox" panelHeight="auto" style="width:100px" name="sex" dicType="SCHOOL_AREA"   dataCheck='true'  ></select></td>
-            </tr>
-            
-              <tr>
-          	 	 <td width="60" align="right">满班人数:</td>
-                <td><input type="text" name="classMember" class="wu-text require"  style="width:120px" dataCheck='true' /><span id='classMemberReq'style="color:red" hidden="true">*</span></td>
-                <td width="60" align="right">课程单价:</td>
-                <td><input type="text" id="classRate" name="classRate" class="wu-text require"   dataCheck='true'  /><span id='classRateReq'style="color:red" hidden="true">*</span></td>
-            </tr>
-           
-            <tr>
-                <td width="60" align="right">开班时间:</td>
-                <td><input type="text" name="startHour" class="wu-text require"  style="width:40px" dataCheck='true' />小时<span id='startHourReq'style="color:red" hidden="true">*</span>
-                <input type="text" name="startMin" class="wu-text require"  style="width:40px" dataCheck='true' />分钟<span id='startMinReq'style="color:red" hidden="true">*</span></td>
-            </tr>
-       
-             <tr>
-                <td valign="top" align="right">开课周次:</td>
-                <td width="180px" colspan=2>
-                <input type="checkbox" name="startSchedule" value="1"  class="combobox-checkbox"  />周一
-                <input type="checkbox" name="startSchedule" value="2"  class="combobox-checkbox"  />周二
-                <input type="checkbox" name="startSchedule" value="3" class="combobox-checkbox" />周三
-                <input type="checkbox" name="startSchedule" value="4"  class="combobox-checkbox" />周四
-                <input type="checkbox" name="startSchedule" value="5" class="combobox-checkbox"  />周五
-                <input type="checkbox" name="startSchedule" value="6"  class="combobox-checkbox" />周六
-                <input type="checkbox" name="startSchedule" value="7"  class="combobox-checkbox" />周日
-                </td>
-            </tr>
-        </table>
-           <input type="text"  name="id" class="wu-text"  hidden="true"/>  
-        <input type="text" id="teacherId" name="teacherId" class="wu-text"  hidden="true"/>
-                        <input type="text" name="assTeacherId" id='assTeacherId' class="wu-text"  hidden="true"/>
-                            <input type="text" name="startScheduleBox" id='startScheduleBox' hidden="true"/>
+    <div id="cas-main-special-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;">
+	<form id="cas-main-special-form" method="post" accept-charset="UTF-8">
     </form>
-</div>
+	</div>
     
     
-     <div id="cas-main-teacher-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;"></div>
+     <div id="cas-special-cus-pop-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;"></div>
 </div>
 
 
 
 <script type="text/javascript">
 
-	function addAssTeacher(){
-		$('#cas-main-teacher-dialog').dialog({
-			closed: false,
-			modal:true,
-	        title: "选择教师",
-	        fit:true,
-	        href:'temp/cas/cusMain-pop.html',
-	        buttons: [{
-	            text: '确定',
-	            iconCls: 'icon-ok',
-	            handler:cascuspop2
-	        }, {
-	            text: '取消',
-	            iconCls: 'icon-cancel',
-	            handler: function () {
-	                $('#cas-main-teacher-dialog').dialog('close');                    
-	            }
-	        }]
-	    });
-	}
+
 	
-	function cascuspop2(){
-		var item = $('#cus-main-pop-datagrid').datagrid('getSelections');
-		if (item.length >1 ||item.length ==0) {  
-			alert('请选择一条记录!');
-			return;
-		}
-		var id= item[0].id;
-		var name=item[0].userName;
-		
-		$('#assTeacherName').val(name);
-		$('#assTeacherId').val(id);
-		$('#cas-main-teacher-dialog').dialog('close');      
-	}
-	function addTeacher(){
-	
-		$('#cas-main-teacher-dialog').dialog({
-			closed: false,
-			modal:true,
-	        title: "选择教师",
-	        fit:true,
-	        queryParams: { teacherPop: 1 },
-	        href:'temp/cas/cusMain-pop.html',
-	        buttons: [{
-	            text: '确定',
-	            iconCls: 'icon-ok',
-	            handler:cascuspop
-	        }, {
-	            text: '取消',
-	            iconCls: 'icon-cancel',
-	            handler: function () {
-	                $('#cas-main-teacher-dialog').dialog('close');                    
-	            }
-	        }]
-	    });
-	}
-	function cascuspop(){
-		var item = $('#cus-main-pop-datagrid').datagrid('getSelections');
-		if (item.length >1 ||item.length ==0) {  
-			alert('请选择一条记录!');
-			return;
-		}
-		var id= item[0].id;
-		var name=item[0].userName;
-		
-		$('#teacherName').val(name);
-		$('#teacherId').val(id);
-		$('#cas-main-teacher-dialog').dialog('close');      
-	}
 //初始化 select 标签，和dialog
 	$(function(){
 		//关闭多余的 dialog
-		deleteDialogCasMain();
-		var array = ['#classStateSearch','#academicYear','#academicQuarter','#schoolArea'];
-		
-		loadSelectCasMain(array);
-		datagridLoadCasMain();
+		deleteDialogCasSpecial();
+		datagridLoadCasSpecial();
 		
 	})
 	
-	function removeCasMain(){
-		var item = $('#cas-main-datagrid').datagrid('getSelections');
-		 if (item.length >1 ||item.length ==0) {  
-            $.messager.alert('提示', '请选择一条记录！', 'warning');  
-            return ;
-        }  
-		var ids= item[0].id;
-	//	alert(ids);
-		$.messager.confirm('信息提示','确定要删除该记录？', function(result){
-			if(result){
-				/* var items = $('#sys-user-datagrid').datagrid('getSelections');
-				var ids = [];
-				$(items).each(function(){
-					ids.push(this.productid);	
-				}); */
-				//alert(ids);return;
-				
-				$.ajax({
-					url:'/bigfish/delCasMain.do',
-					data:{
-						id:ids,
-					},
-					dataType : "json",
-					type:'post',
-					success:function(data){
-						jsonReturn(data);
-						datagridLoadCasMain();
-					}	
-				});
-			}	
-		});
-	}
-	
-	
+
 	function jsonReturn(data){
 		var json =jQuery.parseJSON(data);
 		if(json.state=='1'){
 			$.messager.alert('信息提示','提交成功！','info');
-			$('#cas-main-dialog').dialog('close');
+			$('#cas-main-special-dialog').dialog('close');
 		}
 		else
 		{
@@ -223,10 +59,10 @@
 			}
 		}
 	}
-	function searchCasMain(){
-		datagridLoadCasMain();
+	function searchCasMainSpecial(){
+		datagridLoadCasSpecial();
 	}
-	function reloadCasMain(url){
+	function reloadCasSpecial(url){
 		 var tabPanel = parent.$('#wu-tabs');
 		 var tab = tabPanel.tabs('getSelected');
 		
@@ -234,171 +70,61 @@
 				var index = tabPanel.tabs('getTabIndex', tab);
 				    tab.panel('refresh');
 			}
-			deleteDialogCasMain();
+			deleteDialogCasSpecial();
 	}
 	
-	function deleteDialogCasMain(){
+	function deleteDialogCasSpecial(){
 		//alert($('div#sys-dialog').length);
-		var length =$('div#cas-main-dialog').length;
-		$('div#cas-main-dialog').each(function(index,obj){
+		var length =$('div#cas-main-special-dialog').length;
+		$('div#cas-main-special-dialog').each(function(index,obj){
 			if(index==length-1) return false;
 			$(obj).remove();
 		});
 	}
-	function openViewCasMain(){
-		var item = $('#cas-main-datagrid').datagrid('getSelections');
-		 if (item.length >1 ||item.length ==0) {  
-           $.messager.alert('提示', '请选择一条记录！', 'warning');  
-           return ;
-       }  
-		var sysId = item[0].id;
-		$('#cas-main-form').form('clear');
-		//alert(item.productid);return;
-		var array=['#academicYear','#academicQuarter','#startTime'];
-        ableAll(array,true);
-        array=['#school','#classRate'];
-        ableAllJs(array,true);
-		$.ajax({
-			url:'/bigfish/rCasMainEdit.do',
-			   dataType: 'json',
-	            data: {
-				　　　　id: sysId,
-				　　},
-				async:false,
-			success:function(data){
-				var json =jQuery.parseJSON(data);
-				if(data==null){
-					$('#cas-main-dialog').dialog('close');	
-				}
-				else{
-					//绑定值
-					$('#cas-main-form').form('load', data)
-				}
-			}	
-		});
+
+	
+
+	
+	function openEditCasMainSpecial(){
 		
-		//esteDialogBindCasMain('#cas-main-dialog','用户修改','800','auto',viewCus);
-		
-		$('#cas-main-dialog').dialog({
-			closed: false,
-			modal:true,
-	        title: '查询详情',
-	        width: 800, 
-	       
-	        height: 'auto',
-	        buttons: [{
-	            text: '关闭',
-	            iconCls: 'icon-ok',
-	            handler:  function () {
-	                $('#cas-main-dialog').dialog('close');                    
-	            }
-	        }]
-	    });
-		
-		$('#cas-main-dialog input').each(function(index,inputobj){
-			$(obj).attr('readonly', "readonly"); 
-		});
-	}
-	
-	/* function viewCus(){
-		  $('#cas-main-dialog').dialog('close');        
-	}
-	 */
-	
-	
-	
-	
-	function openEditCasMain(){
-		
-		var item = $('#cas-main-datagrid').datagrid('getSelections');
+		var item = $('#cas-main-special-datagrid').datagrid('getSelections');
 		 if (item.length >1 ||item.length ==0) {  
             $.messager.alert('提示', '请选择一条记录！', 'warning');  
             return ;
         }  
-		var sysId = item[0].id;
+		 currentClassId= item[0].id;
 	
 		
-		esteDialogBindCasMain('#cas-main-dialog','用户修改','800','auto',editCasMain);
-		
-		$('#cas-main-form').form('clear');
-		   
-		
-		$.ajax({
-			url:'/bigfish/rCasMainEdit.do',
-			   dataType: 'json',
-	            data: {
-				　　　　id: sysId,
-				　　},
-				async:false,
-			success:function(data){
-				var json =jQuery.parseJSON(data);
-				if(data==null){
-					$('#cas-main-dialog').dialog('close');	
-				}
-				else{
-					//绑定值
-					$('#cas-main-form').form('load', data);
-					var array=['#academicYear','#academicQuarter','#startTime'];
-			        ableAll(array,false);
-			        array=['#school','#classRate'];
-			        ableAllJs(array,false);
-				}
-			}	
-		});
+		//esteDialogBindCasMain('#cas-main-special-dialog','用户修改','800','auto',editCasMain);
+		$('#cas-main-special-dialog').dialog({
+			closed: false,
+			modal:true,
+	        title: "学生管理",
+	        fit:true,
+	        href:'temp/cas/casSpecialEdit.html',
+	        buttons: [{
+	            text: '确定',
+	            iconCls: 'icon-ok',
+	            handler:function () {
+	                $('#cas-main-special-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
 		
 	}
-	
-	function editCasMain(){
-		var flag=false;
-		$('input[dataCheck]').each(function(name,obj){
-			var tmp =$(obj).val();
-			if(tmp==null || tmp==''){
-				$.messager.alert('信息提示','请检查提交信息格式'+':'+$(obj).attr('name'),'');
-				flag =true;
-				return false;
-			}
-		});
-		
-		if(flag)
-			return;
-		
-		
-		var leng=$('input[name="startSchedule"]:checked').length;
-		if(leng==null||leng==0){
-			$.messager.alert('信息提示','请选择开课周次','');
-			return  ;
-		}
-		var schedule ='';
-		$('input[name="startSchedule"]:checked').each(function(idx,obj){
-			schedule  = $(obj).val()+","+schedule;
-			
-		});
-	
-		$('input#startScheduleBox').val(schedule);
-		$('#cas-main-form').form('submit', {
-			url:'/bigfish/editCasMain.do',
-			async:false,
-			success:function(data){
-					jsonReturn(data);
-					  $('#cas-main-dialog').dialog('close');   
-					  datagridLoadCasMain();
-			}
-		});
-	}
-	
+
 	/**
 	*  载入数据
 	*/
-	function datagridLoadCasMain(){
+	function datagridLoadCasSpecial(){
 	
-		var nameSearch= $('input#classNameSearch').val();
-		var idSearch= $('input#classIdSearch').val();
-		var stateSearch = $('select#classStateSearch').combobox('getValue');
+		var nameSearch= $('input#classNameSearchCasSpecial').val();
+		var idSearch= $('input#classIdSearchCasSpecial').val();
 		
+		//0 未开课
+		var require={"casId":idSearch,"casName":nameSearch,"casState":1};
 		
-		var require={"casId":idSearch,"casName":nameSearch,"casState":stateSearch};
-		
-		$('#cas-main-datagrid').datagrid({
+		$('#cas-main-special-datagrid').datagrid({
 			url:'/bigfish/rCasMain.do',
 		//	url:'temp/datagrid.php',
 			method: 'GET',
@@ -419,6 +145,7 @@
 				{ field:'academicYearStr',title:'学年',width:180,sortable:true},
 				{ field:'academicQuarterStr',title:'季度',width:100,sortable:true},
 				{ field:'teacherName',title:'班主任',width:100,sortable:true},
+				{ field:'currentMember',title:'当前人数',width:100,sortable:true},
 				{ field:'isFull',title:'是否满员',width:100,sortable:true},
 				{ field:'classStateStr',title:'班级状态',width:100,sortable:true},
 				
@@ -428,14 +155,76 @@
 	
 	}
 	
-	function openAddCasMain(){
-		$('#cas-main-form').form('clear');
-        esteDialogBindCasMain('#cas-main-dialog','添加学生','800','auto',addCasMain);
-        var array=['#academicYear','#academicQuarter','#startTime'];
-        ableAll(array,true);
-        array=['#school','#classRate'];
-        ableAllJs(array,true);
+	
+	
+	var currentClassId;
+	function openAddCasMainSpecial(){
+		
+		var item = $('#cas-main-special-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+            $.messager.alert('提示', '请选择一条记录！', 'warning');  
+            return ;
+        }  
+		 currentClassId = item[0].id;
+		
+			$('#cas-special-cus-pop-dialog').dialog({
+				closed: false,
+				modal:true,
+		        title: "选择学生",
+		        fit:true,
+		        href:'temp/cas/casSpecial-cus-pop.html',
+		        buttons: [{
+		            text: '确定',
+		            iconCls: 'icon-ok',
+		            handler:confirmCasSpecialCasPop
+		        }, {
+		            text: '取消',
+		            iconCls: 'icon-cancel',
+		            handler: function () {
+		                $('#cas-special-cus-pop-dialog').dialog('close');                    
+		            }
+		        }]
+		    });
 	}
+	
+	function confirmCasSpecialCasPop(){
+		var item = $('#cas-special-cus-pop-datagrid').datagrid('getSelections');
+		if (item.length >1 ||item.length ==0) {  
+			alert('请选择一条记录!');
+			return;
+		}
+		var id= item[0].customerId;
+		var contId= item[0].contractId;
+		//alert('custID:'+id+",and contId:"+contId+',classId:'+currentClassId);
+		 var options = {
+		            url: '/bigfish/addCasNormal.do',
+		            type: 'post',
+		            dataType: 'json',
+		            data: {
+					　　　　"id": id,
+					    	"cid":currentClassId,
+					    	"contractId":contId
+					　　},
+					async:false,
+		            success: function (data) {
+		            	var json =jQuery.parseJSON(data);
+						if(data.state==1){
+							$.messager.alert('信息提示','学生报班成功','');
+						}else{
+							$.messager.alert('信息提示','学生报班失败'+data.message,'');
+						}
+						 $('#cas-special-cus-pop-dialog').dialog('close');         
+		            }
+		        };
+			 	$.ajax(options); 
+		
+		
+		
+//		$('#cas-special-cus-pop-dialog').dialog('close');      
+	}
+	
+	
+
 	
 	function esteDialogBindCasMain(diaNode,title,width,height,successbind){
 		$(diaNode).dialog({
@@ -453,60 +242,10 @@
 	            text: '取消',
 	            iconCls: 'icon-cancel',
 	            handler: function () {
-	                $('#cas-main-dialog').dialog('close');                    
+	                $('#cas-main-special-dialog').dialog('close');                    
 	            }
 	        }]
 	    });
-	}
-	var doubleCheckButton = 0;
-	function addCasMain(){
-		//alert($("#sysselect").val());
-		doubleCheckButton++;
-		if(doubleCheckButton>1){
-			$.messager.alert('信息提示','小哥，你点的太快了','');	
-			return;
-		}
-		var leng=$('input[name="startSchedule"]:checked').length;
-		if(leng==null||leng==0){
-			$.messager.alert('信息提示','请选择开课周次','');
-			doubleCheckButton=0
-			return  ;
-		}
-		var schedule ='';
-		$('input[name="startSchedule"]:checked').each(function(idx,obj){
-			schedule  = $(obj).val()+","+schedule;
-			
-		});
-		
-		var flag =false;
-	 	$('input[dataCheck]').each(function(name,obj){
-			var tmp =$(obj).val();
-			if(tmp==null || tmp==''){
-				var xa = '#'+$(obj).attr('name')+'Req';
-				$(xa).show();
-				$.messager.alert('信息提示','请检查提交信息格式','');
-				flag=true;
-			
-				return false;
-			}
-		});
-	 	
-	 	
-		if(flag){
-			doubleCheckButton=0;
-			return;
-		}
-		$('input#startScheduleBox').val(schedule);
- 		$('#cas-main-form').form('submit', {
-			url:'/bigfish/addCasMain.do',
-			async:false,
-			success:function(data){
-				jsonReturn(data);
-				datagridLoadCasMain();
-				doubleCheckButton=0;
-				$('#cas-main-dialog').dialog('close');
-			}
-		});
 	}
 	
 	
@@ -530,48 +269,6 @@
 		});
 	}
 
-	
-	function loadSelectCasMain(array){
-		
-		//alert($('#wu-form select').attr('dicType'));
-		$(array).each(function(idx,obj){
-			//alert(idx);
-			var dic=$(obj).attr('dicType');
-			
-			$(obj).combobox({
-				onSelect: function(param){
-				}
-			});
 
-			
-			  var options = {
-			            url: '/bigfish/rdic.do',
-			            type: 'get',
-			            dataType: 'json',
-			            data: {
-						　　　　"dicName": dic,
-						　　},
-						async:false,
-			            success: function (data) {
-			            //	alert(data);
-			            	var dataList=[];
-			            	//append("<option value='"+value+"'>"+text+"</option>");
-			            	$(data).each(function(dataidx,jsondata){
-			            		var dicValue=jsondata.dicValue;
-			            		var dicDes =jsondata.dicDesc;
-			            		dataList.push({"value":dicValue,"text":dicDes});
-			            		//$(obj).append("<option value='"+dicValue+"' >"+dicDes+"</option>");
-			            	});
-			            	 $(obj).combobox("loadData",dataList);
-			            	//alert(JSON.stringify(data));
-			            }
-			        };
-			  	
-			  
-			  	
-				 	$.ajax(options); 
-		});
-		
-	}
 
 </script>

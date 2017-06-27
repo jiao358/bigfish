@@ -11,13 +11,13 @@
     
 
     <!-- 用户表 -->
-     <table tableName="S_USER" domainObjectName="SUser">
+   <!--   <table tableName="S_USER" domainObjectName="SUser">
       <columnOverride column="FILMID" property="FILMID" />
     </table>
      <table tableName="S_ROLE" domainObjectName="SRole">
       <columnOverride column="FILMID" property="FILMID" />
     </table>
-    <!-- Modle -->
+    Modle
      <table tableName="S_MODULE" domainObjectName="SModule">
       <columnOverride column="FILMID" property="FILMID" />
     </table>
@@ -32,7 +32,7 @@
     </table>
     <table tableName="TRX_CONTRACT" domainObjectName="Contract">
       <columnOverride column="FILMID" property="FILMID" />
-    </table>
+    </table> -->
     <table tableName="TRX_CLASS_REL" domainObjectName="ClassRel">
       <columnOverride column="FILMID" property="FILMID" />
     </table>

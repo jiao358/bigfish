@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ext.core.domain.BaseSys;
 import ext.datasource.entity.ClassRel;
+import ext.datasource.entity.ClassRelExample;
 import ext.datasource.entity.Contract;
 import ext.datasource.entity.Customer;
 import ext.datasource.entity.SUser;
@@ -121,6 +122,14 @@ public class CServiceCenter {
 			int operatorId= basesys.getUserId();
 			int userId= Integer.parseInt(request.getParameter("id"));
 			int classId=  Integer.parseInt(request.getParameter("cid"));
+			int contractId= Integer.parseInt(request.getParameter("contractId"));
+			ClassRelExample classRelQuery = new ClassRelExample();
+			classRelQuery.createCriteria().andClassIdEqualTo(classId).andCustomerIdEqualTo(userId);
+			if(classRelDao.selectByExample(classRelQuery).size()>0){
+				Helper.errorRestful(response, "该学生已经报名!");
+				return ;
+			}
+			
 			
 			
 			
@@ -128,10 +137,8 @@ public class CServiceCenter {
 			int currentNum=trxClass.getCurrentMember();
 			int totalNum = trxClass.getClassMember();
 			if(currentNum==totalNum){
-				result.put("state", "0");
-				result.put("message", "添加失败，班级满员!");
-				Helper.restful(response, result);
-				return;
+				Helper.errorRestful(response, "添加失败，班级满员!");
+				return ;
 			}
 			
 			ClassRel classRel = new ClassRel();
@@ -139,13 +146,9 @@ public class CServiceCenter {
 			classRel.setCustomerId(userId);
 			classRel.setCreateOperator(operatorId);
 			classRel.setCreateDate(new Date());
-			int xc=classRelDao.insert(classRel);
-			if(xc!=1){
-				result.put("state", "0");
-				result.put("message", "添加失败，请检查信息填写");
-				Helper.restful(response, result);
-				return;
-			}
+			classRel.setContractId(contractId);
+			classRelDao.insert(classRel);
+		
 			trxClass.setCurrentMember(currentNum+1);
 			if(casDao.updateByPrimaryKey(trxClass)!=1){
 				result.put("state", "0");
@@ -245,6 +248,7 @@ public class CServiceCenter {
 			casMain.setStartSchedule(schedual.substring(0,schedual.length()-1));
 			casMain.setCurrentMember(0);
 			casMain.setClassState(0);
+			casMain.setCurrentSchool(0);
 			
 			int xc=casDao.insert(casMain);
 			if(xc!=1){

@@ -13,17 +13,14 @@
     	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
-
-	<bean id="cmbProperty" class="ext.util.helper.CmbProperty">
-		<property name="locations">
-			<list>
-				<value>classpath:config.properties</value>
-			</list>
-		</property>
-	</bean>
-
-	<import resource="databaseconfig.xml" />
-	
-
-	<bean id="batchTask" class="ext.core.batch.BatchTM"  init-method="startWork"></bean>
-</beans>
+        
+        
+       <mvc:annotation-driven />
+	<context:component-scan base-package="ext.core.controller"></context:component-scan> 
+        
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/easyui/" mapping="/easyui/**"></mvc:resources>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/temp/" mapping="/temp/**"></mvc:resources>
+        </beans>

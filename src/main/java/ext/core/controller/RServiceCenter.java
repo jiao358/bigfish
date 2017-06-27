@@ -1,5 +1,6 @@
 package ext.core.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
+import ext.core.domain.CasNormalPopFont;
 import ext.core.domain.Datagrid;
 import ext.core.domain.TrxClassFont;
+import ext.datasource.entity.ClassRel;
+import ext.datasource.entity.ClassRelExample;
+import ext.datasource.entity.ClassRelExample.Criteria;
 import ext.datasource.entity.Contract;
 import ext.datasource.entity.ContractExample;
 import ext.datasource.entity.Customer;
@@ -32,6 +37,7 @@ import ext.datasource.entity.SUser;
 import ext.datasource.entity.SUserExample;
 import ext.datasource.entity.TrxClass;
 import ext.datasource.entity.TrxClassExample;
+import ext.datasource.inf.ClassRelMapper;
 import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
@@ -53,6 +59,9 @@ public class RServiceCenter {
 	private CustomerMapper customerDao;
 	@Autowired
 	private ContractMapper contDao;
+	
+	@Autowired
+	private ClassRelMapper classRelDao;
 
 	@RequestMapping(value = "/rsysuser.do", method = RequestMethod.GET)
 	public void getCurrentCustomer(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -133,7 +142,9 @@ public class RServiceCenter {
 
 		Helper.restful(response, tf);
 	}
-
+	
+	
+	
 	@RequestMapping(value = "/rcusmain.do", method = RequestMethod.GET)
 	public void getCusMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -201,27 +212,36 @@ public class RServiceCenter {
 		PageHelper.startPage(Integer.valueOf(pageSize), Integer.valueOf(pageNum));
 		
 		
-		List<Map> list = (List<Map>) customerDao.selectCasNormalCasPop(require);
-
+		Page<Map> list = (Page<Map>) customerDao.selectCasNormalCasPop(require);
+		
 		
 		
 		
 		
 		logger.info("the pagesize=" + request.getParameter("page"));
-		/*long total = list.getTotal();
+		long total = list.getTotal();
 		dg.setTotal(total);
-
+		//{CONTRACT_BALANCE=0.00, CREATE_DATE=2017-06-22, CONTRACT_AMT=988.00, SEX=0, PHONE=18620402047, ID=2, NAME=CPU Interrupt, AGE=18}
 
 		Map<String, String> dic = getDic("SEX_CUSTOMER");
-
-		for (Customer user : list.getResult()) {
-			int utype = user.getSex();
-			user.setSexStr(dic.get(utype+"").toString());
+		List<CasNormalPopFont> resultList = new ArrayList();
+		for (Map user : list.getResult()) {
+			logger.info(user);
+			CasNormalPopFont domain= new CasNormalPopFont();
+			domain.setContractAmt(new BigDecimal(user.get("CONTRACT_AMT").toString()));
+			domain.setContractBalance(new BigDecimal(user.get("CONTRACT_BALANCE").toString()));
+			domain.setPhone(user.get("PHONE").toString());
+			domain.setContractId(Integer.valueOf(user.get("ID").toString()));
+			domain.setCustomerName(user.get("NAME").toString());
+			domain.setAge(Integer.valueOf(user.get("AGE").toString()));
+			domain.setSex(dic.get(user.get("SEX").toString()));
+			domain.setCustomerId(Integer.valueOf(user.get("CUSTOMERID").toString()));
+			resultList.add(domain);
 		}
 		
 		
-		dg.setRows(list.getResult());
-*/
+		dg.setRows(resultList);
+
 		Helper.restful(response, dg);
 	}
 
@@ -296,59 +316,48 @@ public class RServiceCenter {
 		
 		String casId = request.getParameter("casId");
 		String casName = request.getParameter("casName");
-		String casState = request.getParameter("casState");
-		
-		
+		String cusId = request.getParameter("cusId");
 		Datagrid dg = new Datagrid();
-		TrxClassExample casQuery = new TrxClassExample();
-		casQuery.setOrderByClause("ID ASC");
+		
+		
+		ClassRelExample classRelQuery = new ClassRelExample();
+		classRelQuery.setOrderByClause("ID ASC");
+		
+		Criteria criteria=classRelQuery.createCriteria();
 
-		if (!"".equals(casId)) {
-			casQuery.createCriteria().andIdEqualTo(Integer.valueOf(casId));
+		if (cusId!=null&&!"".equals(cusId)) {
+			criteria.andCustomerIdEqualTo(Integer.valueOf(cusId));
 		}
-		if (!"".equals(casName.trim())) {
-			casQuery.createCriteria().andClassNameEqualTo(casName);
-		}
-		if (casState != null && !"".equals(casState.trim())) {
-			casQuery.createCriteria().andClassStateEqualTo(Integer.valueOf(casState));
-		}
-
+		criteria.andClassIdEqualTo(Integer.valueOf(casId));
+		
+		
 		PageHelper.startPage(Integer.valueOf(pageSize), Integer.valueOf(pageNum));
-		Page<TrxClass> list = (Page<TrxClass>) casDao.selectByExample(casQuery);
+		Page<ClassRel> list = (Page<ClassRel>) classRelDao.selectByExample(classRelQuery);
 
 		long total = list.getTotal();
 		dg.setTotal(total);
 
-		Map<String, String> year = getDic("ACADMEIC_YEAR");
-		Map<String, String> quarter = getDic("ACADMEIC_QUARTER");
-		Map<String, String> stateDic = getDic("CLASS_STATE");
-		List result = new ArrayList();
-		for (TrxClass obj : list) {
-			TrxClassFont tf = new TrxClassFont();
-			BeanUtils.copyProperties(obj, tf);
-			int teacherId = obj.getTeacherId();
-			Integer assTeacher = obj.getAssTeacherId();
-			tf.setTeacherName(sUser.selectByPrimaryKey(teacherId).getUserName());
-			if (assTeacher != null)
-				tf.setAssTeacherName(sUser.selectByPrimaryKey(assTeacher).getUserName());
-			tf.setAcademicYearStr(year.get(tf.getAcademicYear().intValue() + ""));
-			tf.setAcademicQuarterStr(quarter.get(tf.getAcademicQuarter().intValue() + ""));
-			tf.setClassStateStr(stateDic.get(tf.getClassState() + ""));
-			int current = tf.getCurrentMember();
-			int totalMember = tf.getClassMember();
-			if (totalMember > current) {
-				tf.setIsFull("未满员");
-			} else {
-				tf.setIsFull("满员");
-			}
-			result.add(tf);
-		}
 
-		/*
-		 * for(SUser user:list.getResult()){ int utype=user.getUserType();
-		 * user.setUserTypeStr(dic.get(utype+"")); }
-		 */
-		dg.setRows(result);
+		Map<String, String> dic = getDic("SEX_CUSTOMER");
+		List<CasNormalPopFont> resultList = new ArrayList();
+		for (ClassRel classRel : list.getResult()) {
+			CasNormalPopFont domain  = new CasNormalPopFont();
+			TrxClass trxClass  = casDao.selectByPrimaryKey(classRel.getClassId());
+			Customer customer = customerDao.selectByPrimaryKey(classRel.getCustomerId());
+			domain.setCustomerId(classRel.getCustomerId());
+			domain.setCustomerName(customer.getName());
+			domain.setAge(customer.getAge());
+			domain.setSex(dic.get(customer.getSex()+""));
+			domain.setPhone(customer.getPhone());
+			Contract cont = contDao.selectByPrimaryKey(classRel.getContractId());
+			domain.setContractAmt(cont.getContractAmt());
+			domain.setContractId(cont.getId());
+			domain.setContractBalance(cont.getContractBalance());
+			resultList.add(domain);
+		}
+		
+		dg.setRows(resultList);
+		
 
 		Helper.restful(response, dg);
 	}

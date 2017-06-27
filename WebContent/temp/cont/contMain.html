@@ -65,12 +65,12 @@
 		var state= item[0].contractState;
 		var contAmt = item[0].contractAmt;
 		var currentAmt = item[0].contractBalance;
-		if(state!=0){
+		if(state!=1){
 			  $.messager.alert('提示', '该合同不具备结清条件', 'warning');  
 			  return;
 		}
 		
-		$.messager.confirm('信息提示','确定要签订该合同？', function(result){
+		$.messager.confirm('信息提示','确定要结清该合同？', function(result){
 			if(result){
 				  var options = {
 				            url: '/bigfish/editContMain.do',

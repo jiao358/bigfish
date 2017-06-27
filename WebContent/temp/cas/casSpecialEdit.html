@@ -1,0 +1,197 @@
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false">
+  
+	<div id="cas-special-edit-pop" >
+	
+                    <div class="wu-toolbar-search">
+                 <label>用户编号：</label><input id="userIdcasSpecialEdit" class="wu-text" style="width:100px">
+                <a id="searchcasSpecialeditpop"  onclick="searchcasSpecialeditpop()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+                 <a href="#"  id="del"  class="easyui-linkbutton" iconCls="icon-undo" onclick="removeCasSpecialEdit()" plain="true">删除</a>
+            </div>
+	</div>
+
+ 	 <table id="cas-special-edit-pop-datagrid"	iconCls="icon-save"	toolbar="#cas-special-edit-pop">
+	</table>
+
+    </div>
+<!-- dialog  -->
+    
+</div>
+
+
+
+<script type="text/javascript">
+
+
+//初始化 select 标签，和dialog
+	$(function(){
+		//关闭多余的 dialog
+		datagridLoadCasNormalEditPop();
+		
+	})
+	
+	
+	
+	function removeCasSpecialEdit(){
+	
+	
+		var item = $('#cas-special-edit-pop-datagrid').datagrid('getSelections');
+		 if (item.length >1 ||item.length ==0) {  
+           $.messager.alert('提示', '请选择一条记录！', 'warning');  
+           return ;
+       }  
+		var id= item[0].customerId;
+		currentClassId;
+	//	alert(ids);
+		$.messager.confirm('信息提示','确定要删除该学生？', function(result){
+			if(result){
+				$.ajax({
+					url:'/bigfish/delCasNormal.do',
+					data:{
+						cusId:id,
+						casId:currentClassId
+					},
+					dataType : "json",
+					type:'post',
+					success:function(data){
+						jsonReturn(data);
+						datagridLoadCasNormalEditPop();
+					}	
+				});
+			}	
+		});
+	
+	
+	
+	}
+	
+	
+	
+	
+	function jsonReturn(data){
+		var json =jQuery.parseJSON(data);
+		if(data.state=='1'){
+			$.messager.alert('信息提示','提交成功！','info');
+			$('#cas-main-edit-pop-dialog').dialog('close');
+		}
+		else
+		{
+			$.messager.alert('信息提示','提交失败！',json.message);
+		}
+	}
+	function searchcasSpecialeditpop(){
+		datagridLoadCasNormalEditPop();
+	}
+
+
+	
+	
+	/**
+	*  载入数据
+	*/
+	function datagridLoadCasNormalEditPop(){
+	
+		var id= $('input#userIdcasSpecialEdit').val();
+	var require={cusId:id,casId:currentClassId};
+	
+	$('#cas-special-edit-pop-datagrid').datagrid({
+		url:'/bigfish/rCasNormalEdit.do',
+		method: 'GET',
+		pageList: [5,20],
+		queryParams:require ,
+		rownumbers:true,
+		singleSelect:false,
+		pageSize:20,           
+		pagination:true,
+		multiSort:true,
+		fitColumns:true,
+		fit:true,
+		columns:[[
+			{ checkbox:true},
+			{ field:'customerId',title:'客户编号',width:100,sortable:true},
+			{ field:'customerName',title:'客户名称',width:100,sortable:true},
+			{ field:'sex',title:'性别',width:180,sortable:true},
+			{ field:'age',title:'年龄',width:100,sortable:true},
+			{ field:'phone',title:'联系电话',width:100,sortable:true},
+			{ field:'contractAmt',title:'合同金额',width:100,sortable:true},
+			{ field:'contractBalance',title:'占用金额',width:100,sortable:true},
+			{ field:'contractId',title:'合同编号',width:100,sortable:true}
+			
+		]]
+	});
+	
+	
+	}
+	
+
+	
+	function esteDialogBindCusMain(diaNode,title,width,height,successbind){
+		$(diaNode).dialog({
+			closed: false,
+			modal:true,
+	        title: title,
+	        width: width, 
+	       
+	        height: height,
+	        buttons: [{
+	            text: '确定',
+	            iconCls: 'icon-ok',
+	            handler: successbind
+	        }, {
+	            text: '取消',
+	            iconCls: 'icon-cancel',
+	            handler: function () {
+	                $('#cas-main-edit-pop-dialog').dialog('close');                    
+	            }
+	        }]
+	    });
+	}
+	
+
+
+	
+	function loadSelectCasMainEditPop(array){
+		
+		//alert($('#wu-form select').attr('dicType'));
+		$(array).each(function(idx,obj){
+			//alert(idx);
+			var dic=$(obj).attr('dicType');
+			
+			$(obj).combobox({
+				onSelect: function(param){
+				}
+			});
+
+			
+			  var options = {
+			            url: '/bigfish/rdic.do',
+			            type: 'get',
+			            dataType: 'json',
+			            data: {
+						　　　　"dicName": dic,
+						　　},
+						async:false,
+			            success: function (data) {
+			            //	alert(data);
+			            	var dataList=[];
+			            	//append("<option value='"+value+"'>"+text+"</option>");
+			            	$(data).each(function(dataidx,jsondata){
+			            		var dicValue=jsondata.dicValue;
+			            		var dicDes =jsondata.dicDesc;
+			            		dataList.push({"value":dicValue,"text":dicDes});
+			            		//$(obj).append("<option value='"+dicValue+"' >"+dicDes+"</option>");
+			            	});
+			            	 $(obj).combobox("loadData",dataList);
+			            	//alert(JSON.stringify(data));
+			            }
+			        };
+			  	
+			  
+			  	
+				 	$.ajax(options); 
+		});
+		
+	}
+
+</script>

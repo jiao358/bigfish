@@ -92,6 +92,21 @@ public class Helper {
 		logger.info("the message is "+ json);
 	}
 	
+	
+	public static void errorRestful(HttpServletResponse  response , String message) throws IOException{
+		ObjectMapper mapper = new ObjectMapper();
+		response.setHeader("Context-Type", "application/json;charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Map result = initResponse();
+		result.put("state", 0);
+		result.put("message", message);
+		PrintWriter pw  = response.getWriter();
+		String json = mapper.writeValueAsString(result);
+		pw.println(json);
+		pw.flush();
+		logger.info("the error message is "+ json);
+	}
+	
 	public static Map initResponse(){
 		if(IP==null)
 			ipinit();
