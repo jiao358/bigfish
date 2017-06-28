@@ -8,11 +8,25 @@ public class StartClassMessage {
 	private int min;
 	private String dayWeek;
 	
-	private String group;
-	private String identify;
+	private final String group = "class";
+	private int identify;
+	private int total;
 	
 	
 	
+	
+	@Override
+	public String toString() {
+		return "StartClassMessage [year=" + year + ", month=" + month + ", day=" + day + ", hour=" + hour + ", min="
+				+ min + ", dayWeek=" + dayWeek + ", group=" + group + ", identify=" + identify + ", total=" + total
+				+ "]";
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
 	public String getDay() {
 		return day;
 	}
@@ -52,16 +66,14 @@ public class StartClassMessage {
 	public String getGroup() {
 		return group;
 	}
-	public void setGroup(String group) {
-		this.group = group;
-	}
-	public String getIdentify() {
+
+	public int getIdentify() {
 		return identify;
 	}
-	public void setIdentify(String identify) {
+	public void setIdentify(int identify) {
 		this.identify = identify;
 	}
-	
+
 	
 	
 	

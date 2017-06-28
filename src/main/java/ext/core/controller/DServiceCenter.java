@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ext.core.batch.BatchTM;
 import ext.core.domain.BaseSys;
 import ext.datasource.entity.ClassRel;
 import ext.datasource.entity.ClassRelExample;
@@ -111,10 +112,19 @@ public class DServiceCenter {
 			Helper.errorResonse(result);;
 			return;
 		}
-		int num =casDao.deleteByPrimaryKey((Integer.parseInt(ids)));
+		BaseSys basesys= (BaseSys) request.getSession().getAttribute(BigCont.BASESYS);
+		TrxClass domain =casDao.selectByPrimaryKey(Integer.valueOf(ids));
+		domain.setClassState(3);
+		domain.setUpdateDate(new Date());
+		domain.setUpdateOperator(basesys.getUserId());
+		int num=casDao.updateByPrimaryKey(domain);
 		if(num!=1){
 			Helper.errorResonse(result);;
 			return;
+		}
+		boolean flag =BatchTM.removeJob(domain.getId());
+		if(!flag){
+			Helper.errorRestful(response, "删除自动化任务失败，请联系管理员");
 		}
 		Helper.restful(response, result);
 	}	

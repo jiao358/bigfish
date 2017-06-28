@@ -255,16 +255,18 @@ public class RServiceCenter {
 		String casState = request.getParameter("casState");
 		Datagrid dg = new Datagrid();
 		TrxClassExample casQuery = new TrxClassExample();
+		ext.datasource.entity.TrxClassExample.Criteria criteria = casQuery.createCriteria();
+		criteria.andClassStateNotEqualTo(3);
 		casQuery.setOrderByClause("ID ASC");
 
 		if (!"".equals(casId)) {
-			casQuery.createCriteria().andIdEqualTo(Integer.valueOf(casId));
+			criteria.andIdEqualTo(Integer.valueOf(casId));
 		}
 		if (!"".equals(casName.trim())) {
-			casQuery.createCriteria().andClassNameEqualTo(casName);
+			criteria.andClassNameEqualTo(casName);
 		}
 		if (casState != null && !"".equals(casState.trim())) {
-			casQuery.createCriteria().andClassStateEqualTo(Integer.valueOf(casState));
+			criteria.andClassStateEqualTo(Integer.valueOf(casState));
 		}
 
 		PageHelper.startPage(Integer.valueOf(pageSize), Integer.valueOf(pageNum));

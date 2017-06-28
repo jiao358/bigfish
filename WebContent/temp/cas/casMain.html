@@ -209,18 +209,14 @@
 	
 	function jsonReturn(data){
 		var json =jQuery.parseJSON(data);
-		if(json.state=='1'){
+		if(data.state=='1'){
 			$.messager.alert('信息提示','提交成功！','info');
 			$('#cas-main-dialog').dialog('close');
 		}
 		else
 		{
-			var message= json.message;
-			if(message=='' || message==null){
-			$.messager.alert('信息提示','提交失败！',json.message);
-			}else{
-				$.messager.alert('信息提示',json.message,json.message);
-			}
+			alert('message:'+data.message);
+			$.messager.alert('信息提示','提交失败:'+data.message,"");
 		}
 	}
 	function searchCasMain(){
@@ -501,7 +497,16 @@
 			url:'/bigfish/addCasMain.do',
 			async:false,
 			success:function(data){
-				jsonReturn(data);
+				var json =jQuery.parseJSON(data);
+				if(json.state=='1'){
+					$.messager.alert('信息提示','提交成功！','info');
+					$('#cas-main-dialog').dialog('close');
+				}
+				else
+				{
+					$.messager.alert('信息提示','提交失败:'+json.message,"");
+				}
+				//jsonReturn(data);
 				datagridLoadCasMain();
 				doubleCheckButton=0;
 				$('#cas-main-dialog').dialog('close');
