@@ -24,6 +24,9 @@ public class StartDutyJob implements Job{
 			logger.warn("the class state is reover!");
 			return;
 		}
+		if(state==0){
+			domain.setClassState(1);
+		}
 		int currentSchool = domain.getCurrentSchool();
 		int school = domain.getSchool();
 		BigDecimal rage = domain.getClassRate();

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ext.core.batch.BatchTM;
 import ext.core.batch.StartClassMessage;
 import ext.core.domain.BaseSys;
 import ext.datasource.entity.ClassRel;
@@ -27,6 +28,7 @@ import ext.datasource.entity.Customer;
 import ext.datasource.entity.SUser;
 import ext.datasource.entity.SUserExample;
 import ext.datasource.entity.TrxClass;
+import ext.datasource.entity.TrxClassExample;
 import ext.datasource.inf.ClassRelMapper;
 import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
@@ -268,24 +270,19 @@ public class CServiceCenter {
 				result.put("state", "0");
 				result.put("message", "添加失败，请检查班级信息填写");
 			}
-		/*	SimpleDateFormat messagesdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			
+			TrxClassExample casQuery = new TrxClassExample();
+			casQuery.createCriteria().andClassNameEqualTo(className).andAcademicYearEqualTo(Integer.valueOf(acadmeicYear)).andAcademicQuarterEqualTo(Integer.valueOf(acadmeicQuarter));
+			casMain  =casDao.selectByExample(casQuery).get(0);
+			
+			SimpleDateFormat messagesdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			Date now = new Date();
 			StartClassMessage scm = new StartClassMessage();
 			Date startDate = casMain.getStartTime();
 			int hour = casMain.getStartHour();
 			int min = casMain.getStartMin();
-			String yyyyMMdd = sdf.format(now).substring(0, 10);
-			if (yyyyMMdd.equals(sdf.format(startDate).substring(0, 10))) {
-				String today = sdf.format(now);
-				if (Integer.parseInt(today.substring(11, 13)) > hour)
-					continue;
-				else if (Integer.parseInt(today.substring(11, 13)) > hour
-						&& Integer.parseInt(today.substring(14, 16)) > min) {
-					continue;
-				}
-			}
 			String schedule = casMain.getStartSchedule();
-			String classStartDate = sdf.format(startDate);
+			String classStartDate = messagesdf.format(startDate);
 
 			scm.setDayWeek(schedule);
 			scm.setIdentify(casMain.getId());
@@ -293,8 +290,9 @@ public class CServiceCenter {
 			scm.setMin(min);
 			scm.setMonth(classStartDate.substring(5, 7));
 			scm.setYear(classStartDate.substring(0, 4));
-			scm.setDay(classStartDate.substring(8, 10));*/
-			logger.info(1);;
+			scm.setDay(classStartDate.substring(8, 10));
+			
+			BatchTM.getQueue().put(scm);
 			
 
 		} catch (Exception e) {

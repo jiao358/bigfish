@@ -34,9 +34,9 @@ import ext.datasource.inf.TrxClassMapper;
 import ext.datasource.inf.TrxDutyMapper;
 
 public class BatchTM {
+	private final static Logger logger = LogManager.getLogger(BatchTM.class.getName());
 	private static final ExecutorService service =  Executors.newFixedThreadPool(2);
 	private static final  Scheduler workspace = init();
-	private final static Logger logger = LogManager.getLogger(BatchTM.class.getName());
 	private static final ArrayBlockingQueue<StartClassMessage> queue =new ArrayBlockingQueue(60);
 	private static final ArrayBlockingQueue<StartDutyMessage> dutyMessage=  new ArrayBlockingQueue(70);
 	
@@ -49,13 +49,14 @@ public class BatchTM {
 	private static TrxDutyMapper dutyDao;
 	
 	private static Scheduler init(){
+		logger.info("Batch init...");
 		try {
-		
 			return StdSchedulerFactory.getDefaultScheduler();
 		} catch (SchedulerException e) {
 			logger.error("init batch pool error!!");
 			System.exit(0);
 		}finally{
+			
 			service.execute(new JobConfigTM());
 			service.execute(new DutyConfigTM());
 		}

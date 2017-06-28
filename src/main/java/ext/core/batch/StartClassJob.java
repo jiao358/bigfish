@@ -15,7 +15,18 @@ public class StartClassJob implements Job{
 		StartClassMessage scm = (StartClassMessage) job.getJobDetail().getJobDataMap().get(BigCont.SCMESSAGE);
 		logger.info("start the class start job:"+scm);
 		int casId = scm.getIdentify();
-		BatchTM.updateCasState(casId);;
+		BatchTM.updateCasState(casId);
+		
+		StartDutyMessage sdm = new StartDutyMessage();
+		sdm.setClassId(scm.getIdentify());
+		sdm.setCron(scm.getDutyCron());
+		
+		try {
+			BatchTM.getDutymessage().put(sdm);
+		} catch (InterruptedException e) {
+			logger.error("class job init duty job error  class id :"+scm.getIdentify(),e);
+		}
+		
 		logger.info("class start job finish. class id :" + scm.getIdentify());
 		
 	}

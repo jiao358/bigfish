@@ -12,9 +12,18 @@ public class StartClassMessage {
 	private int identify;
 	private int total;
 	
+	private String dutyCron;
 	
 	
 	
+	
+	
+	public String getDutyCron() {
+		return dutyCron;
+	}
+	public void setDutyCron(String dutyCron) {
+		this.dutyCron = dutyCron;
+	}
 	@Override
 	public String toString() {
 		return "StartClassMessage [year=" + year + ", month=" + month + ", day=" + day + ", hour=" + hour + ", min="

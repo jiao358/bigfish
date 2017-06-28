@@ -26,6 +26,7 @@ public class JobConfigTM implements Runnable {
 		while (true) {
 			try {
 				StartClassMessage scm = queue.take();
+				logger.info("deal with class job class id :"+scm.getIdentify());
 				String dayStragety = scm.getDayWeek();
 				String[] time = dayStragety.split(",");
 				int total = scm.getTotal();
@@ -75,7 +76,7 @@ public class JobConfigTM implements Runnable {
 				daliyCron = "0 "+scm.getMin()+" "+scm.getHour()+" ? * "+daliyCron;
 
 				List<String> lock = BatchTM.getRunningdutylist();
-				
+				scm.setDutyCron(daliyCron);
 				synchronized(lock){
 					if(lock.contains(scm.getIdentify()+scm.getGroup())){
 						logger.warn("the class job duplicate class id:"+scm.getIdentify());
