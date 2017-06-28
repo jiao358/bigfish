@@ -269,6 +269,7 @@ public class BatchTM {
 			duty.setDutyCost(rate);
 			duty.setDutyStrategy(0);
 			duty.setGenerateDate(new Date());
+			duty.setCreateDate(new Date());
 			dutyDao.insert(duty);
 		}
 		

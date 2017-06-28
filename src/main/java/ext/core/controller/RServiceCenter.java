@@ -23,6 +23,7 @@ import com.github.pagehelper.PageHelper;
 
 import ext.core.domain.CasNormalPopFont;
 import ext.core.domain.Datagrid;
+import ext.core.domain.DutyFont;
 import ext.core.domain.TrxClassFont;
 import ext.datasource.entity.ClassRel;
 import ext.datasource.entity.ClassRelExample;
@@ -37,12 +38,15 @@ import ext.datasource.entity.SUser;
 import ext.datasource.entity.SUserExample;
 import ext.datasource.entity.TrxClass;
 import ext.datasource.entity.TrxClassExample;
+import ext.datasource.entity.TrxDuty;
+import ext.datasource.entity.TrxDutyExample;
 import ext.datasource.inf.ClassRelMapper;
 import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
 import ext.datasource.inf.SUserMapper;
 import ext.datasource.inf.TrxClassMapper;
+import ext.datasource.inf.TrxDutyMapper;
 import ext.util.helper.Helper;
 
 @Controller
@@ -62,7 +66,59 @@ public class RServiceCenter {
 	
 	@Autowired
 	private ClassRelMapper classRelDao;
+	
+	@Autowired
+	private TrxDutyMapper dutyDao;
 
+	@RequestMapping(value = "/rDutyMain.do", method = RequestMethod.GET)
+	public void getDutyMainr(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String casIdStr = request.getParameter("classId");
+		String custIdStr = request.getParameter("customerId");
+		String pageSize = request.getParameter("page");
+		String pageNum = request.getParameter("rows");
+		Datagrid dg = new Datagrid();
+		
+		TrxDutyExample dutyQuery = new TrxDutyExample();
+		dutyQuery.setOrderByClause("ID ASC");
+		ext.datasource.entity.TrxDutyExample.Criteria criteria = dutyQuery.createCriteria();
+		
+		if(!"".equals(casIdStr)){
+			criteria.andClassIdEqualTo(Integer.valueOf(casIdStr));
+		}
+		if(!"".equals(custIdStr)){
+			criteria.andCustomerIdEqualTo(Integer.valueOf(custIdStr));
+		}
+		PageHelper.startPage(Integer.valueOf(pageSize), Integer.valueOf(pageNum));
+		//TODO use one sql to query
+		Page<TrxDuty> list = (Page<TrxDuty>) dutyDao.selectByExample(dutyQuery);
+		long total = list.getTotal();
+		dg.setTotal(total);
+		
+		Map<String, String> dic = getDic("DUTY_STRATEGY");
+
+
+		List<DutyFont> resultList = new ArrayList<DutyFont>();
+		for(TrxDuty domain:list){
+			DutyFont sub = new DutyFont();
+			int classId = domain.getClassId();
+			int customerId = domain.getCustomerId();
+			sub.setId(domain.getId());
+			sub.setClassId(classId);
+			TrxClass classSub = casDao.selectByPrimaryKey(classId);
+			sub.setClassName(classSub.getClassName());
+			sub.setCreateDate(domain.getGenerateDate());
+			sub.setCustomerId(customerId);
+			Customer cust = customerDao.selectByPrimaryKey(customerId);
+			sub.setCustomerName(cust.getName());
+			sub.setDutyStrategy(dic.get(domain.getDutyStrategy()+""));
+			sub.setRate(classSub.getClassRate());
+			resultList.add(sub);
+		}
+		dg.setRows(resultList);
+		Helper.restful(response, dg);
+	}
+
+	
 	@RequestMapping(value = "/rsysuser.do", method = RequestMethod.GET)
 	public void getCurrentCustomer(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

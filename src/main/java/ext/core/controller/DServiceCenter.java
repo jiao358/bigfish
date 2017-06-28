@@ -25,6 +25,7 @@ import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
 import ext.datasource.inf.SUserMapper;
 import ext.datasource.inf.TrxClassMapper;
+import ext.datasource.inf.TrxDutyMapper;
 import ext.util.helper.BigCont;
 import ext.util.helper.Helper;
 
@@ -42,7 +43,9 @@ public class DServiceCenter {
 	private TrxClassMapper casDao;
 	@Autowired
 	private ClassRelMapper classRelDao;
-
+	@Autowired
+	private TrxDutyMapper dutyDao;
+	
 	@RequestMapping(value = "/delSysUser.do", method = RequestMethod.POST)
 	public void delSysUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map result=  Helper.initResponse();
@@ -51,6 +54,25 @@ public class DServiceCenter {
 			Helper.errorResonse(result);;
 			return;
 		}
+		int num =sUser.deleteByPrimaryKey((Integer.parseInt(ids)));
+		if(num!=1){
+			Helper.errorResonse(result);;
+			return;
+		}
+		Helper.restful(response, result);
+	}	
+	
+	@RequestMapping(value = "/delDutyMain.do", method = RequestMethod.POST)
+	public void delDutyMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map result=  Helper.initResponse();
+		String ids=request.getParameter("id");
+		if(ids==null||"".equals(ids)){
+			Helper.errorResonse(result);;
+			return;
+		}
+		String[] idtemp =ids.substring(0,ids.length()-1).split(",");
+		
+		
 		int num =sUser.deleteByPrimaryKey((Integer.parseInt(ids)));
 		if(num!=1){
 			Helper.errorResonse(result);;
