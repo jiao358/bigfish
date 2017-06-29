@@ -65,7 +65,7 @@ public class SessionControl {
 		
 	}
 	
-	public BaseSys getBaseSys(String key){
+	public BaseSys coreBaseSys(String key){
 		SessionDomain sd= map.get(key);
 		BaseSys base=(BaseSys) sd.getAttribute(BigCont.BASESYS);
 		return base;

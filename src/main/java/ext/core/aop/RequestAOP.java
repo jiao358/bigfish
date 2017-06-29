@@ -12,8 +12,10 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ext.core.domain.BaseSys;
 import ext.datasource.entity.RequestInfo;
 import ext.datasource.inf.RequestInfoMapper;
+import ext.util.helper.BigCont;
 
 public class RequestAOP {
 	private static final Logger logger = Logger.getLogger(RequestAOP.class);
@@ -51,7 +53,7 @@ public class RequestAOP {
 		requestInfo.setCreateDate(begin);
 		requestInfo.setContentLength(request.getContentLength());
 		requestInfo.setContentType(request.getContentType());
-		
+		BaseSys sys=(BaseSys) 	request.getSession().getAttribute(BigCont.BASESYS);
 		requestInfo.setIsWork(true);
 		requestInfo.setLocalAddr(request.getLocalAddr());
 		requestInfo.setProtocol(request.getProtocol());
@@ -59,6 +61,7 @@ public class RequestAOP {
 		requestInfo.setRequestMethod(request.getMethod());
 		requestInfo.setRequestPath(request.getServletPath());
 		requestInfo.setRequestServer(request.getServerName());
+		requestInfo.setUserId(sys.getUserId());
 		
 		 String ip = request.getHeader("x-forwarded-for");   
 		  if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip) || "null".equalsIgnoreCase(ip))    {     

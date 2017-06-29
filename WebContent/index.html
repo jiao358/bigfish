@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/estela-1.0.js"></script>
 <script type="text/javascript" src="js/jquery.easydropdown.js"></script>
 </head>
-<body class="easyui-layout">
+<body class="easyui-layout" onload="initMenu()">
 	<!-- begin of header -->
 	<div class="wu-header" data-options="region:'north',border:false,split:true">
     	<div class="wu-header-left">
@@ -55,32 +55,32 @@
     var basesys;
     var currentModuleId;
     var basehref;
-
+    function initMenu(){
+    	 initbasesys();
+    }
     
 
     	 $(window).load(function() {
-    		 initbasesys();
+    		
     	 });
     	 
     	function initbasesys(){
-    		 	 var options = {
-            url: '/bigfish/getBaseSys.do',
-            type: 'get',
-            dataType: 'json',
-            data: {
-			　　　　user: 123,
-			　　　　key: 22
-			　　},
-			async:false,
-            success: function (data) {
-            	basesys=data;
-               	$('strong').html(data.userName);
-              // 	$('a.layout-button-left').unbind("click");
-               //	parseTree(data);
-               	esteParse(data);
-            }
-        };
-	 	$.ajax(options);
+    		
+    		 var options = {
+    				  url: '/bigfish/coreBaseSys.do',
+ 		            type: 'get',
+ 		            dataType: 'json',
+ 					async:false,
+ 		            success: function (data) {
+ 		           	basesys=data;
+ 	               	$('strong').html(data.userName);
+ 	              // 	$('a.layout-button-left').unbind("click");
+ 	               //	parseTree(data);
+ 	               	esteParse(data);
+ 		            }
+ 		        };
+ 			 	$.ajax(options); 
+    	
     		
     	}
     	

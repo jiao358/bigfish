@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,32 +12,15 @@
         http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd  
     	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-         http://www.springframework.org/schema/aop 
-                        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
-                        ">
-
-
-	<mvc:annotation-driven />
-	<context:component-scan base-package="ext.core.controller"></context:component-scan>
-
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
+   <import resource="bigfish-aop.xml"/> 
+       <mvc:annotation-driven />
+	<context:component-scan base-package="ext.core.controller"></context:component-scan> 
+        
 	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
 	<mvc:resources location="/easyui/" mapping="/easyui/**"></mvc:resources>
 	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
 	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
 	<mvc:resources location="/temp/" mapping="/temp/**"></mvc:resources>
-
-
-	<bean id="requsetAop" class="ext.core.aop.RequestAOP">
-	</bean>
-
-	 <aop:config>
-		<aop:aspect id="requestAop" ref="requsetAop">
-			配置com.spring.service包下所有类或接口的所有方法
-			<aop:pointcut id="businessService"
-				expression=" ( execution(* ext.core.controller.*.get*(..)) or execution(* ext.core.controller.*.edit*(..)) or execution(* ext.core.controller.*.del*(..)) or execution(* ext.core.controller.*.add*(..)) ) " />
-			<aop:around pointcut-ref="businessService" method="filterRequest" />
-		</aop:aspect>
-	</aop:config>
-
-</beans>
+        </beans>

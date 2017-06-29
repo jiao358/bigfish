@@ -188,9 +188,9 @@ public class LoginCore {
 		
 	}
 	
-	@RequestMapping(value = "/getBaseSys.do", method = RequestMethod.GET)
-	public void getBaseSysInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	@RequestMapping(value = "/coreBaseSys.do", method = RequestMethod.GET)
+	public void coreBaseSysInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("start init basesys!!!");
 		HttpSession session = request.getSession();
 		String sessionKey=session.getId();
 		boolean isLogin=sessionControl.isLogin(sessionKey);
@@ -199,7 +199,7 @@ public class LoginCore {
 			return;
 		}
 		
-		BaseSys sys=sessionControl.getBaseSys(sessionKey);
+		BaseSys sys=sessionControl.coreBaseSys(sessionKey);
 		
 		Helper.restful(response, sys);
 	}

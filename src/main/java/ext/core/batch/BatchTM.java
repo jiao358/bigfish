@@ -93,6 +93,29 @@ public class BatchTM {
 		}
 		return flag;
 	}
+	public static StartClassMessage generateSCM(TrxClass domain){
+		Date now = new Date();
+		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		StartClassMessage scm = new StartClassMessage();
+			Date startDate = domain.getStartTime();
+			int hour  = domain.getStartHour();
+			int min = domain.getStartMin();
+			String yyyyMMdd = sdf.format(now).substring(0,10);
+			String schedule = domain.getStartSchedule();
+			String classStartDate = sdf.format(startDate);
+			
+			scm.setDayWeek(schedule);
+			scm.setIdentify(domain.getId());
+			scm.setHour(hour);
+			scm.setMin(min);
+			scm.setMonth(classStartDate.substring(5,7));
+			scm.setYear(classStartDate.substring(0, 4));
+			scm.setDay(classStartDate.substring(8,10));
+			
+			
+			return scm;
+	
+	}
 	public void startWork(){
 		// CLASS_STATE = 0  START LOAD
 		Date now = new Date();
@@ -107,15 +130,7 @@ public class BatchTM {
 				Date startDate = domain.getStartTime();
 				int hour  = domain.getStartHour();
 				int min = domain.getStartMin();
-				String yyyyMMdd = sdf.format(now).substring(0,10);
-				if(yyyyMMdd.equals(sdf.format(startDate).substring(0,10))){
-					String today=sdf.format(now);
-					if(Integer.parseInt(today.substring(11,13))>hour)
-						continue;
-					else if(Integer.parseInt(today.substring(11,13))>hour && Integer.parseInt(today.substring(14,16))>min){
-						continue;
-					}
-				}
+			
 				String schedule = domain.getStartSchedule();
 				String classStartDate = sdf.format(startDate);
 				

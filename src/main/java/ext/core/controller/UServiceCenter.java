@@ -1,5 +1,6 @@
 package ext.core.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ext.core.batch.BatchTM;
+import ext.core.batch.StartClassMessage;
+import ext.core.batch.StartDutyMessage;
 import ext.core.domain.BaseSys;
 import ext.datasource.entity.Contract;
 import ext.datasource.entity.Customer;
@@ -121,6 +125,39 @@ public class UServiceCenter {
 		
 		logger.info("update the casMain");
 		casDao.updateByPrimaryKey(cas);
+		BatchTM.removeJob(cas.getId());
+		String daliyCron ="";
+		if(cas.getClassState()==1){
+			StartDutyMessage sdm = new StartDutyMessage();
+			sdm.setClassId(cas.getId());
+			String[] time = cas.getStartSchedule().split(",");
+			int[] classDays = new int[time.length];
+			for (int i = 0; i < time.length; i++) {
+				classDays[i] = Integer.parseInt(time[i]);
+			}
+			Arrays.sort(classDays);
+
+			for(int i:classDays){
+				int temp = (i+1)%7;
+				if(temp==0)
+					temp=7;
+				daliyCron +=temp+",";
+			}
+			
+			daliyCron = "0 "+cas.getStartMin()+" "+cas.getStartMin()+" ? * "+daliyCron;
+			sdm.setCron(daliyCron);
+			try {
+				BatchTM.getDutymessage().put(sdm);
+			} catch (InterruptedException e) {
+				logger.error("duty job init error class id :"+cas.getId(),e);
+			}
+		}else if(cas.getClassState()==0){
+			StartClassMessage scm=BatchTM.generateSCM(cas);
+			scm.setDutyCron(daliyCron);
+			BatchTM.getQueue().put(scm);
+		}
+		
+		
 		Helper.restful(response, result);
 	}	
 }
