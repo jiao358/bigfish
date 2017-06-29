@@ -51,7 +51,10 @@ public class BatchTM {
 	private static Scheduler init(){
 		logger.info("Batch init...");
 		try {
-			return StdSchedulerFactory.getDefaultScheduler();
+			Scheduler sche=StdSchedulerFactory.getDefaultScheduler();
+			sche.start();
+			return sche;
+			
 		} catch (SchedulerException e) {
 			logger.error("init batch pool error!!");
 			System.exit(0);
@@ -174,8 +177,8 @@ public class BatchTM {
 					temp=7;
 				daliyCron +=temp+",";
 			}
-			
-			daliyCron = "0 "+dutyDomain.getStartMin()+" "+dutyDomain.getStartMin()+" ? * "+daliyCron;
+			daliyCron= daliyCron.substring(0, daliyCron.length()-1);
+			daliyCron = "0 "+dutyDomain.getStartMin()+" "+dutyDomain.getStartHour()+" ? * "+daliyCron;
 			sdm.setCron(daliyCron);
 			try {
 				dutyMessage.put(sdm);
@@ -248,6 +251,7 @@ public class BatchTM {
 		TrxClassExample casQuery  = new TrxClassExample();
 		TrxClass domain = casDao.selectByPrimaryKey(id);
 		domain.setClassState(1);;
+		casDao.updateByPrimaryKey(domain);
 	}
 	
 	/**
@@ -272,8 +276,8 @@ public class BatchTM {
 			Contract cont = contDao.selectByPrimaryKey(contId);
 			BigDecimal balance=cont.getContractBalance();
 			BigDecimal amt = cont.getContractAmt();
-			balance.add(rate);
-			cont.setContractBalance(balance);
+			BigDecimal addTemp =balance.add(rate);
+			cont.setContractBalance(addTemp);
 			if(amt.compareTo(balance)==-1){
 				cont.setContractState(3);
 			}

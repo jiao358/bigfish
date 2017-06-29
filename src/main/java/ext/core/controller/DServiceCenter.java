@@ -22,6 +22,7 @@ import ext.core.domain.BaseSys;
 import ext.datasource.entity.ClassRel;
 import ext.datasource.entity.ClassRelExample;
 import ext.datasource.entity.Contract;
+import ext.datasource.entity.SRoleKey;
 import ext.datasource.entity.TrxClass;
 import ext.datasource.entity.TrxDuty;
 import ext.datasource.entity.TrxDutyExample;
@@ -29,6 +30,7 @@ import ext.datasource.inf.ClassRelMapper;
 import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
+import ext.datasource.inf.SRoleMapper;
 import ext.datasource.inf.SUserMapper;
 import ext.datasource.inf.TrxClassMapper;
 import ext.datasource.inf.TrxDutyMapper;
@@ -54,6 +56,9 @@ public class DServiceCenter {
 	@Autowired
 	private TrxDutyMapper dutyDao;
 	
+	@Autowired
+	private SRoleMapper roleDao;
+	
 	@RequestMapping(value = "/delSysUser.do", method = RequestMethod.POST)
 	public void delSysUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map result=  Helper.initResponse();
@@ -67,6 +72,24 @@ public class DServiceCenter {
 			Helper.errorResonse(result);;
 			return;
 		}
+		Helper.restful(response, result);
+	}	
+	
+	@RequestMapping(value = "/delSysRole.do", method = RequestMethod.POST)
+	public void delSysRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map result=  Helper.initResponse();
+		String ids=request.getParameter("id");
+		String module = request.getParameter("sModule");
+		
+		if(ids==null||"".equals(ids)||module==null || "".equals(module)){
+			Helper.errorResonse(result);;
+			return;
+		}
+		
+		SRoleKey key = new SRoleKey();
+		key.setsModule(module);
+		key.setUserId(Integer.valueOf(ids));
+		roleDao.deleteByPrimaryKey(key);
 		Helper.restful(response, result);
 	}	
 	

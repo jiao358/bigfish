@@ -72,7 +72,9 @@ public class SessionControl {
 	}
 	
 
-	
+	public void loginOut(String sessionKey){
+		map.remove(sessionKey);
+	}
 	
 	
 	

@@ -17,12 +17,11 @@
 <body class="easyui-layout" onload="initMenu()">
 	<!-- begin of header -->
 	<div class="wu-header" data-options="region:'north',border:false,split:true">
-    	<div class="wu-header-left">
-        	<h1>骆驼教育</h1>
-        </div>
+    	
+        <img  style="width:130px;height:50px"src="/bigfish/images/logo.png"/>
         <div class="wu-header-right">
         	<p><strong class="easyui-tooltip" >admin</strong>，欢迎您！</p>
-            <p><a id="refl" href="#">刷新</a>|<a href="#" onclick="haha()">支持论坛</a>|<a href="#">帮助中心</a>|<a href="#">安全退出</a></p>
+            <p><a id="refl" href="#">刷新</a>|<a href="#" onclick="exitSystem()">安全退出</a></p>
         </div>
     </div>
     <!-- end of header -->
@@ -83,7 +82,22 @@
     	
     		
     	}
-    	
+    	function exitSystem(){
+    		 var options = {
+   				  url: '/bigfish/loginOut.do',
+		            type: 'get',
+		            dataType: 'json',
+					async:false,
+		            success: function (data) {
+		            	alert('谢谢你的使用')
+		            	window.location.href='index.jsp';
+		            }
+		        };
+			 	$.ajax(options); 
+    		
+    		
+    		
+    	}
     	function esteParse(data){
     		 $.each(data, function(i, n) {//加载父类节点即一级菜单 
     			
@@ -96,9 +110,9 @@
     					var con = obj.parent.icon;
     					var id=obj.parent.moduleName;
     					var isSelected= false;
-    					if(obj.parent.moduleName=='cus'){
+    				/* 	if(obj.parent.moduleName=='cus'){
     						isSelected=true;
-    					}
+    					} */
     					
     				//	<li iconCls="icon-users"><a id="sys-user" href="javascript:void(0)" data-icon="icon-users" data-link="temp/sys/sysUser.html" iframe="0">管理员列表</a></li>
     					var childNodeLi = '';

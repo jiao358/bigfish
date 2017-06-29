@@ -60,6 +60,7 @@ public class LoginCore {
 		if (su == null) {
 			result.put("state", 0);
 		} else {
+			//TODO will controll button 
 			SRoleExample sexample = new SRoleExample();
 			sexample.createCriteria().andUserIdEqualTo(su.getId());
 			List<SRole> listRole = sRole.selectByExample(sexample);
@@ -97,9 +98,7 @@ public class LoginCore {
 				modulemap.put(rootModule,childrens);
 			}
 			
-			
-			if(listRole.size()==1 && listRole.get(0).getsModule().equals("all")){
-				//admin
+			if(su.getUserType()==0){
 				sys.setModules(parseModuleMap(modulemap));
 			}else{
 				Map<String,SRole> subSRole = new HashMap();
@@ -108,8 +107,10 @@ public class LoginCore {
 				}
 				//fiter the permonsion
 				// CRUD  1 2 4 8
+				Map<SModule,List<SModule>> targetModule = new HashMap<SModule,List<SModule>>();
 				
 				Iterator<Entry<SModule,List<SModule>>> entrys = modulemap.entrySet().iterator();
+				
 				while(entrys.hasNext()){
 					Entry<SModule,List<SModule>> entry=entrys.next();
 					SRole subRole = subSRole.get(entry.getKey().getModuleName());
@@ -118,40 +119,22 @@ public class LoginCore {
 						entry.getKey().setmRight(0);	
 						continue;
 					}
-						int right = 2;
-					if(subRole.getsModuleC()){
-						right+=1;
-					}
-					if(subRole.getsModuleU()){
-						right+=4;
-					}
-					if(subRole.getsModuleD()){
-						right+=8;
-					}
-					entry.getKey().setmRight(right);
+				
+					List<SModule> subChild = new ArrayList<SModule>();
+					
 					for(SModule subModule:entry.getValue()){
 						
 						SRole childRole = subSRole.get(subModule.getModuleName());
-						if(subRole==null || !subRole.getsModuleR()){
+						if(childRole==null){
 							subModule.setmRight(0);
 							continue;
 						}
-						int childRight = 2;
-						if(subRole.getsModuleC()){
-							childRight+=1;
-						}
-						if(subRole.getsModuleU()){
-							childRight+=4;
-						}
-						if(subRole.getsModuleD()){
-							childRight+=8;
-						}
-						subModule.setmRight(childRight);
+						subChild.add(subModule);
 					}
-					
+					targetModule.put(entry.getKey(), subChild);
 				}
 				
-				sys.setModules(parseModuleMap(modulemap));
+				sys.setModules(parseModuleMap(targetModule));
 			}
 			session.setAttribute(BigCont.BASESYS, sys);
 			sessionControl.sessionCheck(request);
@@ -160,6 +143,19 @@ public class LoginCore {
 
 		Helper.restful(response, result);
 	}
+	
+	
+	@RequestMapping(value = "/loginOut.do", method = RequestMethod.GET)
+	public void loginOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		HttpSession session = request.getSession();
+		String sessionKey=session.getId();
+		sessionControl.loginOut(sessionKey);
+		logger.info("loginOut the session sessionKey:"+sessionKey);
+		
+		
+	}
+	
 	private List<FontModule> parseModuleMap(	Map<SModule,List<SModule>> modulemap ){
 		List<FontModule>  fontModules = new ArrayList<FontModule>();
 		Iterator<Entry<SModule,List<SModule>>> entrys = modulemap.entrySet().iterator();

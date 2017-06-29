@@ -16,8 +16,9 @@ public class StartDutyJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext job) throws JobExecutionException {
-
+		
 		int casId = Integer.parseInt(job.getJobDetail().getJobDataMap().get(BigCont.SDMESSAGE).toString());
+		logger.info("Start the duty job class id:"+casId);
 		TrxClass domain = BatchTM.getTrxClass(casId);
 		int state = domain.getClassState();
 		if (state == 3) {

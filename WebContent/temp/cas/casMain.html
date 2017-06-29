@@ -346,7 +346,7 @@
 	
 	function editCasMain(){
 		var flag=false;
-		$('input[dataCheck]').each(function(name,obj){
+		$('#cas-main-dialog input[dataCheck]').each(function(name,obj){
 			var tmp =$(obj).val();
 			if(tmp==null || tmp==''){
 				$.messager.alert('信息提示','请检查提交信息格式'+':'+$(obj).attr('name'),'');
@@ -403,7 +403,7 @@
 			queryParams:require ,
 			rownumbers:true,
 			singleSelect:false,
-			pageSize:5,           
+			pageSize:20,           
 			pagination:true,
 			multiSort:true,
 			fitColumns:true,
@@ -462,20 +462,20 @@
 			$.messager.alert('信息提示','小哥，你点的太快了','');	
 			return;
 		}
-		var leng=$('input[name="startSchedule"]:checked').length;
+		var leng=$('#cas-main-dialog input[name="startSchedule"]:checked').length;
 		if(leng==null||leng==0){
 			$.messager.alert('信息提示','请选择开课周次','');
 			doubleCheckButton=0
 			return  ;
 		}
 		var schedule ='';
-		$('input[name="startSchedule"]:checked').each(function(idx,obj){
+		$('#cas-main-dialog input[name="startSchedule"]:checked').each(function(idx,obj){
 			schedule  = $(obj).val()+","+schedule;
 			
 		});
 		
 		var flag =false;
-	 	$('input[dataCheck]').each(function(name,obj){
+	 	$('#cas-main-dialog input[dataCheck]').each(function(name,obj){
 			var tmp =$(obj).val();
 			if(tmp==null || tmp==''){
 				var xa = '#'+$(obj).attr('name')+'Req';

@@ -73,7 +73,7 @@
 		$.messager.confirm('信息提示','确定要结清该合同？', function(result){
 			if(result){
 				  var options = {
-				            url: '/bigfish/editContMain.do',
+				            url: '/bigfish/editContMainOver.do',
 				            type: 'post',
 				            dataType: 'json',
 				            data: {
@@ -82,10 +82,10 @@
 							async:false,
 				            success: function (data) {
 				            	var json =jQuery.parseJSON(data);
-								if(json.state==1){
-									$.messager.alert('信息提示','签订合同成功','');
+								if(data.state==1){
+									$.messager.alert('信息提示','结清合同成功','');
 								}else{
-									$.messager.alert('信息提示','签订合同失败','');
+									$.messager.alert('信息提示','结清合同失败'+":"+data.message,'');
 								}
 								reloadContMain('');
 								
@@ -163,12 +163,13 @@
 							async:false,
 				            success: function (data) {
 				            	var json =jQuery.parseJSON(data);
-								if(json.state==1){
+								if(data.state==1){
 									$.messager.alert('信息提示','签订合同成功','');
 								}else{
 									$.messager.alert('信息提示','签订合同失败','');
 								}
-								reloadContMain('');
+								
+								reloadContMain('ss');
 								
 				            }
 				        };
@@ -354,7 +355,7 @@
 			queryParams:require ,
 			rownumbers:true,
 			singleSelect:false,
-			pageSize:5,           
+			pageSize:20,           
 			pagination:true,
 			multiSort:true,
 			fitColumns:true,

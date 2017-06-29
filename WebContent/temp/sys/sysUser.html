@@ -173,7 +173,7 @@
 	*/
 	function editSys(){
 		var flag=false;
-		$('input[dataCheck]').each(function(name,obj){
+		$('#sys-dialog input[dataCheck]').each(function(name,obj){
 			var tmp =$(obj).val();
 			if(tmp==null || tmp==''){
 				$.messager.alert('信息提示','请检查提交信息格式','');

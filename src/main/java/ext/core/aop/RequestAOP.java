@@ -52,7 +52,7 @@ public class RequestAOP {
 		Date begin = new Date();
 		requestInfo.setCreateDate(begin);
 		requestInfo.setContentLength(request.getContentLength());
-		requestInfo.setContentType(request.getContentType());
+	//	requestInfo.setContentType(request.getContentType());
 		BaseSys sys=(BaseSys) 	request.getSession().getAttribute(BigCont.BASESYS);
 		requestInfo.setIsWork(true);
 		requestInfo.setLocalAddr(request.getLocalAddr());

@@ -35,6 +35,10 @@ import ext.datasource.entity.Customer;
 import ext.datasource.entity.CustomerExample;
 import ext.datasource.entity.SDic;
 import ext.datasource.entity.SDicExample;
+import ext.datasource.entity.SModule;
+import ext.datasource.entity.SModuleExample;
+import ext.datasource.entity.SRole;
+import ext.datasource.entity.SRoleExample;
 import ext.datasource.entity.SUser;
 import ext.datasource.entity.SUserExample;
 import ext.datasource.entity.TrxClass;
@@ -45,6 +49,8 @@ import ext.datasource.inf.ClassRelMapper;
 import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
+import ext.datasource.inf.SModuleMapper;
+import ext.datasource.inf.SRoleMapper;
 import ext.datasource.inf.SUserMapper;
 import ext.datasource.inf.TrxClassMapper;
 import ext.datasource.inf.TrxDutyMapper;
@@ -57,6 +63,8 @@ public class RServiceCenter {
 	@Autowired
 	private SUserMapper sUser;
 	@Autowired
+	private SRoleMapper roleDao;
+	@Autowired
 	private SDicMapper sDicDao;
 	@Autowired
 	private TrxClassMapper casDao;
@@ -67,7 +75,8 @@ public class RServiceCenter {
 	
 	@Autowired
 	private ClassRelMapper classRelDao;
-	
+	@Autowired
+	private SModuleMapper moduleDao;
 	@Autowired
 	private TrxDutyMapper dutyDao;
 
@@ -428,6 +437,26 @@ public class RServiceCenter {
 	}
 	
 	
+	
+	@RequestMapping(value = "/rSysRoleEdit.do", method = RequestMethod.GET)
+	public void getSysRoleEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		int id = Integer.parseInt(request.getParameter("id"));
+		SRoleExample roleQuery = new SRoleExample();
+		roleQuery.createCriteria().andUserIdEqualTo(id);
+		List<SRole> list = roleDao.selectByExample(roleQuery);
+		StringBuffer sb =new StringBuffer();
+		for(SRole domain : list){
+			sb.append(domain.getsModule()).append(",");
+		}
+		
+		Map result = new HashMap();
+		result.put("content", sb.substring(0,sb.length()-1));
+		result.put("userId", id);
+		Helper.restful(response, result);
+	}
+
+	
 	@RequestMapping(value = "/rCasNormalEdit.do", method = RequestMethod.GET)
 	public void getCasNormalEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -482,6 +511,44 @@ public class RServiceCenter {
 		Helper.restful(response, dg);
 	}
 
+	
+	@RequestMapping(value = "/rSysRole.do", method = RequestMethod.GET)
+	public void getSysRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String pageSize = request.getParameter("page");
+		String pageNum = request.getParameter("rows");
+		
+		String userId = request.getParameter("userId");
+		Datagrid dg = new Datagrid();
+		SRoleExample sRoleQuery = new SRoleExample();
+		SRoleExample.Criteria criteria = sRoleQuery.createCriteria();
+		if(!"".equals(userId)){
+			criteria.andUserIdEqualTo(Integer.valueOf(userId));
+		}
+		
+		
+		
+		PageHelper.startPage(Integer.valueOf(pageSize), Integer.valueOf(pageNum));
+		Page<SRole> list = (Page<SRole>) roleDao.selectByExample(sRoleQuery);
+		
+		//TODO use one sql to query
+		long total = list.getTotal();
+		dg.setTotal(total);
+		for (SRole domain : list.getResult()) {
+			
+			String module=domain.getsModule();
+			SModuleExample moduleQuery =  new SModuleExample();
+			moduleQuery.createCriteria().andModuleNameEqualTo(module);
+			SModule subModule=moduleDao.selectByExample(moduleQuery).get(0);
+			domain.setModuleName(subModule.getDesName());
+			String userName=sUser.selectByPrimaryKey(domain.getUserId()).getUserName();
+			domain.setUserName(userName);
+		}
+		
+		dg.setRows(list.getResult());
+		Helper.restful(response, dg);
+	}
+	
 	@RequestMapping(value = "/rContMain.do", method = RequestMethod.GET)
 	public void getContMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
