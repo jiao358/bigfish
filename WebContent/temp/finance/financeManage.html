@@ -1,0 +1,134 @@
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false">
+  
+	<div id="finance-main-toolbar" >
+	 
+                    <div class="wu-toolbar-search">
+                 <label>年度：</label><select id="academicYearFinance" class="easyui-combobox"  panelHeight="auto" style="width:100px" dicType="ACADMEIC_YEAR"    ></select>
+                <label>季度：</label><select id="academicQuarterFinance" class="easyui-combobox"  panelHeight="auto" style="width:100px"  dicType="ACADMEIC_QUARTER"  ></select>
+                <a id="searchFinanceMain"  onclick="searchFinanceMain()"href="#" class="easyui-linkbutton" iconCls="icon-search">开始检索</a>
+            </div>
+	</div>
+
+ 	 <table id="finance-main-datagrid"	iconCls="icon-save"	toolbar="#finance-main-toolbar">
+	</table>
+
+    </div>
+    
+  
+    
+    
+     <div id="cas-main-teacher-dialog"  class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:px; padding:10px;"></div>
+</div>
+
+
+
+<script type="text/javascript">
+
+//初始化 select 标签，和dialog
+	$(function(){
+		var array = ['#academicYearFinance','#academicQuarterFinance'];
+		loadSelectFinanceMain(array);
+		
+	})
+	
+
+
+	function searchFinanceMain(){
+	
+		datagridLoadFinanceMain();
+	}
+
+
+
+	
+	/**
+	*  载入数据
+	*/
+	function datagridLoadFinanceMain(){
+	
+		var year= $('select#academicYearFinance').combobox('getValue');
+		var quarter= $('select#academicQuarterFinance').combobox('getValue');
+		if(year==''|| year==null || quarter==''||quarter==null){
+			$.messager.alert('信息提示','请选择时间范围','');
+			return;
+		}
+		
+		var require={"year":year,"quarter":quarter};
+		
+		$('#finance-main-datagrid').datagrid({
+			url:'/bigfish/rFinanceMain.do',
+		//	url:'temp/datagrid.php',
+			method: 'GET',
+			pageList: [5,20],
+			//loadFilter:pagerFilter,	
+			queryParams:require ,
+			rownumbers:true,
+			singleSelect:false,
+			pageSize:5,           
+			pagination:true,
+			multiSort:true,
+			fitColumns:true,
+			fit:true,
+			columns:[[
+				
+				{ checkbox:true},
+				{ field:'year',title:'年度',width:100,sortable:true},
+				{ field:'quarter',title:'季度',width:100,sortable:true},
+				{ field:'preAmt',title:'预收金额',width:180,sortable:true},
+				{ field:'realAmt',title:'实收金额',width:100,sortable:true}
+				
+			]]
+		});
+	
+	
+	}
+	
+
+
+	
+	function loadSelectFinanceMain(array){
+		
+		//alert($('#wu-form select').attr('dicType'));
+		$(array).each(function(idx,obj){
+			//alert(idx);
+			var dic=$(obj).attr('dicType');
+			
+			$(obj).combobox({
+				onSelect: function(param){
+				}
+			});
+
+			
+			  var options = {
+			            url: '/bigfish/rdic.do',
+			            type: 'get',
+			            dataType: 'json',
+			            data: {
+						　　　　"dicName": dic,
+						　　},
+						async:false,
+			            success: function (data) {
+			            //	alert(data);
+			            	var dataList=[];
+			            	//append("<option value='"+value+"'>"+text+"</option>");
+			            	$(data).each(function(dataidx,jsondata){
+			            		var dicValue=jsondata.dicValue;
+			            		var dicDes =jsondata.dicDesc;
+			            		dataList.push({"value":dicValue,"text":dicDes});
+			            		//$(obj).append("<option value='"+dicValue+"' >"+dicDes+"</option>");
+			            	});
+			            	 $(obj).combobox("loadData",dataList);
+			            	//alert(JSON.stringify(data));
+			            }
+			        };
+			  	
+			  
+			  	
+				 	$.ajax(options); 
+		});
+		
+	}
+
+</script>

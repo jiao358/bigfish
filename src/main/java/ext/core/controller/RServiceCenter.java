@@ -24,6 +24,7 @@ import com.github.pagehelper.PageHelper;
 import ext.core.domain.CasNormalPopFont;
 import ext.core.domain.Datagrid;
 import ext.core.domain.DutyFont;
+import ext.core.domain.FinanceFont;
 import ext.core.domain.TrxClassFont;
 import ext.datasource.entity.ClassRel;
 import ext.datasource.entity.ClassRelExample;
@@ -241,6 +242,67 @@ public class RServiceCenter {
 
 		Helper.restful(response, dg);
 	}
+	
+	@RequestMapping(value = "/rFinanceMain.do", method = RequestMethod.GET)
+	public void getFinanceMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String pageSize = request.getParameter("page");
+		String pageNum = request.getParameter("rows");
+		String year = request.getParameter("year");
+		String quarter = request.getParameter("quarter");
+		Datagrid dg = new Datagrid();
+		TrxClassExample casQuery = new TrxClassExample();
+		
+		TrxClassExample.Criteria casCri= casQuery.createCriteria();
+		
+		List classState  = new ArrayList();
+		classState.add(1);
+		classState.add(2);
+		casCri.andClassStateIn(classState);
+		
+		
+
+		if (!"".equals(year)) {
+			casCri.andAcademicYearEqualTo(Integer.valueOf(year));
+		}
+		if (!"".equals(quarter)) {
+			casCri.andAcademicQuarterEqualTo(Integer.valueOf(quarter));
+		}
+		
+		
+		List<TrxClass> classList = casDao.selectByExample(casQuery);
+		BigDecimal total = new BigDecimal(0);
+		BigDecimal cost  = new BigDecimal(0);
+		//TODO use one sql select
+		for(TrxClass domain:classList){
+			int casId = domain.getId();
+			ClassRelExample creQuery = new ClassRelExample();
+			creQuery.createCriteria().andClassIdEqualTo(casId);
+			for(ClassRel classRel : classRelDao.selectByExample(creQuery)){
+				int contId = classRel.getContractId();
+				Contract cont = contDao.selectByPrimaryKey(contId);
+				total.add(cont.getContractAmt());
+				cost.add(cont.getContractBalance());
+			};
+		}
+		
+		
+		Map<String, String> yearDic = getDic("ACADMEIC_YEAR");
+		Map<String, String> quarterDic = getDic("ACADMEIC_QUARTER");
+		FinanceFont ff = new FinanceFont();
+		ff.setPreAmt(total);
+		ff.setRealAmt(cost);
+		ff.setQuarter(quarterDic.get(quarter));
+		ff.setYear(yearDic.get(year));
+		List<FinanceFont> resultList = new ArrayList();
+		
+		dg.setTotal(1);
+		dg.setRows(resultList);
+
+		Helper.restful(response, dg);
+	}
+
+	
 
 	@RequestMapping(value = "/rCasNormalCasPop.do", method = RequestMethod.GET)
 	public void getCasNormalCasPop(HttpServletRequest request, HttpServletResponse response) throws Exception {

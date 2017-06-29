@@ -270,6 +270,7 @@ public class BatchTM {
 			duty.setDutyStrategy(0);
 			duty.setGenerateDate(new Date());
 			duty.setCreateDate(new Date());
+			duty.setContractId(cont.getId());
 			dutyDao.insert(duty);
 		}
 		

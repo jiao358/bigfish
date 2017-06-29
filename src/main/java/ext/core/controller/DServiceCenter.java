@@ -1,5 +1,7 @@
 package ext.core.controller;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +21,12 @@ import ext.core.batch.BatchTM;
 import ext.core.domain.BaseSys;
 import ext.datasource.entity.ClassRel;
 import ext.datasource.entity.ClassRelExample;
+import ext.datasource.entity.Contract;
 import ext.datasource.entity.TrxClass;
+import ext.datasource.entity.TrxDuty;
+import ext.datasource.entity.TrxDutyExample;
 import ext.datasource.inf.ClassRelMapper;
+import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
 import ext.datasource.inf.SUserMapper;
@@ -37,6 +43,8 @@ public class DServiceCenter {
 	private SUserMapper sUser;
 	@Autowired
 	private SDicMapper sDicDao;
+	@Autowired
+	private ContractMapper contDao;
 	@Autowired
 	private CustomerMapper customerDao;
 	@Autowired
@@ -70,14 +78,33 @@ public class DServiceCenter {
 			Helper.errorResonse(result);;
 			return;
 		}
+		BaseSys basesys= (BaseSys) request.getSession().getAttribute(BigCont.BASESYS);
 		String[] idtemp =ids.substring(0,ids.length()-1).split(",");
-		
-		
-		int num =sUser.deleteByPrimaryKey((Integer.parseInt(ids)));
-		if(num!=1){
-			Helper.errorResonse(result);;
-			return;
+		List idList = new ArrayList();
+		for(String id:idtemp){
+			idList.add(Integer.valueOf(id));
 		}
+		TrxDutyExample dutyQuery = new TrxDutyExample();
+		TrxDutyExample.Criteria criteria =dutyQuery.createCriteria();
+		criteria.andIdIn(idList);
+		
+		List<TrxDuty> resultList = dutyDao.selectByExample(dutyQuery);
+		for(TrxDuty domain:resultList){
+			int classId = domain.getClassId();
+			int contId = domain.getContractId();
+			TrxClass clas = casDao.selectByPrimaryKey(classId);
+			BigDecimal rate =clas.getClassRate();
+			
+			Contract cont=contDao.selectByPrimaryKey(contId);
+			BigDecimal balance =cont.getContractBalance();
+			BigDecimal nBalance = balance.subtract(rate);
+			cont.setContractBalance(nBalance);
+			cont.setUpdateDate(new Date());
+			cont.setUpdateOperator(basesys.getUserId());
+			contDao.updateByPrimaryKey(cont);
+			dutyDao.deleteByPrimaryKey(domain.getId());
+		}
+		
 		Helper.restful(response, result);
 	}	
 	
