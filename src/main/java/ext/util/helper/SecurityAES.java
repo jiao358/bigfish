@@ -50,7 +50,7 @@ public class SecurityAES {
 	 }
 	 private static byte[] encrypt(String content, String password) throws Exception {
 		 KeyGenerator kgen = KeyGenerator.getInstance("AES");
-		//防止linux�? 随机生成key;
+		//防止linux�? 随机生成key;
 		 SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG" );
 		 secureRandom.setSeed(password.getBytes());
 		 kgen.init(128, secureRandom);
