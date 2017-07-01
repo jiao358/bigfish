@@ -52,7 +52,7 @@
         }
 		var ids='';
 		for(var i =0;i<item.length;i++){
-			ids=ids+item[i]+',';
+			ids=ids+item[i].id+',';
 		}
 		$.messager.confirm('信息提示','确定要删除该记录？', function(result){
 			if(result){
@@ -82,13 +82,13 @@
 	
 	function jsonReturn(data){
 		var json =jQuery.parseJSON(data);
-		if(json.state=='1'){
+		if(data.state=='1'){
 			$.messager.alert('信息提示','提交成功！','info');
 			$('#cus-main-dialog').dialog('close');
 		}
 		else
 		{
-			$.messager.alert('信息提示','提交失败！',json.message);
+			$.messager.alert('信息提示','提交失败！'+":"+data.message,'');
 		}
 	}
 	function searchDutyMain(){

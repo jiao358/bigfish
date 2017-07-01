@@ -31,7 +31,6 @@
 		<li></li>
 		<li></li>
 		<li></li>
-		<li></li>
 	</ul>
 	
 </div>
@@ -41,6 +40,16 @@
 	
 </form>
 
+<div style="text-align:center;font:normal 14px/24px 'MicroSoft YaHei';color:#000000">
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br>
+<img src="/bigfish/images/logo.png" style="width:130px;height:50px;"/>
+
+</div>
+
+
+
+	
 <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script>
 /* $('#login-button').click(function (event) {

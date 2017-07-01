@@ -95,7 +95,6 @@
 		 currentClassId= item[0].id;
 	
 		
-		//esteDialogBindCasMain('#cas-main-normal-dialog','用户修改','800','auto',editCasMain);
 		$('#cas-main-normal-dialog').dialog({
 			closed: false,
 			modal:true,
@@ -123,13 +122,11 @@
 		
 		//0 未开课
 		var require={"casId":idSearch,"casName":nameSearch,"casState":0};
-		
+		var tmp = new Date().getTime();
 		$('#cas-main-normal-datagrid').datagrid({
-			url:'/bigfish/rCasMain.do',
-		//	url:'temp/datagrid.php',
+			url:'/bigfish/rCasMain.do?tmp='+tmp,
 			method: 'GET',
 			pageList: [5,20],
-			//loadFilter:pagerFilter,	
 			queryParams:require ,
 			rownumbers:true,
 			singleSelect:false,
@@ -223,83 +220,9 @@
 //		$('#cas-normal-cus-pop-dialog').dialog('close');      
 	}
 	
-	
-	function addCasMain(){
-		
-		
-	}
-	
-	function esteDialogBindCasMain(diaNode,title,width,height,successbind){
-		$(diaNode).dialog({
-			closed: false,
-			modal:true,
-	        title: title,
-	        width: width, 
-	       
-	        height: height,
-	        buttons: [{
-	            text: '确定',
-	            iconCls: 'icon-ok',
-	            handler: successbind
-	        }, {
-	            text: '取消',
-	            iconCls: 'icon-cancel',
-	            handler: function () {
-	                $('#cas-main-normal-dialog').dialog('close');                    
-	            }
-	        }]
-	    });
-	}
-	var doubleCheckButton = 0;
-	function addCasMain(){
-		//alert($("#sysselect").val());
-		doubleCheckButton++;
-		if(doubleCheckButton>1){
-			$.messager.alert('信息提示','小哥，你点的太快了','');	
-			return;
-		}
-		var leng=$('input[name="startSchedule"]:checked').length;
-		if(leng==null||leng==0){
-			$.messager.alert('信息提示','请选择开课周次','');
-			doubleCheckButton=0
-			return  ;
-		}
-		var schedule ='';
-		$('input[name="startSchedule"]:checked').each(function(idx,obj){
-			schedule  = $(obj).val()+","+schedule;
-			
-		});
-		
-		var flag =false;
-	 	$('input[dataCheck]').each(function(name,obj){
-			var tmp =$(obj).val();
-			if(tmp==null || tmp==''){
-				var xa = '#'+$(obj).attr('name')+'Req';
-				$(xa).show();
-				$.messager.alert('信息提示','请检查提交信息格式','');
-				flag=true;
-			
-				return false;
-			}
-		});
-	 	
-	 	
-		if(flag){
-			doubleCheckButton=0;
-			return;
-		}
-		$('input#startScheduleBox').val(schedule);
- 		$('#cas-main-normal-form').form('submit', {
-			url:'/bigfish/addCasMain.do',
-			async:false,
-			success:function(data){
-				jsonReturn(data);
-				datagridLoadCasNormal();
-				doubleCheckButton=0;
-				$('#cas-main-normal-dialog').dialog('close');
-			}
-		});
-	}
+
+
+
 	
 	
 	function ableAll(array,flag){

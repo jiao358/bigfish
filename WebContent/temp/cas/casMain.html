@@ -393,9 +393,10 @@
 		
 		
 		var require={"casId":idSearch,"casName":nameSearch,"casState":stateSearch};
+		var tmp = new Date().getTime();
 		
 		$('#cas-main-datagrid').datagrid({
-			url:'/bigfish/rCasMain.do',
+			url:'/bigfish/rCasMain.do?tmp='+tmp,
 		//	url:'temp/datagrid.php',
 			method: 'GET',
 			pageList: [5,20],

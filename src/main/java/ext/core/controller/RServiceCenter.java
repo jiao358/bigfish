@@ -267,6 +267,7 @@ public class RServiceCenter {
 		List classState  = new ArrayList();
 		classState.add(1);
 		classState.add(2);
+		classState.add(3);
 		casCri.andClassStateIn(classState);
 		
 		
@@ -290,8 +291,8 @@ public class RServiceCenter {
 			for(ClassRel classRel : classRelDao.selectByExample(creQuery)){
 				int contId = classRel.getContractId();
 				Contract cont = contDao.selectByPrimaryKey(contId);
-				total.add(cont.getContractAmt());
-				cost.add(cont.getContractBalance());
+				total =total.add(cont.getContractAmt());
+				cost = cost.add(cont.getContractBalance());
 			};
 		}
 		
@@ -304,7 +305,7 @@ public class RServiceCenter {
 		ff.setQuarter(quarterDic.get(quarter));
 		ff.setYear(yearDic.get(year));
 		List<FinanceFont> resultList = new ArrayList();
-		
+		resultList.add(ff);
 		dg.setTotal(1);
 		dg.setRows(resultList);
 

@@ -25,6 +25,7 @@ import ext.datasource.entity.ClassRel;
 import ext.datasource.entity.ClassRelExample;
 import ext.datasource.entity.Contract;
 import ext.datasource.entity.Customer;
+import ext.datasource.entity.SRole;
 import ext.datasource.entity.SUser;
 import ext.datasource.entity.SUserExample;
 import ext.datasource.entity.TrxClass;
@@ -33,6 +34,7 @@ import ext.datasource.inf.ClassRelMapper;
 import ext.datasource.inf.ContractMapper;
 import ext.datasource.inf.CustomerMapper;
 import ext.datasource.inf.SDicMapper;
+import ext.datasource.inf.SRoleMapper;
 import ext.datasource.inf.SUserMapper;
 import ext.datasource.inf.TrxClassMapper;
 import ext.util.helper.BigCont;
@@ -54,6 +56,8 @@ public class CServiceCenter {
 	@Autowired
 	private ContractMapper contDao;
 
+	@Autowired
+	private SRoleMapper roleDao;
 	@Autowired
 	private ClassRelMapper classRelDao;
 
@@ -81,8 +85,19 @@ public class CServiceCenter {
 			user.setUserType(Integer.parseInt(type));
 
 			int xc = sUser.insert(user);
-			logger.info(1);
-			;
+			
+			SUserExample userQuery = new SUserExample();
+			userQuery.createCriteria().andUserNameEqualTo(userName).andUserPwdEqualTo(passwd);
+			int id=sUser.selectByExample(userQuery).get(0).getId();
+			
+			//add the user default right
+			SRole sRole = new SRole();
+			sRole.setsModule("cus");
+			sRole.setCreateDate(new Date());
+			sRole.setUserId(id);
+			roleDao.insert(sRole);
+			
+			
 		} catch (Exception e) {
 			logger.error("Insert User error->" + e);
 			Helper.errorResonse(result);

@@ -68,16 +68,8 @@ public class LoginCore {
 			sys.setUserName(user);
 			Map roleMap = new HashMap();
 			for(SRole role:listRole){
-				int right=0;
+				int right=2;
 				String roleModule=  role.getsModule();
-				if(role.getsModuleC())
-					right+=1;
-				if(role.getsModuleR())
-					right+=2;
-				if(role.getsModuleU())
-					right+=4;
-				if(role.getsModuleD())
-					right+=8;
 				roleMap.put(roleModule, right);
 			}
 			sys.setRole(roleMap);
@@ -115,7 +107,7 @@ public class LoginCore {
 					Entry<SModule,List<SModule>> entry=entrys.next();
 					SRole subRole = subSRole.get(entry.getKey().getModuleName());
 					
-					if(subRole==null || !subRole.getsModuleR()){
+					if(subRole==null ){
 						entry.getKey().setmRight(0);	
 						continue;
 					}
